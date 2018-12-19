@@ -1,0 +1,43 @@
+﻿.btn-wdt {
+	width: 120px;
+}
+
+.btn-text {
+	width: 120px;
+	padding: 6px 12px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.bgcol {
+	background-color: #FDFDFD;
+}
+
+/* -- Examples -- */
+@media (min-width: 640px) {
+	.image-row {
+	text-align: left; } 
+}
+
+.example-image-link {
+	display: inline-block;
+ 	padding: 2px;
+ 	margin: 0 0.5rem 1rem 0.5rem;
+ 	background-color: #fff;
+ 	line-height: 0;
+ 	border-radius: 4px;
+ 	transition: background-color 0.5s ease-out; }
+ 
+ .example-image-link:hover {
+ 	background-color: #4ae;
+	transition: none; 
+ }
+
+.example-image {
+	width: 7rem;
+	border-radius: 4px;
+}
