@@ -1,0 +1,27 @@
+﻿<html> 
+	<head> 
+		<meta charset="utf-8"> 
+		<title> HelloWorld </title>
+
+	</head> 
+	<body>
+		<script src="js/d3.min.js" charset="utf-8"></script> 
+		<script type="text/javascript">
+
+			var width = 300; /* 畫布的寬度 */
+			var height = 300; /* 畫布的寬度 */
+			var svg = d3.select("body") /* 找到 Body 標籤 */
+				.append("svg") /* 增加 svg */
+				.attr("width", width) /* 設定寬度 */
+				.attr("height", height); /*設定高度 */
+			var dataset = [250, 210, 170, 130, 90];
+			var rectHeight = 25; /* 每個長方形所佔高度含空白 */
+			svg.selectAll("rect").data(dataset).enter().append("rect").attr("x", 20).attr("y", function(d, i) {
+				return i * rectHeight;
+			}).attr("width", function(d) {
+				return d;
+			}).attr("height", rectHeight - 2).attr("fill", "steelblue");
+
+		</script> 
+	</body> 
+</html>
