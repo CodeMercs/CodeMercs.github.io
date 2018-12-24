@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Night Market</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link rel = "stylesheet" type = "text/css" href = "css/main.css">
+		<link rel="shortcut icon" href="favicon.ico"/>
+
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<section class="header-nav" id="Home">
+				<div class="pos-f-t">
+					<nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
+						<a class="navbar-brand" href="#Home"><h4 class="text-white">Night Market</h4></a>
+						<button 
+							class="navbar-toggler" 
+							type="button" 
+							data-toggle="collapse" 
+							data-target="#navbarText" 
+							aria-controls="navbarText" 
+							aria-expanded="false" 
+							aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse" id="navbarText">
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item">
+								<a class="nav-link" href="#search">Search</a>
+							</li>
+						</ul>
+						</div>
+					</nav>
+				</div>
+			</section>
+		</div>
+		<div class="jumbotron-fluid main-content">
+		<div class="jumbotron main-cw">
+			<section class="horst-cv" id="kan">
+				<div class="container">
+					<div class="main">
+						<div class = "row">
+							<div class="col-12 ">
+								<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+								<span style=" font-size: 10vmin" class="display-3 ">
+										Horst Kan
+								</span><br /><br /><br />
+								<p><a class="btn btn-secondary" href="#search" role="button">Search &raquo;</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		</div>
+
+		<section class="search" id="search" >
+				<div class="container mt-3 mb-3" >
+					<div class="row">
+						<div class="col-12">
+							<br /><br /><br /><br />
+							<span style=" font-size: 7vmin" class="display-3">
+								Search
+							</span><br /><br />
+						</div>
+					</div>
+					
+					<div class="row">
+							<div class="col-md-6">
+								<span style=" font-size: 3vmin" class="display-3">
+									Area
+								</span><br /><br />
+								<select id="college-list" onchange="changeCollege(this.selectedIndex)" class = "form-control"></select>
+							</div>
+							<div class="col-md-6">
+								
+								<span style=" font-size: 3vmin" class="display-3">
+									Market
+								</span><br /><br />
+								<select id="sector-list"  class = "form-control"></select>
+							</div>
+					</div>
+					<div class="row">
+							<div class="col">
+									<br /><br />
+								<input  type="button" class="btn btn-dark btn-block" value="Search" onClick="search()">
+								<br /><br />
+							</div>
+					</div>
+					<div class="row">
+							<div class="col">
+								<div class="card">
+									<div class="card-body">
+										<p id = "show-search" value = ""></p>
+									</div>
+								</div>
+							</div>
+					</div>
+					<div class="row">
+							<div class="col">
+								<div class="card">
+									<div class="card-body">
+										<div class="col-md-6 embed-responsive embed-responsive-16by9">
+													<div id = "result-txt"></div>
+										</div>
+										<br />
+										<br />
+										<div class="col">
+												<div id = "result-pic"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+		</section>
+
+		<script type="text/javascript">
+			var temcitytxt = "";
+			var temnimnametxt = "";
+			var temall = "";
+			var sectorSelect = document.getElementById("sector-list");
+			var strall = document.getElementById("show-search");
+			var colleges=['基隆市','臺北市','新北市','桃園市','新竹市',
+							'新竹縣','宜蘭縣','苗栗縣','臺中市','彰化縣',
+							'南投縣','雲林縣','嘉義市','嘉義縣','臺南市',
+							'高雄市','屏東縣','澎湖縣','花蓮縣','臺東縣'];
+			var collegeSelect=document.getElementById("college-list");
+			var inner="";
+			for(var i=0;i<colleges.length;i++){
+				inner=inner+'<option value=\"' + colleges[i] + '\">'+colleges[i]+'</option>';
+			}
+			
+			collegeSelect.innerHTML=inner;
+
+			var sectors=new Array();
+			sectors[0]=['廟口夜市','大武崙夜市','八斗子夜市'];
+			sectors[1]=['士林夜市','華西街夜市', '艋舺夜市', '饒河街夜市','公館夜市','南機場觀光夜市','師大夜市','臨江街夜市','寧夏路夜市','大龍街夜市','延三夜市','景美夜市'];	
+			sectors[2]=['樂華夜市', '南雅夜市', '三和夜市', '星光夜市', '興南夜市', '樹林興仁花園夜市', '新莊廟街夜市', '蘆洲廟口夜市'];	
+			sectors[3]=['桃園觀光夜市', '中壢觀光夜市', '中原夜市', '興仁花園夜市'];
+			sectors[4]=['清大夜市', '樹林頭夜市'];
+			sectors[5]=['竹北夜市'];
+			sectors[6]=['羅東夜市'];
+			sectors[7]=['苗栗英才觀光夜市'];
+			sectors[8]=['逢甲夜市', '一中商圈', '中華路夜市', '忠孝路夜市', '東海別墅夜市', '霧峰樹仁商圈', '豐原廟東夜市'];
+			sectors[9]=['彰化中央陸橋夜市', '彰化精誠夜市', '和美仁愛夜市'];
+			sectors[10]=['草鞋墩人文觀光夜市'];
+			sectors[11]=['斗六人文公園夜市'];
+			sectors[12]=['文化路夜市', '嘉樂福觀光夜市'];
+			sectors[13]=['麻魚寮夜市', '嘉樂福觀光夜市'];
+			sectors[14]=['花園夜市', '大東夜市', '武聖夜市', '小北成功夜市'];
+			sectors[15]=['六合夜市','瑞豐夜市', '凱旋國際觀光夜市', '忠孝夜市'];
+			sectors[16]=['屏東瑞光夜市', '墾丁大街'];
+			sectors[17]=['西文祖師廟夜市'];
+			sectors[18]=['東大門夜市'];
+			sectors[19]=['台東觀光夜市'];
+	
+	
+	
+			function changeCollege(index){
+				var Sinner="";
+				for(var i=0;i<sectors[index].length;i++){
+					Sinner=Sinner+'<option value=\"' + sectors[index][i] + '\">' + sectors[index][i] + '</option>';
+				}
+				sectorSelect.innerHTML=Sinner;
+			}
+			changeCollege(document.getElementById("college-list").selectedIndex);
+	
+			function search(){
+			temnimnametxt = sectorSelect.value;
+			temcitytxt = collegeSelect.value;
+			temall = "搜尋為 " + temcitytxt + " 的 " + temnimnametxt;
+			strall.innerHTML = temall;
+
+			var strpath = "nmdata/" + temcitytxt + "/" + temnimnametxt + "/" + temnimnametxt;
+			var strpathpic = strpath + "圖片.jpg";
+			var strpathtxt = strpath + "文字.txt";
+			var strimg = "<img src = \"" + strpathpic + "\" >";
+			var strifr = "<iframe src = \"" + strpathtxt + "\" />";
+			document.getElementById("result-pic").innerHTML = strimg;
+			document.getElementById("result-txt").innerHTML = strifr;
+			}
+
+		</script>
+	</body>
+</html>
