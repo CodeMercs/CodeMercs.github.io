@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>多國語言測試</title>
+	<script src="js/languageData.js" type="text/javascript">
+	</script>
+	<script>
+	function chg_lan(lan_index) 
+	{ 
+		var myLangArray; 
+
+		switch(lan_index) 
+		{ 
+		/* languageData.js */
+		case 1: 
+		myLangArray = L_china; 
+		break; 
+		case 2: 
+		myLangArray = L_japan; 
+		break; 
+		case 3: 
+		myLangArray = L_korean; 
+		break; 
+		case 4: 
+		myLangArray = L_vietnam; 
+		break; 
+		default :
+		/* Taiwan */
+		myLangArray = L_taiwan; 
+		break; 
+
+		}
+		/* 將各個文字, 填入指定位置 */
+		document.getElementById('L0').innerHTML = myLangArray[0];
+		document.getElementById('L1').innerHTML = myLangArray[1];
+		document.getElementById('L2').innerHTML = myLangArray[2];
+		document.getElementById('L3').innerHTML = myLangArray[3];
+	}
+	</script>
+</head>
+<body>
+	<h1>多國語言頁面</h1>
+	<button onclick="chg_lan(0)">Taiwan</button> &nbsp; 
+	<button onclick="chg_lan(1)">China</button> &nbsp; 
+	<button onclick="chg_lan(2)">Japan</button> &nbsp; 
+	<button onclick="chg_lan(3)">Korean</button> &nbsp; 
+	<button onclick="chg_lan(4)">Vietnam</button>
+
+	<br />
+	<br />
+	<br />
+
+	<table border="1" id="LangTable" width="100%">
+		<tr>
+			<td><span id="L0"></span></td>
+		</tr>
+		<tr>
+			<td><span id="L1"></span></td>
+		</tr>
+		<tr>
+			<td><span id="L2"></span></td>
+		</tr>
+		<tr>
+			<td><span id="L3"></span></td>
+		</tr>
+	</table>
+	<script type="text/javascript">
+
+			chg_lan(0); 
+
+	</script>
+</body>
+</html>
