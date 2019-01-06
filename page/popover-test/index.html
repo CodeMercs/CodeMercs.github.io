@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Popover</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+				<br /><br />
+
+				<button type="button" 
+					class="btn btn-lg btn-danger" 
+					data-toggle="popover" 
+					title="Popover title"
+					data-content="And here's some amazing content. It's very engaging. Right?">
+						Click to toggle popover
+				</button>
+
+				<br /><br /><br />
+				<button type="button" 
+					class="btn btn-secondary" 
+					data-container="body" 
+					data-toggle="popover" 
+					data-placement="top" 
+					data-content="Popover on top - 內文">
+						Popover on top
+				</button>
+				<br /><br /><br />
+				<button type="button" 
+					class="btn btn-secondary" 
+					data-container="body" 
+					data-toggle="popover" 
+					data-placement="right" 
+					data-content="Popover on right - 內文">
+						Popover on right
+				</button>
+				<br /><br /><br />
+				<button type="button" 
+					class="btn btn-secondary" 
+					data-container="body" 
+					data-toggle="popover" 
+					data-placement="bottom" 
+					data-content="Popover on bottom - 內文">
+						Popover on bottom
+				</button>
+				<br /><br /><br />
+				<button type="button" 
+					class="btn btn-secondary" 
+					data-container="body" 
+					data-toggle="popover" 
+					data-placement="left" 
+					data-content="Popover on left - 內文">
+						Popover on left
+				</button>
+		</div>
+
+				<script src="js/jquery-slim.min.js"></script>
+				<script src="js/popper.min.js"></script>
+				<script src="js/util.js"></script>
+				<script src="js/tooltip.js"></script>
+				<script src="js/popover.js"></script>
+		<script>
+			$(function () {
+				$('[data-toggle="popover"]').popover()
+			})
+		</script>
+	</body>
+</html>
