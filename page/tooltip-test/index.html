@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Popover</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+			<div class="container">
+
+				<br /><br /><br />
+				
+				<h1>Tooltip</h1>
+
+				<br /><br /><br />
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="auto" title="Tooltip on auto">
+					Tooltip on auto
+				</button>
+				<br /><br /><br />
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+					Tooltip on top
+				</button>
+				<br /><br /><br />
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">
+					Tooltip on right
+				</button>
+				<br /><br /><br />
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+					Tooltip on bottom
+				</button>
+				<br /><br /><br />
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Tooltip on left">
+					Tooltip on left
+				</button>
+				<br /><br /><br />
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+					Tooltip with HTML
+				</button>
+				<br /><br /><br />
+			</div>
+
+
+
+			<script src="js/jquery-slim.min.js"></script>
+			<script src="js/popper.min.js"></script>
+			<script src="js/util.js"></script>
+			<script src="js/tooltip.js"></script>
+			<script>
+				$(function () {
+					$('[data-toggle="tooltip"]').tooltip()
+					$('#target').tooltip({
+						placement : 'top',
+						trigger : 'manual'
+					}).tooltip('show')
+				})
+			</script>
+	</body>
+</html>
