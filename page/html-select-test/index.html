@@ -67,7 +67,7 @@
 						</div>
 					</div>
 					
-
+					<!-- Year to Year -->
 					<hr />
 					<div class="row">
 							<div class="col-md-6">
@@ -130,7 +130,39 @@
 					<hr />
 					<br />
 
+					<!-- Single Item Array-->
+					<div class="row">
+							<div class="col-md-6">
+								<span style=" font-size: 3vmin" class="display-3">
+									Single Item Array
+								</span><br /><br />
+								<select id="opt-single-item-list" class = "form-control"></select>
+							</div>
+					</div>
 
+
+					<div class="row">
+							<div class="col">
+									<br /><br />
+								<input  type="button" class="btn btn-dark btn-block" value="Show" onClick="showSingleItem()">
+								<br /><br />
+							</div>
+					</div>
+					<div class="row">
+							<div class="col">
+								<div class="card">
+									<div class="card-body">
+										<p id = "show-test-single-item" value = ""></p>
+									</div>
+								</div>
+							</div>
+					</div>
+
+					<hr />
+					<br />
+
+
+					<!-- Mul Select Exp -->
 					<div class="row">
 							<div class="col-md-6">
 								<span style=" font-size: 3vmin" class="display-3">
@@ -319,6 +351,29 @@
 				ProcessingString = "輸出結果為 " + temSingleYearVal;
 				showTestSingleYearPart.innerHTML = ProcessingString;
 			}
+
+
+			/* Single Item */
+			var changeSingleItem = document.getElementById("opt-single-item-list");
+			var showTestSingleItemPart = document.getElementById("show-test-single-item");
+
+
+			var innerSingleItem ="";
+
+			var SingleItemData=['class A','class B','class C','class D','class E'];
+
+			for(var i = 0; i < SingleItemData.length; i++){
+				innerSingleItem = innerSingleItem+'<option value=\"' + SingleItemData[i] + '\">'+ SingleItemData[i]+'</option>';
+			}
+
+			changeSingleItem.innerHTML = innerSingleItem;
+
+			function showSingleItem(){
+				temSingleItemVal = changeSingleItem.value;
+				ProcessingString = "輸出結果為 " + temSingleItemVal;
+				showTestSingleItemPart.innerHTML = ProcessingString;
+			}
+
 		</script>
 	</body>
 </html>
