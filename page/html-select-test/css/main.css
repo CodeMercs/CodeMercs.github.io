@@ -1,0 +1,53 @@
+﻿
+charset "utf-8";
+
+.btn-wdt {
+	width: 120px;
+}
+
+.btn-text {
+	width: 120px;
+	padding: 6px 12px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+body {
+	background-color: #FDFDFD;
+}
+
+.main {
+	text-align: center;
+	width: auto;
+	height: 100vh;
+}
+
+
+.main-content{
+	background: url("../image/taipei.jpg")no-repeat center center; 
+    -webkit-background-size: 100% 100%; 
+    -moz-background-size: 100% 100%; 
+	-o-background-size: 100% 100%;
+	background-size: 100% 100%;
+}
+.main-cw{
+	background: rgba(100%,100%,100%,0.7);
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%; 
+    -moz-background-size: 100% 100%; 
+	-o-background-size: 100% 100%;
+	max-width: 100vw; max-height: 100vh;
+	
+}
+
+.haoye-pic {
+	width: auto;
+	height: auto;
+	max-width: 50vw;
+	max-height: 50vh;
+}
+
