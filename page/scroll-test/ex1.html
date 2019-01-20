@@ -1,0 +1,31 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>Scroll</title>
+	<script src="js/jquery.min.js">
+	</script>
+</head>
+<body>
+	<div id="click" style="line-height:40px; height:40px; width:120px; background:#0cf; text-align:center">
+		Click
+	</div>
+	<div id="target" style="margin-top:1000px; height:200px; padding-bottom:1000px; background:#00f"></div>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$.extend({
+			'goAnchor': function(to, time) {
+				$obj = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+				$($obj).animate({
+					scrollTop: to
+				}, time);
+			}
+		});
+
+		$('#click').click(function() {
+			$.goAnchor($('#target').offset().top, 1000);
+		});
+	});
+	</script>
+</body>
+</html>
