@@ -6,7 +6,12 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link rel = "stylesheet" type = "text/css" href = "css/main.css">
 		<link rel="shortcut icon" href="favicon.ico"/>
-
+		<script>
+			img {
+				height: 100px;
+				width: 500px;
+			}
+		</script>
 	</head>
 
 	<body>
@@ -277,7 +282,7 @@
 			var strpath = "nmdata/" + temcitytxt + "/" + temnimnametxt + "/" + temnimnametxt;
 			var strpathpic = strpath + "圖片.jpg";
 			var strpathtxt = strpath + "文字.txt";
-			var strimg = "<img class = \" width: 300px;\"src = \"" + strpathpic + "\" >";
+			var strimg = "<img src = \"" + strpathpic + "\" >";
 			var strifr = "<iframe src = \"" + strpathtxt + "\" />";
 			document.getElementById("result-pic").innerHTML = strimg;
 			document.getElementById("result-txt").innerHTML = strifr;
