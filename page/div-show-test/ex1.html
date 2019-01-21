@@ -1,0 +1,65 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>Style Display</title>
+	<script>
+		function show0(id) {
+
+			/* getElementById = t1 */
+			var show1 = document.getElementById('test1');
+
+			/* getElementById = t2 */
+			var show2 = document.getElementById('test2');
+
+			/* Id = t1 的 display 不是 block 時，將其賦值為 block ，其他則設為不顯示給予 none，反之亦然 */
+			if (show1.style.display != 'block') { 
+				show1.style.display = 'block';
+				show2.style.display = 'none';
+			} else {
+				show1.style.display = 'none';
+				show2.style.display = 'block';
+			}
+		}
+
+		function show1(id) {
+
+			var show3 = document.getElementById('test3');
+
+			if (show3.style.display == 'none') { 
+				show3.style.display = 'block';
+			} else {
+				show3.style.display = 'none';
+			}
+		}
+	</script>
+</head>
+<body>
+
+	<h1>Example 1 :</h1>
+	<br />
+		<form>
+			<input id="btn1" onclick="show0(test1);" type="button" value="Click">
+		</form>
+		<div id="test1" style="display:block">
+			<h3>Hi ! Hello, World! </h3>
+		</div>
+		<div id="test2" style="display:none">
+			<h3>Show<span> Print：<input id="xx" name="xx" type="text" value=""> <a href="#"> XX</a></span></h3>
+		</div>
+	<br />
+	<br />
+	<hr />
+	<h1>Example 2 :</h1>
+	<br />
+		<input id="btn2" onclick="show1(test3);" type="button" value="Click">
+	<br />
+	<br />
+		<div id="test3" style="display:none">
+			Love!!  P-H, Chiu - 1030.
+		</div>
+
+</body>
+</html>
+
+

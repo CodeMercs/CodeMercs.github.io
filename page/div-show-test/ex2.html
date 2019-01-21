@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Scroll</title>
+	<script src="js/jquery.min.js">
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#hide").click(function() {
+				$("#p1").hide();
+			});
+			$("#show").click(function() {
+				$("#p1").show();
+			});
+		});
+		$(document).ready(function() {
+			$("#test").click(function() {
+				$("#p2").toggle();
+			});
+		});
+	</script>
+
+</head>
+<body>
+	<h1>Example 1 :</h1><br>
+	<button id="hide" type="button">hide</button> <button id="show" type="button">Show</button>
+	<br>
+	<p id="p1">Hi !</p><br>
+	<hr>
+	<br>
+	<h1>Example 2 :</h1><br>
+	<button id="test" type="button">Click</button>
+	<p id="p2">Hi !</p><br>
+	<hr>
+	<br>
+</body>
+</html>
+
+
+
+
