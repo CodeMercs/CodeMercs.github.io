@@ -72,6 +72,20 @@
 						</div>
 					</div>
 					
+					<!-- Num -->
+					<hr />
+					<div class="row">
+							<div class="col-md-6">
+								<span style=" font-size: 3vmin" class="display-3">
+									Number
+								</span><br /><br />
+								<select id="opt-num-list" class = "form-control"></select>
+							</div>
+					</div>
+
+					<br />
+
+
 					<!-- Year to Year -->
 					<hr />
 					<div class="row">
@@ -95,7 +109,7 @@
 							<div class="col">
 								<div class="card">
 									<div class="card-body">
-										<p id = "show-test-y2y" value = ""></p>
+										<p id = "show-test-y2y" value = "">顯示輸出結果</p>
 									</div>
 								</div>
 							</div>
@@ -126,7 +140,7 @@
 							<div class="col">
 								<div class="card">
 									<div class="card-body">
-										<p id = "show-test-single-year" value = ""></p>
+										<p id = "show-test-single-year" value = "">顯示輸出結果</p>
 									</div>
 								</div>
 							</div>
@@ -157,7 +171,7 @@
 							<div class="col">
 								<div class="card">
 									<div class="card-body">
-										<p id = "show-test-single-item" value = ""></p>
+										<p id = "show-test-single-item" value = "">顯示輸出結果</p>
 									</div>
 								</div>
 							</div>
@@ -194,7 +208,7 @@
 							<div class="col">
 								<div class="card">
 									<div class="card-body">
-										<p id = "show-search" value = ""></p>
+										<p id = "show-search" value = "">顯示輸出結果</p>
 									</div>
 								</div>
 							</div>
@@ -204,6 +218,7 @@
 							<div class="col">
 								<div class="card">
 									<div class="card-body">
+										顯示資訊
 										<div class="col-md-6 embed-responsive embed-responsive-16by9">
 													<div id = "result-txt"></div>
 										</div>
@@ -221,7 +236,7 @@
 
 		<script type="text/javascript">
 
-
+			/* Mul Select Exp */
 
 			var temcitytxt = "";
 			var temnimnametxt = "";
@@ -288,6 +303,7 @@
 			document.getElementById("result-txt").innerHTML = strifr;
 			}
 
+			/*-----------------------------------------------------*/
 
 			/* System Year */
 			var SystemDate = new Date();
@@ -378,6 +394,15 @@
 				ProcessingString = "輸出結果為 " + temSingleItemVal;
 				showTestSingleItemPart.innerHTML = ProcessingString;
 			}
+
+			/* Number */
+			var changeNumber = document.getElementById("opt-num-list");
+			var innerNumber ="";
+			for(var i = 0; i < 10; i++){
+				innerNumber = innerNumber + '<option value=\"' + i + '\">'+ i +'</option>';
+
+			}
+			changeNumber.innerHTML = innerNumber;
 
 		</script>
 	</body>
