@@ -1,0 +1,50 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>Browser</title>
+	<script>
+		var sys = "";
+
+		sys = (navigator.language||navigator.userLanguage||navigator.browserLanguage||navigator.systemLanguage).toLowerCase();
+
+		L_zhcht = new Array();
+		L_zhcht[0] = "瀏覽器";
+		L_zhcht[1] = "語言 : ";
+
+		L_zhchs = new Array();
+		L_zhchs[0] = "浏览器";
+		L_zhchs[1] = "语系 : ";
+
+		L_en = new Array(); 
+		L_en[0] = "Browser"; 
+		L_en[1] = "Language : "; 
+
+	</script>
+</head>
+<body>
+	<h1 id = "lang-head">Browser</h1><br />
+	<span id = "lang-1-head">Language : </span><span id = "sysinfo"></span>
+
+	<script>
+		var sysinfo = document.getElementById("sysinfo");
+		sysinfo.innerHTML = sys;
+
+		var LangArray;
+
+		if(sys == "en"|| sys == "en-usen-gb" || sys == "en-au"|| sys == "en-ca"|| sys == "en-nz"|| sys == "en-ie"|| sys == "en-za"|| sys == "en-jm"|| sys == "en-bz"|| sys == "en-tt"){
+				LangArray = L_en;
+		} else if (sys == "zh-tw"|| sys == "zh-tw" ) {
+				LangArray = L_zhcht;
+		}  else if (sys == "zh-cn"|| sys == "zh-sg" ) {
+				LangArray = L_zhchs;
+		}
+
+			/* 將各個文字, 填入指定位置 */
+			document.getElementById('lang-head').innerHTML = LangArray[0];
+			document.getElementById('lang-1-head').innerHTML = LangArray[1];
+	</script>
+</body>
+</html>
+
+
