@@ -1,0 +1,52 @@
+<!DOCTYPE>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>Scroll</title>
+	<script src="js/jquery.min.js">
+	</script>
+	<!-- Font Awesome 4.7.0 -->
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+	<div id="button" style="line-height:40px; height:40px; width:120px; background:#0cf; text-align:center">
+		Click
+	</div>
+	<div style="margin-top:1000px; height:200px; padding-bottom:1000px; background:#ffffff"></div>
+	<a href="#" class="totop">&nbsp;<i class="fa fa-angle-up"></i>&nbsp;</a> 
+	<div id="target" style="margin-top:1000px; height:200px; padding-bottom:1000px; background:#c8c8c8"></div>
+</body>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$.extend({
+			'goAnchor': function(to, time) {
+				$obj = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+				$($obj).animate({
+					scrollTop: to
+				}, time);
+			}
+		});
+		$('#button').click(function() {
+			$.goAnchor($('#target').offset().top, 1000);
+		});
+	});
+	$(window).scroll(function() {
+		var $window = $(window).scrollTop();
+		if ($window > 300) {
+			$('a.totop').fadeIn(300);
+		} else {
+			$('a.totop').fadeOut(300);
+		}
+	})
+	$(function() {
+		//To top effect   
+		$('a.totop').on('click', function() {
+			$('html, body').animate({
+				scrollTop: 0
+			}, 1500);
+			return false;
+		})
+	})
+	</script>
+</html>
