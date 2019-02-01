@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>HTML Test</title>
+	</head>
+
+
+	<body>
+		<br />
+		<br />
+		<div id = "demo"></div><br />
+		<br />
+		<br />
+		<button type="button" onclick="lsRI();">Click Me!</button>
+		<br />
+		<script>
+
+				document.getElementById("demo").innerHTML = "Test";
+		
+
+		
+				var lastVisitTime = localStorage.getItem('yourDomain');
+		
+				if (lastVisitTime) {
+		
+				/* 造訪過的邏輯 */
+		
+		
+					document.getElementById("demo").innerHTML = "造訪過的邏輯。";
+		
+				} else {
+		
+				/* 沒造訪過的邏輯 */
+
+					document.getElementById("demo").innerHTML = "沒造訪過的邏輯，是新來的使用者。";
+
+					localStorage.setItem('yourDomain', new Date());
+		
+				}
+
+				/* 清除 localStorage */
+				function lsRI() {
+					localStorage.removeItem('yourDomain');
+				}
+
+		</script>
+		
+	</body>
+</html>
