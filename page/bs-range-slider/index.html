@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>TEST</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/main.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+			<br />
+			<br />
+			<h1>Range Slider</h1>
+			<br /><hr /><br />
+			<h2>Custom Range Slider</h2>
+			<div class="slidecontainer">
+				<p>Default range slider:</p>
+				<input type="range" min="1" max="100" value="50">
+  
+				<p>Custom range slider:</p>
+				<input type="range" min="1" max="100" value="50" class="crslider" id="crmyRange">
+				<p>Value: <span id="crdemo"></span></p>
+			</div>
+
+			<br /><hr /><br />
+			<h2>Round Range Slider</h2>
+
+			<div class="slidecontainer">
+				<input type="range" min="1" max="100" value="50" class="rrslider" id="rrmyRange">
+				<p>Value: <span id="rrdemo"></span></p>
+			</div>
+
+			<br /><hr /><br />
+
+			<h2>Range Slider Picture</h2>
+
+			<div class="slidecontainer">
+				<input type="range" min="1" max="100" value="50" class="rspslider" id="rspmyRange">
+				<p>Value: <span id="rspdemo"></span></p>
+			</div>
+
+
+
+		</div>
+
+				<script src="js/jquery-slim.min.js"></script>
+
+				<script>
+
+					/* Round Range Slider */
+					var rrslider = document.getElementById("rrmyRange");
+					var rroutput = document.getElementById("rrdemo");
+					rroutput.innerHTML = rrslider.value;
+
+					rrslider.oninput = function() {
+						rroutput.innerHTML = this.value;
+					}
+
+					/* Custom range slider */
+					var crslider = document.getElementById("crmyRange");
+					var croutput = document.getElementById("crdemo");
+					croutput.innerHTML = crslider.value;
+
+					crslider.oninput = function() {
+						croutput.innerHTML = this.value;
+					}
+					/* Range Slider Picture */
+					var rspslider = document.getElementById("rspmyRange");
+					var rspoutput = document.getElementById("rspdemo");
+					rspoutput.innerHTML = rspslider.value;
+
+					rspslider.oninput = function() {
+						rspoutput.innerHTML = this.value;
+					}
+				</script>
+
+	</body>
+</html>
