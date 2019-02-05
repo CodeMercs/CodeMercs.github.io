@@ -1,0 +1,19 @@
+
+@font-face {
+	font-family: b93;
+	src: url("../fonts/BAUHS93.TTF") format("truetype");
+	font-weight: normal;
+	font-style: normal; }
+
+
+@font-face {
+	font-family: nsf-cjk-black;
+	src: url("../fonts/NotoSerifCJKtc-Black.otf") format("opentype");
+	font-weight: normal;
+	font-style: normal; }
+
+
+
+body { font-family: b93; }
+
+div { font-family: nsf-cjk-black; }
