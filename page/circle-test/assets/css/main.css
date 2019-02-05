@@ -1,0 +1,11 @@
+canvas {
+	display: block;
+}
+body {
+	color: #cfd2da;
+	background-color: #252830;
+}
+.d3 {
+	width: 40vw;
+	height: 40vh
+}
