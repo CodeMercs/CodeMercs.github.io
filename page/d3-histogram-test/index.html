@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="js/d3.v4.min.js">
+	</script>
+	<script src="js/d3-queue.min.js">
+	</script>
+	<link href="css/main.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC|Noto+Serif+TC:400,900" rel="stylesheet">
+
+	<style type="text/css">
+		html, body {
+			height: 100%;
+			margin: 0;
+			font-family: 'Noto Sans TC', sans-serif;
+			text-align: center;
+		}
+		#vis {
+			height: 80%;
+			margin: 0;
+		}
+
+		label, output {
+			font-size: 30px;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<div>
+			<br />
+				<label for="year">Please select a year: </label>
+				<output id="selected_year" name="selected_year">2014</output><br />
+			<br />
+				<input id="year" 
+					max="2014" 
+					min="2009" 
+					oninput="selected_year.value = year.value" 
+					step="1" 
+					type="range" 
+					value="2014"
+					>
+		</div>
+	</form>
+	</form>
+	<div id="vis"></div>
+	<script src="js/script.js">
+	</script>
+</body>
+</html>
