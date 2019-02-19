@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Popover</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css"> 
+		.popover {
+			width: 30vw;
+			height: 300px;
+			/* max-width:200px; */
+		}
+		</style> 
+	</head>
+
+	<body>
+		<div class="container">
+				<br /><br />
+				<h1>Popover - width & height</h1>
+				<br /><br />
+				<button type="button" 
+					class="btn btn-lg btn-danger" 
+					data-toggle="popover" 
+					title="Popover title"
+					data-content="And here's some amazing content. It's very engaging. Right?">
+						Click to toggle popover
+				</button>
+
+				<br /><br /><br />
+				<button type="button" 
+					class="btn btn-secondary" 
+					data-container="body" 
+					data-toggle="popover" 
+					data-placement="top" 
+					data-content="Popover on top - 內文">
+						Popover on top
+				</button>
+				<br /><br /><br />
+				<button type="button" 
+					class="btn btn-secondary" 
+					data-container="body" 
+					data-toggle="popover" 
+					data-placement="right" 
+					data-content="Popover on right - 內文">
+						Popover on right
+				</button>
+				<br /><br /><br />
+				<button type="button" 
+					class="btn btn-secondary" 
+					data-container="body" 
+					data-toggle="popover" 
+					data-placement="bottom" 
+					data-content="Popover on bottom - 內文">
+						Popover on bottom
+				</button>
+				<br /><br /><br />
+				<button type="button" 
+					class="btn btn-secondary" 
+					data-container="body" 
+					data-toggle="popover" 
+					data-placement="left" 
+					data-content="Popover on left - 內文">
+						Popover on left
+				</button>
+				<br /><br /><br />
+				<i 
+					class="fa fa-info-circle text-muted" 
+					data-container="body" 
+					data-toggle="popover" 
+					title="Information" 
+					data-content="Hi"
+					data-html="true">
+					Here
+				</i>
+
+		</div>
+
+				<script src="js/jquery-slim.min.js"></script>
+				<script src="js/popper.min.js"></script>
+				<script src="js/util.js"></script>
+				<script src="js/tooltip.js"></script>
+				<script src="js/popover.js"></script>
+		<script>
+			function init() {
+				$(function() {
+					/* tooltip */
+					$('[data-toggle="tooltip"]').tooltip({
+						container: 'body'
+					});
+					/* Popover */ 
+					$('[data-toggle="popover"]').popover({
+						trigger: 'hover'
+					});
+				});
+			}
+			init();
+		</script>
+	</body>
+</html>
