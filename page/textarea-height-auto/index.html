@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+		.textarea-wrapper {
+			position: relative;
+			display: block;
+			width: 100%;
+			padding: .1rem 0;
+		}
+		.content-editable {
+			position: relative;
+			z-index: -1;
+			opacity: 0;
+			display: block;
+			width: 100%;
+			line-height: normal;
+			font-size: .27rem;
+			color: #999;
+			/*white-space: pre;*/
+		}
+		.field-textarea {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			box-sizing: border-box;
+			padding: .1rem 0;
+			line-height: normal;
+			font-size: .27rem;
+			color: #464545;
+			text-align: left;
+			resize: none;
+			overflow: hidden;
+			background-color: transparent;
+		}
+		.field-textarea::-webkit-input-placeholder {
+			text-align: left;
+			font-size: .27rem;
+			color: #999;
+		}
+	</style>
+</head>
+<body>
+	<div class="textarea-wrapper">
+		<div class="content-editable" contenteditable="true" id="contentEditable"></div>
+		<textarea class="field-textarea" id="textarea" placeholder="Data"></textarea>
+	</div>
+	<script>
+		var elemTextarea = document.getElementById('textarea')
+		var elemContentEditable = document.getElementById('contentEditable')
+		var adjustHeight = function () {
+			elemContentEditable.innerText = this.value
+		}
+		elemTextarea.addEventListener('input', adjustHeight, false)
+	</script>
+</body>
+</html>
