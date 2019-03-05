@@ -1,0 +1,32 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>Copy</title>
+
+</head>
+<body>
+	<br />
+	<h1>Copy Test</h1>
+	<br />
+	<div id="copythis">OwO //</div>
+	<br />
+	<button href="javascript:void(0)" type="button" onclick="CopyTextToClipboard('copythis')" style="width: 100vw; height: 5vh">Copy</button>
+	<br />
+	<hr />
+	<br />
+	<textarea style="width: 100vw; height: 30vh" placeholder="Hello! cpcn1030."></textarea>
+
+	<script type="text/javascript">
+		function CopyTextToClipboard(id) {
+			var TextRange = document.createRange();
+			TextRange.selectNode(document.getElementById(id));
+			sel = window.getSelection();
+			sel.removeAllRanges();
+			sel.addRange(TextRange);
+			document.execCommand("copy");
+			alert("複製完成！");
+		}
+	</script>
+</body>
+</html>
