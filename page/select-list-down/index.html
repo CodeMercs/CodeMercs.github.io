@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>SELECT</title>
+	<meta charset="utf-8">
+	<style>
+		.list-name-input{
+			color: #333;
+			font-family: tahoma, 'Microsoft YaHei', 'Segoe UI', Arial, 'Microsoft Yahei', Simsun, sans-serif;
+			font-size: 15px;
+			font-weight: bold;
+			height: 50px;
+			margin: 0px;
+			padding: 0px;
+			position: relative;
+			width: 530px;
+		}
+		.list-name-for-select{
+			border: 0;
+			color: #555;
+			height: 20px;
+			lighting-color: rgb(255, 255, 255);
+			line-height: 20px;
+			margin:0 0 10px 0;  
+			outline-color: #555;
+			outline-offset: 0px;
+			outline-style: none;
+			outline-width: 0px; 
+			padding: 4px 6px;
+			position: absolute;
+			top: 1px;
+			left: 3px;
+			vertical-align: middle;
+			width: 486px;
+		}
+		.list-name-input-for-select:focus{
+			border: 0;
+			border-radius: 0;
+		}
+		.list-select{
+			background-color: #FFF;
+			border:1px #ccc solid;
+			border-radius: 4px;
+			color: #555;
+			cursor: pointer;
+			height: 30px;
+			left: 0px;
+			margin:0 0 10px 0;
+			padding: 4px 6px;
+			position: absolute;
+			top: 0px;
+			vertical-align: middle;
+			white-space: pre;
+			width: 530px;
+		}
+	</style>
+</head>
+<body>
+	<div class="list-name-input" id="list-name-input">
+		<select class="list-select" id="list-select">
+			<option value="">
+				NEW
+			</option>
+			<option value="0">
+				10-CPCN-1030
+			</option>
+			<option value="1">
+				11-CPCN-1030
+			</option>
+			<option value="2">
+				13-CPCN-1030
+			</option>
+			<option value="3">
+				12-NGCFG-update-1000
+			</option>
+			<option value="4">
+				13-NGCFG-update-1000
+			</option>
+			<option value="5">
+				14-NGCFG-update-1000
+			</option>
+			<option value="6">
+				15-NGCFG-update-1000
+			</option>
+			<option value="7">
+				16-NGCFG-update-1000
+			</option>
+			<option value="8">
+				17-NGCFG-update-1000
+			</option>
+		</select>
+		<input class="name item-width list-name-for-select" id="list-name-for-select" type="text">
+	</div>
+	<script>
+		var listName = document.getElementById('list-name-for-select');
+		var listSelect = document.getElementById('list-select').onchange = function(e){
+			console.log(this)
+		if(this.value){
+			listName.value = this.value + ' | ' + this.options[this.selectedIndex].text;
+		} else {
+			listName.value = ''
+		}};
+	</script>
+</body>
+</html>
