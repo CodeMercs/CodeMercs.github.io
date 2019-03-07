@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html ng-app>
+	<head>
+		<title>Angular JS | Hello</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- angularjs - 1.7.7 -->
+		<script src="js/angular.min.js"></script>
+		
+	</head>
+	<body style="text-align: center;">
+		<br />
+		<br />
+		<br />
+		<div>
+			<h1>Angular JS Test</h1>
+			<br />
+			<input type="text" ng-model="your.name" placeholder="Enter a Name Here">
+			<i  
+				data-container="body" 
+				data-toggle="popover" 
+				title="Information" 
+				data-content="Hi! Angular JS."
+				data-html="true">
+				<span>Here</span>
+			</i>
+			<hr />
+			<h1>Hello {{your.name}}! \(O_O)/</h1>
+		</div>
+
+			<script src="js/jquery-slim.min.js"></script>
+			<script src="js/popper.min.js"></script>
+			<script src="js/util.js"></script>
+			<script src="js/tooltip.js"></script>
+			<script src="js/popover.js"></script>
+			<script >
+				function init() {
+					$(function() {
+						/* tooltip */
+						$('[data-toggle="tooltip"]').tooltip({
+							container: 'body'
+						});
+						/* Popover */ 
+						$('[data-toggle="popover"]').popover({
+							trigger: 'hover'
+						});
+					});
+				}
+				init();
+		</script>
+	</body>
+</html>
