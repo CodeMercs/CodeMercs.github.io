@@ -1,0 +1,82 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>Scroll | Test</title>
+	<script src="js/jquery.min.js">
+	</script>
+	<!-- Noto Sans -->
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+JP|Noto+Sans+KR|Noto+Sans+SC|Noto+Sans+TC" rel="stylesheet">
+	<style type="text/css">
+		.pg1{position: fixed; left: 0; right: 0px; top: 0px;width:100%;height:10vh;color:#000;background-color:#f1f1f1;}
+		.pg2{color:#000;background-color:#9e9e9e;height:10vh;}
+		.cc{margin-top:1000px; height:200px; padding-bottom:1000px; background:#FFFFFF}
+		.test{position: fixed; left: 40px; right: 0px; top: 0px;font-size: 20px; z-index: 100;}
+		.click{position: fixed; left: 200px; top: 200px;line-height:40px; height:40px; width:120px; background:#0cf; text-align:center}
+	</style>
+</head>
+<body style="font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif;">
+	<div id = "cbody" >
+		<div id="click" class ="click">
+			Click
+		</div>
+		<div style="width: 100vw">
+			<p class="test"></p>
+		</div>
+		<div class ="cc"></div>
+		<div class ="cc"></div>
+
+		<div  class="pg1" >
+			<div id="progress" class="pg2"></div>
+		</div>
+	</div>
+	<div id="target" class ="cc" ></div>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$.extend({
+			'goAnchor': function(to, time) {
+				$obj = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+				$($obj).animate({
+					scrollTop: to
+				}, time);
+			}
+		});
+
+		$('#click').click(function() {
+			$.goAnchor($('#target').offset().top, 1000);
+		});
+		$('#progress').click(function() {
+			$.goAnchor($('#target').offset().top, 1000);
+		});
+		$(function(){
+			$(window).scroll(function () {
+				var scrollVal = $(this).scrollTop();
+				$("p.test").text(scrollVal);
+					var progress = document.getElementById("progress");
+					var test = document.getElementById("test");
+					var tem = document.body.scrollTop;
+					var H;
+					H = cbody.scrollHeight;
+					progress.max = H;
+					var CSSTemProgress = "color:#000;background-color:#9e9e9e;height:10vh;width:";
+
+					var h = document.documentElement.scrollTop || document.body.scrollTop;
+					progress.value =  h;
+
+					var radio = 0;
+
+					if (h/H >= 1){
+						radio = 1;
+					} else {
+						radio = h/H;
+					}
+					progress.style.cssText = CSSTemProgress + (100 * radio) + '%';
+					//progress.title= Math.floor(100*radio)+'%';
+					test.innerHTML = Math.floor(100*radio)+"";
+			});
+		});
+	});
+
+	</script>
+</body>
+</html>
