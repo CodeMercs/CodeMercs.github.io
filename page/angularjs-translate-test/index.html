@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html ng-app='at'>
+	<head>
+		<title>Angular JS | Translate</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<!-- Noto Sans -->
+		<link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+JP|Noto+Sans+KR|Noto+Sans+SC|Noto+Sans+TC" rel="stylesheet">
+
+		<!-- angular.min.js - 1.7.7 -->
+		<script src="js/angular.min.js"></script>
+		<!-- angular-translate.min.js - 2.18.1 -->
+		<script src="js/angular-translate.min.js"></script>
+		<!-- angular-route.min.js - 1.7.7 -->
+		<script src="js/angular-route.min.js"></script>
+
+		<script  type="text/javascript">
+
+		var app = angular.module('at', ['pascalprecht.translate']);
+
+		app.config(function ($translateProvider) {
+			$translateProvider.translations('zhcht', {
+				TITLE: '你好',
+				BTN_LANG_ENUK: '英文 - 英國',
+				BTN_LANG_ENUS: '英文 - 美國',
+				BTN_LANG_ZHCHT: '繁體中文',
+				BTN_LANG_ZHCHS: '簡體中文',
+				BTN_LANG_KR: '韓文',
+				BTN_LANG_VN: '越南文',
+				BTN_LANG_TH: '泰文',
+				BTN_LANG_JP: '日文',
+				BTN_LANG_DE: '德文',
+				BTN_LANG_FR: '法文'
+			});
+			$translateProvider.translations('zhchs', {
+				TITLE: '你好',
+				BTN_LANG_ENUK: '英文 - 英国',
+				BTN_LANG_ENUS: '英文 - 美国',
+				BTN_LANG_ZHCHT: '繁体中文',
+				BTN_LANG_ZHCHS: '简体中文',
+				BTN_LANG_KR: '韩文',
+				BTN_LANG_VN: '越南文',
+				BTN_LANG_TH: '泰文',
+				BTN_LANG_JP: '日文',
+				BTN_LANG_DE: '德文',
+				BTN_LANG_FR: '法文'
+			});
+			$translateProvider.translations('enus', {
+				TITLE: 'Hello',
+				BTN_LANG_ENUK: 'English - United Kingdom',
+				BTN_LANG_ENUS: 'English - United States',
+				BTN_LANG_ZHCHT: 'Traditional Chinese',
+				BTN_LANG_ZHCHS: 'Simplified Chinese',
+				BTN_LANG_KR: 'Korean',
+				BTN_LANG_VN: 'Vietnamese',
+				BTN_LANG_TH: 'Thai',
+				BTN_LANG_JP: 'Japanese',
+				BTN_LANG_DE: 'German',
+				BTN_LANG_FR: 'French'
+			});
+			$translateProvider.translations('enuk', {
+				TITLE: 'Hello',
+				BTN_LANG_ENUK: 'English - United Kingdom',
+				BTN_LANG_ENUS: 'English - United States',
+				BTN_LANG_ZHCHT: 'Traditional Chinese',
+				BTN_LANG_ZHCHS: 'Simplified Chinese',
+				BTN_LANG_KR: 'Korean',
+				BTN_LANG_VN: 'Vietnamese',
+				BTN_LANG_TH: 'Thai',
+				BTN_LANG_JP: 'Japanese',
+				BTN_LANG_DE: 'German',
+				BTN_LANG_FR: 'French'
+			});
+			$translateProvider.translations('kr', {
+				TITLE: '고마워',
+				BTN_LANG_ENUK: '영어 - 영국',
+				BTN_LANG_ENUS: '영어 - 미국',
+				BTN_LANG_ZHCHT: '중국어 번체',
+				BTN_LANG_ZHCHS: '중국어 간체',
+				BTN_LANG_KR: '한국어',
+				BTN_LANG_VN: '베트남어',
+				BTN_LANG_TH: '태국어',
+				BTN_LANG_JP: '일본어',
+				BTN_LANG_DE: '독일어',
+				BTN_LANG_FR: '프랑스어'
+			});
+			$translateProvider.translations('vn', {
+				TITLE: 'Xin chào',
+				BTN_LANG_ENUK: 'Tiếng Anh - Vương quốc Anh',
+				BTN_LANG_ENUS: 'Tiếng Anh - Hoa Kỳ',
+				BTN_LANG_ZHCHT: 'Tiếng Trung Quốc truyền thống',
+				BTN_LANG_ZHCHS: 'Tiếng Trung giản thể',
+				BTN_LANG_KR: 'Hàn Quốc',
+				BTN_LANG_VN: 'Tiếng Việt',
+				BTN_LANG_TH: 'Thái',
+				BTN_LANG_JP: 'Tiếng Nhật',
+				BTN_LANG_DE: 'Đức',
+				BTN_LANG_FR: 'Tiếng Pháp'
+			});
+			$translateProvider.translations('th', {
+				TITLE: 'สวัสดี',
+				BTN_LANG_ENUK: 'อังกฤษ - สหราชอาณาจักร',
+				BTN_LANG_ENUS: 'อังกฤษ - สหรัฐอเมริกา',
+				BTN_LANG_ZHCHT: 'จีนดั้งเดิม',
+				BTN_LANG_ZHCHS: 'จีนตัวย่อ',
+				BTN_LANG_KR: 'เกาหลี',
+				BTN_LANG_VN: 'เวียยตนาม',
+				BTN_LANG_TH: 'ไทย',
+				BTN_LANG_JP: 'ญี่ปุ่น',
+				BTN_LANG_DE: 'เยอรมัน',
+				BTN_LANG_FR: 'ฝรั่งเศส'
+			});
+			$translateProvider.translations('jp', {
+				TITLE: 'こんにちは',
+				BTN_LANG_ENUK: '英語 - イギリス',
+				BTN_LANG_ENUS: '英語 - アメリカ合衆国',
+				BTN_LANG_ZHCHT: '繁体字',
+				BTN_LANG_ZHCHS: '簡体字',
+				BTN_LANG_KR: '韓国語',
+				BTN_LANG_VN: 'ベトナム語',
+				BTN_LANG_TH: 'タイ語',
+				BTN_LANG_JP: '日本語',
+				BTN_LANG_DE: 'ドイツ語',
+				BTN_LANG_FR: 'フランス語'
+			});
+			$translateProvider.translations('de', {
+				TITLE: 'Hallo',
+				BTN_LANG_ENUK: 'Englisch - Vereinigtes Königreichm',
+				BTN_LANG_ENUS: 'Englisch - USA',
+				BTN_LANG_ZHCHT: 'Traditionelles Chinesisch',
+				BTN_LANG_ZHCHS: 'Vereinfachtes Chinesisch',
+				BTN_LANG_KR: 'Koreanisch',
+				BTN_LANG_VN: 'Vietnamesisch',
+				BTN_LANG_TH: 'Thai',
+				BTN_LANG_JP: 'Japanisch',
+				BTN_LANG_DE: 'Deutsch',
+				BTN_LANG_FR: 'Französisch'
+			});
+			$translateProvider.translations('fr', {
+				TITLE: 'Bonjour',
+				BTN_LANG_ENUK: 'Anglais - Royaume-Uni',
+				BTN_LANG_ENUS: 'Anglais - États-Unis',
+				BTN_LANG_ZHCHT: 'Chinois traditionnel',
+				BTN_LANG_ZHCHS: 'Chinois simplifié',
+				BTN_LANG_KR: 'Coréen',
+				BTN_LANG_VN: 'Vietnamien',
+				BTN_LANG_TH: 'Thaï',
+				BTN_LANG_JP: 'Japonais',
+				BTN_LANG_DE: 'allemand',
+				BTN_LANG_FR: 'Français'
+			});
+
+        $translateProvider.preferredLanguage('enuk');
+      });
+
+      app.controller('Ctrl', function ($scope, $translate) {
+        $scope.changeLanguage = function (key) {
+          $translate.use(key);
+        };
+      });
+	</script>
+
+
+	</head>
+	<body class="container" style="font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif;">
+		<br />
+		<br />
+		<br />
+		<div>
+			<h1>Angular JS Translate
+			<i
+				class="fa fa-info-circle"
+				data-container="body" 
+				data-toggle="popover"
+				data-placement="right"
+				title="Information" 
+				data-content="Hi! Angular Translate."
+				data-html="true">
+			</i>
+			</h1>
+			<br />
+			<div class="form-group">
+				<label>Language</label>
+
+
+			<div ng-controller="Ctrl">
+				<button class="btn btn-sm" ng-click="changeLanguage('enuk')"><span translate="BTN_LANG_ENUK">English - United Kingdom</span> UK</button>
+				<button class="btn btn-sm" ng-click="changeLanguage('enus')"><span translate="BTN_LANG_ENUS">English - United States</span> US</button>
+				<button class="btn btn-sm" ng-click="changeLanguage('zhcht')"><span translate="BTN_LANG_ZHCHT">Traditional Chinese</span> TW</button>
+				<button class="btn btn-sm" ng-click="changeLanguage('zhchs')"><span translate="BTN_LANG_ZHCHS">Simplified Chinese</span> CN</button>
+				<button class="btn btn-sm" ng-click="changeLanguage('kr')"><span translate="BTN_LANG_KR">Korean</span> KR</button>
+				<button class="btn btn-sm" ng-click="changeLanguage('vn')"><span translate="BTN_LANG_VN">Vietnamese</span> VN</button>
+				<button class="btn btn-sm" ng-click="changeLanguage('th')"><span translate="BTN_LANG_TH">Thai</span> TH</button>
+				<button class="btn btn-sm" ng-click="changeLanguage('jp')"><span translate="BTN_LANG_JP">Japanese</span> JP</button>
+				<button class="btn btn-sm" ng-click="changeLanguage('de')"><span translate="BTN_LANG_DE">German</span> DE</button>
+				<button class="btn btn-sm" ng-click="changeLanguage('fr')"><span  translate="BTN_LANG_FR">French</span> FR</button>
+			</div>
+				<br />
+				<input type="text" class="form-control" ng-model="your.name" placeholder="Enter a Name Here">
+			</div>
+			<br />
+			<hr />
+			<p style="font-size: 80px"><span translate="TITLE" >Hello</span> {{ your.name }}! \(O_O)/</p>
+		</div>
+
+			<script src="js/jquery-slim.min.js"></script>
+			<script src="js/popper.min.js"></script>
+			<script src="js/util.js"></script>
+			<script src="js/tooltip.js"></script>
+			<script src="js/popover.js"></script>
+
+			<script>
+
+				$(function() {
+						/* tooltip */
+						$('[data-toggle="tooltip"]').tooltip({
+							container: 'body'
+						});
+						/* Popover */ 
+						$('[data-toggle="popover"]').popover({
+							trigger: 'hover'
+						});
+					});
+
+					app.controller('Ctrl', function ($scope, $translate) {
+						$scope.changeLanguage = function (key) {
+						$translate.use(key);
+					};
+				});
+		</script>
+
+	</body>
+</html>
