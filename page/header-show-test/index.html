@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<title>Header Show | Test</title>
+	<!-- JQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- Noto Sans -->
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+JP|Noto+Sans+KR|Noto+Sans+SC|Noto+Sans+TC" rel="stylesheet">
+	<style type="text/css">
+		header {
+			background-color: #fff;
+			padding: 15px 40px;
+			height: 48px;
+			position: fixed;
+			top: 0;
+			width: 100%;
+			box-sizing: border-box;
+			transition: top 0.4s ease-in-out;
+			box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+		}
+		.hideUp header {
+			top: -48px;
+		}
+		.cc {
+			margin-top:1000px; 
+			height:200px; 
+			padding-bottom:1000px;
+		}
+		.click {
+			position: fixed; 
+			left: 200px; 
+			top: 400px;
+			line-height: 40px; 
+			height: 40px; 
+			width: 120px; 
+			background: #0cf; 
+			text-align: center;
+		}
+		.man {
+			position: fixed; 
+			left: 200px; 
+			top: 200px;
+		}
+		main {
+			height: 1200px;
+			padding: 100px 40px;
+			color: #fff;
+			font-size: 24px;
+		}
+
+		body {
+			padding: 0;
+			margin: 0;
+			background: #149;
+			color: #888;
+		}
+
+	</style>
+</head>
+<body style="font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif;">
+	<header>Logo</header>
+	<main>
+		<br />
+		<div id="click" class ="click">
+			Click
+		</div>
+		<div class="man">
+			<h1>請往下滑動，再往上滑動，觀看效果</h1>
+		</div>
+		<div class ="cc"></div>
+		<div id="target" class ="cc" ></div>
+		\(OwO)/
+	</main>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$.extend({
+				'goAnchor': function(to, time) {
+					$obj = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+					$($obj).animate({
+						scrollTop: to
+					}, time);
+				}
+			});
+
+			$('#click').click(function() {
+				$.goAnchor($('#target').offset().top, 1000);
+			});
+			$('#progress').click(function() {
+				$.goAnchor($('#target').offset().top, 1000);
+			});
+		});
+
+
+
+		var bodyClass = document.body.classList,
+			lastScrollY = 0;
+		window.addEventListener('scroll', function(){
+			var st = this.scrollY;
+
+			/* 判斷是向上捲動，而且捲軸超過 200px */
+			if( st < lastScrollY) {
+				bodyClass.remove('hideUp');
+			} else {
+				bodyClass.add('hideUp');
+			}
+
+			lastScrollY = st;
+		});
+	</script>
+</body>
+</html>
+
