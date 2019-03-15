@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Tooltip</title>
+		<!-- Noto Sans -->
+		<link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+JP|Noto+Sans+KR|Noto+Sans+SC|Noto+Sans+TC" rel="stylesheet">
+
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+
+			span.tab { padding-left: 2em; }
+
+			body { font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif;}
+
+			/* 更改背景色及文字顏色 
+
+				background-color: 背景; 
+				color: 文字;
+			*/
+				.tooltip > .tooltip-inner {background-color: #F7F7F7; color: #333333;}
+				.tooltip.left .tooltip-arrow { border-left-color: #F7F7F7; }
+				.tooltip.top .tooltip-arrow { border-top-color: #F7F7F7; }
+				.tooltip.right .tooltip-arrow { border-right-color: #F7F7F7; }
+				.tooltip.bottom .tooltip-arrow { border-bottom-color: #F7F7F7; }
+
+		</style>
+	</head>
+	<body>
+			<div class="container">
+
+
+				<br />
+				<h1>Tooltip 手動更改背景</h1>
+				<br />
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="auto" title="Tooltip on auto">
+					Tooltip on auto
+				</button>
+				<span class="tab"></span>
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+					Tooltip on top
+				</button>
+				<span class="tab"></span>
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">
+					Tooltip on right
+				</button>
+				<span class="tab"></span>
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+					Tooltip on bottom
+				</button>
+				<span class="tab"></span>
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Tooltip on left">
+					Tooltip on left
+				</button>
+				<span class="tab"></span>
+				<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+					Tooltip with HTML
+				</button>
+				<br /><hr />
+				<br />
+				<h1>Tooltip 換行</h1>
+				<br />
+				<button 
+					type="button" 
+					class="btn btn-success" 
+					data-html="true" 
+					data-toggle="tooltip" 
+					data-placement="bottom" 
+					title="1. AA <br />
+							2. BB <br />
+							3. CC <br />
+							4. DD <br />
+							5. FF "> 
+						data-html is true
+				</button>
+			</div>
+
+
+
+			<script src="js/jquery-slim.min.js"></script>
+			<script src="js/popper.min.js"></script>
+			<script src="js/util.js"></script>
+			<script src="js/tooltip.js"></script>
+			<script>
+				$(function () {
+					$('[data-toggle="tooltip"]').tooltip()
+					$('#target').tooltip({
+						placement : 'top',
+						trigger : 'manual'
+					}).tooltip('show')
+				})
+			</script>
+	</body>
+</html>
