@@ -10,222 +10,218 @@
 		<!-- Noto Sans -->
 		<link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+JP|Noto+Sans+KR|Noto+Sans+SC|Noto+Sans+TC" rel="stylesheet">
 
-	<style type="text/css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
 
-		body { 
-			font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif; 
-		}
+		<style type="text/css">
+			
+			body {
+				font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif; 
+			}
 
-		pre.source-code {
-			font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; 
-			color: #000000;
-			background-color: #eee;
-			font-size: 12px;
-			border: 1px dashed #999999;
-			line-height: 14px;
-			padding: 5px;
-			overflow: auto;
-			width: 100%
-		}
-		p.warning {
-			color: #000000;
-			background-color: #FFB6C1;
-			font-size: 12px;
-			border: 3px double #333333;
-			line-height: 14px;
-			padding: 5px;
-			overflow: auto;
-			width: 100%
-		}
-
-
-	</style>
-
+			pre.source-code {
+				font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; 
+				color: #000000;
+				background-color: #eee;
+				font-size: 12px;
+				border: 1px dashed #999999;
+				line-height: 14px;
+				padding: 5px;
+				overflow: auto;
+				width: 100%
+			}
+			p.warning {
+				color: #000000;
+				background-color: #FFB6C1;
+				font-size: 12px;
+				border: 3px double #333333;
+				line-height: 14px;
+				padding: 5px;
+				overflow: auto;
+				width: 100%
+			}
+		</style>
+		<script type="text/javascript">
+			
+		</script>
 	<script language="JavaScript">
+		var Color = new Array();
+		Color[1] = "ff";
+		Color[2] = "ee";
+		Color[3] = "dd";
+		Color[4] = "cc";
+		Color[5] = "bb";
+		Color[6] = "aa";
+		Color[7] = "99";
 
-	   <!-- 
-	   var Color= new Array();
-	   Color[1] = "ff";
-	   Color[2] = "ee";
-	   Color[3] = "dd";
-	   Color[4] = "cc";
-	   Color[5] = "bb";
-	   Color[6] = "aa";
-	   Color[7] = "99";
+		function fadeIn(where) {
+			if (where >= 1) {
+				document.getElementById('fade').style.backgroundColor = "#ffff" + Color[where];
+				if (where > 1) {
+					where -= 1;
+					setTimeout("fadeIn(" + where + ")", 200);
+				} else {
+					where -= 1;
+					setTimeout("fadeIn(" + where + ")", 200);
+					document.getElementById('fade').style.backgroundColor = "transparent";
+				}
+			}
+		}
 
-	   function fadeIn(where) {
-	    if (where >= 1) {
-	        document.getElementById('fade').style.backgroundColor = "#ffff" + Color[where];
-	      if (where > 1) {
-	        where -= 1;
-	        setTimeout("fadeIn("+where+")", 200);
-	      } else {
-	        where -= 1;
-	        setTimeout("fadeIn("+where+")", 200);
-	        document.getElementById('fade').style.backgroundColor = "transparent";
-	      }
-	    }
-	   }
+		function format() {
+			var strIn = document.getElementById("textin").value;
+			var strOut = null;
+			if (document.getElementById("embedstyle").checked) {
+				strOut = "<pre style=\"font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%\"><code>";
+				hideElement("style");
+			} else {
+				strOut = "<pre class=\"source-code\"><code>";
+				showElement("style");
+			}
+			var strOut25 = null;
+			var line = 1;
+			var strTab;
+			var hasVerticalPipe = false;
+			var j;
+			if (document.getElementById("tab4").checked) {
+				strTab = "    ";
+			} else if (document.getElementById("tab2").checked) {
+				strTab = "  ";
+			} else {
+				strTab = "        ";
+			}
+			for (i = 0; i < strIn.length; i++) {
+				var code = strIn.charCodeAt(i);
+				switch (code) {
+					case 9: // tab
+						strOut += strTab;
+						break;
+					case 10: // line-feed
+					case 13:
+						strOut += "\n";
+						line += 1;
+						if (line == 26) {
+							strOut25 = strOut + "[only the first 25 lines shown in this example]\n\n";
+						}
+						j = i + 1;
+						if (code == 13 && j < strIn.length && strIn.charCodeAt(j) == 10) {
+							i++;
+						}
+						break;
+					case 34:
+						strOut += "&quot;";
+						break;
+					case 38:
+						strOut += "&amp;";
+						break;
+					case 60:
+						strOut += "&lt;";
+						break;
+					case 62:
+						strOut += "&gt;";
+						break;
+					case 124: // vertical pipe
+						strOut += "&#124;";
+						hasVerticalPipe = true;
+						break;
+					default:
+						if (code >= 32 && code <= 127) {
+							strOut += strIn.charAt(i);
+						} else {
+							strOut += "&#" + code + ";";
+						}
+						break;
+				} // switch
+			} // for
+			strOut += "\n<\/code><\/pre>";
+			var textoutelement = document.getElementById("textout")
+			textoutelement.value = strOut;
+			textoutelement.focus();
+			textoutelement.select();
+			if (hasVerticalPipe) {
+				showElement("vert-pipe-warning");
+			} else {
+				hideElement("vert-pipe-warning");
+			}
+			var resultselement = document.getElementById("results");
+			if (strOut25 != null) {
+				resultselement.innerHTML = strOut25;
+			} else {
+				resultselement.innerHTML = strOut;
+			}
+			fadeIn(7);
+		}
 
-	   function format() {
-	      var strIn = document.getElementById("textin").value;
-	      var strOut = null;
-	      if ( document.getElementById("embedstyle").checked ) {
-	          strOut = "<pre style=\"font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%\"><code>";
-	          hideElement("style");
-	      } else {
-	          strOut = "<pre class=\"source-code\"><code>";
-	          showElement("style");
-	      }
-	      var strOut25 = null;
-	      var line = 1;
-	      var strTab;
-	      var hasVerticalPipe = false;
-	      var j;
-	      
-	      if ( document.getElementById("tab4").checked ) {
-	      strTab = "    ";
-	      } else if ( document.getElementById("tab2").checked ) {
-	      strTab = "  ";
-	      } else {
-	          strTab = "        ";
-	      }
+		function onloadEvent() {
+			var textinelement = document.getElementById("textin");
+			textinelement.focus();
+			textinelement.select();
+		}
 
-	      for ( i = 0; i < strIn.length; i++ ) {
-	          var code = strIn.charCodeAt(i);
-	          switch( code ) {
-	              case 9: // tab
-	                  strOut += strTab;
-	          break;
-	              case 10:  // line-feed
-	              case 13:  
-	                  strOut += "\n";
-	                  line += 1;
-	                  if ( line == 26 ) {
-	                      strOut25 = strOut + "[only the first 25 lines shown in this example]\n\n";
-	                  }
-	                  j = i + 1;
-	                  if ( code == 13 && j < strIn.length && strIn.charCodeAt(j) == 10 ) {
-	                      i++;
-	                  }
-	                  break;
-	              case 34:
-	                  strOut += "&quot;";
-	                  break;
-	              case 38:
-	                  strOut += "&amp;";
-	                  break;
-	              case 60:
-	                  strOut += "&lt;";
-	                  break;
-	              case 62:
-	                  strOut += "&gt;";
-	                  break;
-	              case 124: // vertical pipe
-	                  strOut += "&#124;";
-	                  hasVerticalPipe = true;
-	                  break;
-	              default:
-	                  if ( code >= 32 && code <= 127 ) {
-	                      strOut += strIn.charAt(i);
-	                  } else {
-	                      strOut += "&#" + code + ";";
-	                  }
-	                  break;
-	          } // switch
-	      } // for
-	      strOut += "\n<\/code><\/pre>";
-	      var textoutelement = document.getElementById("textout")
-	      textoutelement.value = strOut;
-	      textoutelement.focus();
-	      textoutelement.select();
+		function showElement(strId) {
+			var ref = document.getElementById(strId);
+			if (ref.style) {
+				ref = ref.style;
+			}
+			ref.display = '';
+		}
 
-	      if ( hasVerticalPipe ) {
-	          showElement( "vert-pipe-warning" );
-	      } else {
-	          hideElement( "vert-pipe-warning" );
-	      }
+		function hideElement(strId) {
+			var ref = document.getElementById(strId);
+			if (ref.style) {
+				ref = ref.style;
+			}
+			ref.display = 'none';
+		}
 
-	      var resultselement = document.getElementById("results");
-	      if ( strOut25 != null ) {
-	          resultselement.innerHTML = strOut25;
-	      } else {
-	          resultselement.innerHTML = strOut;
-	      }
+			(function() {
+			   	(function() {
+			   		function c(a) {
+			   			this.t = {};
+			   			this.tick = function(a, c, b) {
+			   				var d = void 0 != b ? b : (new Date).getTime();
+			   				this.t[a] = [d, c];
+			   				if (void 0 == b) try {
+			   					window.console.timeStamp("CSI/" + a)
+			   				} catch (l) {}
+			   			};
+			   			this.tick("start", null, a)
+			   		}
+			   		var a;
+			   		if (window.performance) var e = (a = window.performance.timing) && a.responseStart;
+			   		var h = 0 < e ? new c(e) : new c;
+			   		window.jstiming = {
+			   			Timer: c,
+			   			load: h
+			   		};
+			   		if (a) {
+			   			var b = a.navigationStart;
+			   			0 < b && e >= b && (window.jstiming.srt = e - b)
+			   		}
+			   		if (a) {
+			   			var d = window.jstiming.load;
+			   			0 < b && e >= b && (d.tick("_wtsrt", void 0, b), d.tick("wtsrt_", "_wtsrt", e), d.tick("tbsd_", "wtsrt_"))
+			   		}
+			   		try {
+			   			a = null, window.chrome && window.chrome.csi && (a = Math.floor(window.chrome.csi().pageT), d && 0 < b && (d.tick("_tbnd", void 0, window.chrome.csi().startE), d.tick("tbnd_", "_tbnd", b))), null == a && window.gtbExternal && (a = window.gtbExternal.pageT()), null == a && window.external && (a = window.external.pageT, d && 0 < b && (d.tick("_tbnd", void 0, window.external.startE), d.tick("tbnd_", "_tbnd", b))), a && (window.jstiming.pt = a)
+			   		} catch (k) {}
+			   	})();
+			   	window.tickAboveFold = function(c) {
+			   		var a = 0;
+			   		if (c.offsetParent) {
+			   			do a += c.offsetTop; while (c = c.offsetParent)
+			   		}
+			   		c = a;
+			   		750 >= c && window.jstiming.load.tick("aft")
+			   	};
+	   			var f = !1;
 
-	      fadeIn(7);
-	   }
+				function g() {
+					f || (f = !0, window.jstiming.load.tick("firstScrollTime"))
+				}
 
-	   function onloadEvent() {
-	      var textinelement = document.getElementById("textin");
-	      textinelement.focus();
-	      textinelement.select();
-	   }
+			window.addEventListener ? window.addEventListener("scroll", g, !1) : window.attachEvent("onscroll", g);
+		})();
 
-	   function showElement(strId) {
-	      var ref = document.getElementById(strId);
-	      if ( ref.style) { ref = ref.style; }
-	      ref.display = '';
-	   }
-
-	   function hideElement(strId) {
-	      var ref = document.getElementById(strId);
-	      if ( ref.style) { ref = ref.style; }
-	      ref.display = 'none';
-	   }
-	   //-->
-	</script>
-	<title>Haoye Source Code for TestPage</title>
-	<script type="text/javascript">
-	   (function() {
-	   	(function() {
-	   		function c(a) {
-	   			this.t = {};
-	   			this.tick = function(a, c, b) {
-	   				var d = void 0 != b ? b : (new Date).getTime();
-	   				this.t[a] = [d, c];
-	   				if (void 0 == b) try {
-	   					window.console.timeStamp("CSI/" + a)
-	   				} catch (l) {}
-	   			};
-	   			this.tick("start", null, a)
-	   		}
-	   		var a;
-	   		if (window.performance) var e = (a = window.performance.timing) && a.responseStart;
-	   		var h = 0 < e ? new c(e) : new c;
-	   		window.jstiming = {
-	   			Timer: c,
-	   			load: h
-	   		};
-	   		if (a) {
-	   			var b = a.navigationStart;
-	   			0 < b && e >= b && (window.jstiming.srt = e - b)
-	   		}
-	   		if (a) {
-	   			var d = window.jstiming.load;
-	   			0 < b && e >= b && (d.tick("_wtsrt", void 0, b), d.tick("wtsrt_", "_wtsrt", e), d.tick("tbsd_", "wtsrt_"))
-	   		}
-	   		try {
-	   			a = null, window.chrome && window.chrome.csi && (a = Math.floor(window.chrome.csi().pageT), d && 0 < b && (d.tick("_tbnd", void 0, window.chrome.csi().startE), d.tick("tbnd_", "_tbnd", b))), null == a && window.gtbExternal && (a = window.gtbExternal.pageT()), null == a && window.external && (a = window.external.pageT, d && 0 < b && (d.tick("_tbnd", void 0, window.external.startE), d.tick("tbnd_", "_tbnd", b))), a && (window.jstiming.pt = a)
-	   		} catch (k) {}
-	   	})();
-	   	window.tickAboveFold = function(c) {
-	   		var a = 0;
-	   		if (c.offsetParent) {
-	   			do a += c.offsetTop; while (c = c.offsetParent)
-	   		}
-	   		c = a;
-	   		750 >= c && window.jstiming.load.tick("aft")
-	   	};
-	   	var f = !1;
-
-	   	function g() {
-	   		f || (f = !0, window.jstiming.load.tick("firstScrollTime"))
-	   	}
-	   	window.addEventListener ? window.addEventListener("scroll", g, !1) : window.attachEvent("onscroll", g);
-	   })();
-	</script>
-	<script type="text/javascript">
 		function a() {
 			var b = window.location.href,
 				c = b.split("?");
@@ -243,12 +239,11 @@
 			var e = a();
 			e && window.location.replace(e)
 		};
-	</script>
-	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-</head><!-- THE BODY ELEMENT NEEDS THE ONLOAD EVENT -->
-<body onload="javascript:onloadEvent()">
-	<H1>CodeHTML</H1>
-	<script type="text/javascript">
+
+		function ClearTextArea() {
+			document.getElementById("textin").value="";
+		}
+
 		function setAttributeOnload(object, attribute, val) {
 			if(window.addEventListener) {
 				window.addEventListener('load',
@@ -258,19 +253,12 @@
 			}
 		}
 	</script>
-	<script type="text/javascript">
-		/*
-	        gapi.load("gapi.iframes:gapi.iframes.style.bubble", function() {
-	          if (gapi.iframes && gapi.iframes.getContext) {
-	            gapi.iframes.getContext().openChild({
-	                url: 'https://www.blogger.com/navbar.g?targetBlogID\x3d22626731\x26blogName\x3dFormat+My+Source+Code+for+Blogging\x26publishMode\x3dPUBLISH_MODE_BLOGSPOT\x26navbarType\x3dBLUE\x26layoutType\x3dCLASSIC\x26searchRoot\x3dhttps://formatmysourcecode.blogspot.com/search\x26blogLocale\x3den_US\x26v\x3d2\x26homepageUrl\x3dhttp://formatmysourcecode.blogspot.com/\x26vt\x3d-3356703684037171994',
-	                where: document.getElementById("navbar-iframe-container"),
-	                id: "navbar-iframe"
-	            });
-	          }
-	        });
-	    */
-	</script>
+	<title>Haoye Source Code for TestPage</title>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+</head><!-- THE BODY ELEMENT NEEDS THE ONLOAD EVENT -->
+<body onload="javascript:onloadEvent()">
+<div class = "container mt-3 mb-3">
+	<H1>CodeHTML</H1>
 	<div id="header"></div><!-- Begin #content -->
 	<div id="content">
 		<!-- Begin #main -->
@@ -281,25 +269,70 @@
 						<div>
 							<div style="clear:both;"></div><!-- THIS STUFF GOES IN POST -->
 							<form>
-								<p>
-								<textarea cols="80" id="textin" rows="5" wrap="off">Paste your text here.</textarea><br></p>
-								<table>
-									<tr>
-										<td><button onclick="format()" type="button">Format Text</button></td>
-										<td>Tab size: <input id="tab2" name="tabsize" type="radio">2 <input checked="true" id="tab4" name="tabsize" type="radio">4 <input id="tab8" name="tabsize" type="radio">8<br>
-										Embed Stylesheet: <input checked="true" id="embedstyle" type="checkbox"><br></td>
-									</tr>
-								</table>
-								<p></p>
-								<p></p>
+								<h2>Paste</h2><br />
+								<div class="form-group">
+									<textarea id="textin" class="form-control" rows="5" wrap="off" placeholder="Paste your text here." style="width: 100%"></textarea>
+								</div>
+								<br />
+								<div class="container">
+									<!-- Example row of columns -->
+									<div class="row">
+										<div class="col-md-2">
+											<button class = "btn btn-block" onclick="format()" type="button">
+												<i class="fa fa-code"></i>
+												&nbsp;
+												Format
+											</button>
+										</div>
+										<div class="col-md-2">
+											<button class = "btn btn-block" onclock="ClearTextArea()">
+												<i class="fa fa-ban"></i>
+												&nbsp;
+												Clean
+											</button>
+										</div>
+										<div class="col-md-2">
+											<button class = "btn btn-block" id="btncopy" data-clipboard-target="#textout">
+												<i class="fa fa-copy"></i>
+												&nbsp;
+												Copy
+											</button>
+										</div>
+										<div class="col-md-3">
+											<div class="row">
+												<div class="col-md-3">
+													Tab size
+												</div>
+												<div class="col-md-2">
+													<input id="tab2" name="tabsize" type="radio">2 
+												</div>
+												<div class="col-md-2">
+													<input checked="true" id="tab4" name="tabsize" type="radio">4 
+												</div>
+												<div class="col-md-2">
+													<input id="tab8" name="tabsize" type="radio">8
+												</div>
+
+											</div>
+										</div>
+										<div class="col-md-3">
+											Embed Stylesheet<br />
+											<input checked="true" id="embedstyle" type="checkbox">
+										</div>
+									</div>
+								</div> <!-- /container -->
+								<br />
 								<div class="step-instr" id="fade">
-									Copy the HTML below to your clipboard. Insert the HTML of your blog or wiki.<br>
-									<textarea cols="80" id="textout" rows="12" wrap="off">formatted HTML will appear in here.</textarea>
+									<h2>Copy</h2><br />
+									Copy the HTML below to your clipboard. Insert the HTML of your blog or wiki.<br /><br />
+									<div class="form-group">
+										<textarea id="textout" class="form-control" rows="12" wrap="off" placeholder="formatted HTML will appear in here." style="width: 100%"></textarea>
+									</div>
 								</div>
 							</form>
-							<p></p>
+							<br />
 							<div id="vert-pipe-warning" style="display: none">
-								<p class="warning"><b>Vertival Pipe Character Warning:</b><br>
+								<p class="warning"><b>Vertival Pipe Character Warning:</b><br />
 								The text contains the vertical pipe character '|' which Blogger's editor may remove. Blogger's editor on the web has two edit tabs: "Edit HTML" and "Compose". The "Compose" tab will remove all | characters! Use the "Edit HTML" tab only.</p>
 							</div>
 
@@ -317,10 +350,12 @@ This is an example of what your text will look like.
 									</code>
 								</pre>
 							</div>
-							<p></p>
-							<div id="style" style="display: none">
-								Example Stylesheet:<br>
-								<textarea cols="80" id="textout" rows="13" wrap="off">
+							<br />
+							<div id="style" class="form-group" style="display: none">
+								<h2>Example Stylesheet</h2>
+								<br />
+								<br />
+								<textarea id="textout" class="form-control" rows="13" wrap="off" style="width: 100%">
 <style type="text/css">
 	pre.source-code {
 	font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; 
@@ -342,11 +377,15 @@ This is an example of what your text will look like.
 			</div>
 		</div><!-- End #main -->
 	</div>
+</div>
 
 			<script src="js/jquery-slim.min.js"></script>
 			<script src="js/popper.min.js"></script>
 			<script src="js/util.js"></script>
 			<script src="js/tooltip.js"></script>
 			<script src="js/popover.js"></script>
+			<script type="text/javascript">
+				new Clipboard( "#btncopy" );
+			</script>
 </body>
 </html>
