@@ -1,30 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Haoye Practice by 20181206-->
+	<!-- Haoye Practice by 20181206-->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<!-- Noto Sans -->
+		<link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+JP|Noto+Sans+KR|Noto+Sans+SC|Noto+Sans+TC" rel="stylesheet">
+
 	<style type="text/css">
 
-	pre.source-code {
- 		font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; 
- 		color: #000000;
-		background-color: #eee;
-		font-size: 12px;
-		border: 1px dashed #999999;
-		line-height: 14px;
-		padding: 5px;
-		overflow: auto;
-		width: 100%
-	}
-	p.warning {
-		color: #000000;
-		background-color: #FFB6C1;
-		font-size: 12px;
-		border: 3px double #333333;
-		line-height: 14px;
-		padding: 5px;
-		overflow: auto;
-		width: 100%
-	}
+		body { 
+			font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif; 
+		}
+
+		pre.source-code {
+			font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; 
+			color: #000000;
+			background-color: #eee;
+			font-size: 12px;
+			border: 1px dashed #999999;
+			line-height: 14px;
+			padding: 5px;
+			overflow: auto;
+			width: 100%
+		}
+		p.warning {
+			color: #000000;
+			background-color: #FFB6C1;
+			font-size: 12px;
+			border: 3px double #333333;
+			line-height: 14px;
+			padding: 5px;
+			overflow: auto;
+			width: 100%
+		}
 
 
 	</style>
@@ -215,38 +227,39 @@
 	</script>
 	<script type="text/javascript">
 		function a() {
-		var b = window.location.href,
-			c = b.split("?");
-		switch (c.length) {
-			case 1:
-				return b + "?m=1";
-			case 2:
-				return 0 <= c[1].search("(^|&)m=") ? null : b + "&m=1";
-			default:
-				return null
-	}
-}
-	var d = navigator.userAgent;
-	if (-1 != d.indexOf("Mobile") && -1 != d.indexOf("WebKit") && -1 == d.indexOf("iPad") || -1 != d.indexOf("Opera Mini") || -1 != d.indexOf("IEMobile")) {
-		var e = a();
-		e && window.location.replace(e)
-	};
+			var b = window.location.href,
+				c = b.split("?");
+			switch (c.length) {
+				case 1:
+					return b + "?m=1";
+				case 2:
+					return 0 <= c[1].search("(^|&)m=") ? null : b + "&m=1";
+				default:
+					return null
+			}
+		}
+		var d = navigator.userAgent;
+		if (-1 != d.indexOf("Mobile") && -1 != d.indexOf("WebKit") && -1 == d.indexOf("iPad") || -1 != d.indexOf("Opera Mini") || -1 != d.indexOf("IEMobile")) {
+			var e = a();
+			e && window.location.replace(e)
+		};
 	</script>
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
 </head><!-- THE BODY ELEMENT NEEDS THE ONLOAD EVENT -->
 <body onload="javascript:onloadEvent()">
 	<H1>CodeHTML</H1>
 	<script type="text/javascript">
-	      function setAttributeOnload(object, attribute, val) {
-	        if(window.addEventListener) {
-	          window.addEventListener('load',
-	            function(){ object[attribute] = val; }, false);
-	        } else {
-	          window.attachEvent('onload', function(){ object[attribute] = val; });
-	        }
-	      }
+		function setAttributeOnload(object, attribute, val) {
+			if(window.addEventListener) {
+				window.addEventListener('load',
+				function(){ object[attribute] = val; }, false);
+			} else {
+				window.attachEvent('onload', function(){ object[attribute] = val; });
+			}
+		}
 	</script>
 	<script type="text/javascript">
+		/*
 	        gapi.load("gapi.iframes:gapi.iframes.style.bubble", function() {
 	          if (gapi.iframes && gapi.iframes.getContext) {
 	            gapi.iframes.getContext().openChild({
@@ -256,6 +269,7 @@
 	            });
 	          }
 	        });
+	    */
 	</script>
 	<div id="header"></div><!-- Begin #content -->
 	<div id="content">
@@ -328,5 +342,11 @@ This is an example of what your text will look like.
 			</div>
 		</div><!-- End #main -->
 	</div>
+
+			<script src="js/jquery-slim.min.js"></script>
+			<script src="js/popper.min.js"></script>
+			<script src="js/util.js"></script>
+			<script src="js/tooltip.js"></script>
+			<script src="js/popover.js"></script>
 </body>
 </html>
