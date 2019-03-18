@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>BS Btn</title>
+		<!-- Noto Sans -->
+		<link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+JP|Noto+Sans+KR|Noto+Sans+SC|Noto+Sans+TC" rel="stylesheet">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/bootstrap-tooltip-custom-class.css">
+		<style type="text/css">
+
+			span.tab { padding-left: 2em; }
+
+			body { 
+				font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif;
+				background: #F7F8F8;
+			}
+
+			.article {
+				position: relative;
+				margin: 15px;
+				padding: 15px 15px 25px;
+				border: 1px solid #ddd;
+				border-radius: 4px 4px 0 0;
+			}
+			
+			.artfontsize {
+				font-size: 20px;
+			}
+
+			.btn-oblong {border-radius: 30px 30px 30px 30px;}
+
+			.btn-circle-preset {
+				width: 30px;
+				height: 30px;
+				text-align: center;
+				padding: 6px 0;
+				font-size: 12px;
+				line-height: 1.428571429;
+				border-radius: 15px;
+			}
+
+			.btn-circle-lg{
+				width: 50px;
+				height: 50px;
+				padding: 10px 16px;
+				font-size: 18px;
+				line-height: 1.33;
+				border-radius: 25px;
+			}
+
+			.btn-circle-xl {
+				width: 70px;
+				height: 70px;
+				padding: 10px 16px;
+				font-size: 24px;
+				line-height: 1.33;
+				border-radius: 35px;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div class="article">
+			<h3>Color</h3>
+			<br />
+				<button type="button" class="btn btn-primary">Primary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-secondary">Secondary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-success">Success</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-danger">Danger</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-warning">Warning</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-info">Info</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-light">Light</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-dark">Dark</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-link">Link</button>
+		</div><!-- end -->
+		<div class="article">
+			<h3>Oblong</h3>
+			<br />
+				<button type="button" class="btn btn-primary btn-oblong">Primary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-secondary btn-oblong">Secondary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-success btn-oblong">Success</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-danger btn-oblong">Danger</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-warning btn-oblong">Warning</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-info btn-oblong">Info</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-light btn-oblong">Light</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-dark btn-oblong">Dark</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-link btn-oblong">Link</button>
+		</div><!-- end -->
+		<div class="article">
+			<h3>Outline</h3>
+			<br />
+				<button type="button" class="btn btn-outline-primary">Primary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-outline-secondary">Secondary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-outline-success">Success</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-outline-danger">Danger</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-outline-warning">Warning</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-outline-info">Info</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-outline-dark">Dark</button>
+		</div><!-- end -->
+		<div class="article">
+			<h3>Circle Preset</h3>
+			<br />
+				<button type="button" class="btn btn-primary btn-circle-preset">Primary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-secondary btn-circle-preset">Secondary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-success btn-circle-preset">Success</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-danger btn-circle-preset">Danger</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-warning btn-circle-preset">Warning</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-info btn-circle-preset">Info</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-light btn-circle-preset">Light</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-dark btn-circle-preset">Dark</button>
+		</div><!-- end -->
+		<div class="article">
+			<h3>Circle lg</h3>
+			<br />
+				<button type="button" class="btn btn-primary btn-circle-lg">Primary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-secondary btn-circle-lg">Secondary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-success btn-circle-lg">Success</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-danger btn-circle-lg">Danger</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-warning btn-circle-lg">Warning</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-info btn-circle-lg">Info</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-light btn-circle-lg">Light</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-dark btn-circle-lg">Dark</button>
+		</div><!-- end -->
+		<div class="article">
+			<h3>Circle xl</h3>
+			<br />
+				<button type="button" class="btn btn-primary btn-circle-xl">Primary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-secondary btn-circle-xl">Secondary</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-success btn-circle-xl">Success</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-danger btn-circle-xl">Danger</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-warning btn-circle-xl">Warning</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-info btn-circle-xl">Info</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-light btn-circle-xl">Light</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-dark btn-circle-xl">Dark</button>
+		</div><!-- end -->
+		<div class="article">
+			<h3>Size</h3>
+			<br />
+				<button type="button" class="btn btn-primary btn-lg">Large button</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-default btn-lg">Large button</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-primary">Default button</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-default">Default button</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-primary btn-sm">Small button</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-default btn-sm">Small button</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-primary btn-xs">Extra small button</button>
+				<span class="tag"></span>
+				<button type="button" class="btn btn-default btn-xs">Extra small button</button>
+				<span class="tag"></span>
+		</div><!-- end -->
+			<script src="js/jquery-slim.min.js"></script>
+			<script src="js/popper.min.js"></script>
+			<script src="js/util.js"></script>
+			<script src="js/tooltip.js"></script>
+			<script src="js/bootstrap-tooltip-custom-class.js"></script>
+			<script type="text/javascript">
+			</script>
+	</body>
+</html>
