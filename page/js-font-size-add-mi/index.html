@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Tooltip</title>
+		<!-- Noto Sans -->
+		<link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+JP|Noto+Sans+KR|Noto+Sans+SC|Noto+Sans+TC" rel="stylesheet">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/bootstrap-tooltip-custom-class.css">
+		<style type="text/css">
+
+			span.tab { padding-left: 2em; }
+
+			body { font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif;}
+
+			.article {
+				position: relative;
+				margin: 15px;
+				padding: 15px 15px 25px;
+				border: 1px solid #ddd;
+				border-radius: 4px 4px 0 0;
+			}
+			
+			.artfontsize {
+				font-size: 20px;
+			}
+
+		</style>
+	</head>
+	<body>
+<!DOCTYPE html>
+<html>
+	<div class="article">
+		<h3>Hi</h3>
+			<button id="btnminus" class="btn" onclick="btnminus ('con')">
+					縮小
+			</button>
+			<button id="btnadd" class="btn" onclick="btnadd ('con')">
+					放大
+			</button>
+		<div id = "con" class="article">
+			XXXX.
+		</div>
+	</div><!-- end .bs-example  -->
+			<script src="js/jquery-slim.min.js"></script>
+			<script src="js/popper.min.js"></script>
+			<script src="js/util.js"></script>
+			<script src="js/tooltip.js"></script>
+			<script src="js/bootstrap-tooltip-custom-class.js"></script>
+			<script type="text/javascript">
+				function btnadd (idName){
+					var Obj = document.getElementById(idName);
+					var Style = window.getComputedStyle(Obj, null).getPropertyValue('font-size');
+					var FontSize = parseFloat(Style); 
+					var FontSizeMax = 50;
+					if (FontSize >= 0 && FontSize <= FontSizeMax){
+						Obj.style.fontSize = (FontSize + 5) + 'px';
+					}
+				}
+
+				function btnminus(idName){
+					var Obj = document.getElementById(idName);
+					var Style = window.getComputedStyle(Obj, null).getPropertyValue('font-size');
+					var FontSize = parseFloat(Style); 
+					if (FontSize >= 0){
+						Obj.style.fontSize = (FontSize - 3) + 'px';
+					}
+				}	
+			</script>
+	</body>
+</html>
