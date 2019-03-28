@@ -1,0 +1,89 @@
+/*
+	AEP theme for IntroJs by Kan Horst
+
+*/
+
+.introjs-helperNumberLayer {
+	position: absolute;
+	z-index: 9999999999 !important;
+	padding: 10px;
+	font-family: Arial, verdana, tahoma;
+	font-size: 15px;
+	top: -40px;
+	font-weight: bold;
+	color: white;
+	text-align: center;
+
+	/* Red */
+	/* background: #E01123; */
+
+	/* Black */
+	/* background:#434A54; */
+
+	/* Blue */
+	background:#082E54;
+
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+}
+
+.introjs-tooltip {
+	background-color: rgba(255, 255, 255, 0.95);
+	color: #333333;
+}
+
+.introjs-button, .introjs-button:hover, .introjs-button:focus, .introjs-button:active, .introjs-disabled, .introjs-disabled:focus, .introjs-disabled:hover {
+	outline: none;
+	background-image: none;
+	background-color: rgba(0, 0, 0, 0.3);
+	color: #333333;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	border-radius: 50px;
+	box-shadow: none;
+	border-shadow: none;
+	text-shadow: none;
+}
+
+.introjs-button:hover, .introjs-button:focus, .introjs-button:active {
+	border: 1px solid #333333
+}
+
+.introjs-disabled, .introjs-disabled:focus, .introjs-disabled:hover {
+	color: #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.introjs-arrow {
+	border: 10px solid #333333;
+}
+
+.introjs-arrow.top, .introjs-arrow.top-middle, .introjs-arrow.top-right {
+	border-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.3) rgba(255, 255, 255, 0.95);
+	top: -20px;
+	left: 20px;
+}
+
+.introjs-arrow.bottom, .introjs-arrow.bottom-middle, .introjs-arrow.bottom-right {
+	border-color: rgba(255, 255, 255, 0.95) rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.3);
+	bottom: -20px;
+	left: 20px;
+}
+
+.introjs-arrow.left, .introjs-arrow.right {
+	top: 20px;
+}
+
+.introjs-arrow.left-bottom, .introjs-arrow.right-bottom {
+	bottom: 20px;
+}
+
+.introjs-arrow.left, .introjs-arrow.left-bottom {
+	left: -20px;
+	border-color: rgba(0, 0, 0, 0.3) rgba(255, 255, 255, 0.95) rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.3);
+}
+
+.introjs-arrow.right, .introjs-arrow.right-bottom {
+	right: -20px;
+	border-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.3) rgba(255, 255, 255, 0.95);
+}
