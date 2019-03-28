@@ -26,7 +26,7 @@
 	width: 20px;
 	height: 20px;
 	line-height: 20px;
-	display: none;
+	/* display: none; */
 }
 
 .introjs-tooltip {
