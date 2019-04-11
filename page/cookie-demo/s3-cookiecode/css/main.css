@@ -1,0 +1,17 @@
+#cookie-law { 
+	max-width:940px;
+	background:#EEEADD; 
+	margin:10px auto 0; 
+	border-radius: 17px;
+	-webkit-border-radius: 17px;
+	-moz-border-radius: 17px;
+}
+ 
+#cookie-law p { 
+	padding:10px; 
+	font-size:1.2em; 
+	font-weight:bold; 
+	text-align:center; 
+	color:#682008; 
+	margin:0;
+}
