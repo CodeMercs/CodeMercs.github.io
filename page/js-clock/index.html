@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Clock</title>
+		<style type="text/css">
+			.clock {
+				border-radius: 50%;
+				border: 2vmin solid #000;
+				background: #fff;
+				background-size: 88%;
+				height: 40vmin;
+				width: 40vmin;
+				position: relative;
+			}
+			.clock.simple:after {
+				background: #000;
+				border-radius: 50%;
+				content: "";
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 5%;
+				height: 5%;
+				z-index: 10;
+			}
+			.hour12, .hour1, .hour2, .hour3, .hour4, .hour5 {
+				height: 1%;
+				width: 30vmin;
+				background: transparent;
+				border-left: 4vmin solid #000;
+				border-right: 4vmin solid #000;
+				transform-origin: -0% -50%;
+				top: 50%;
+				left: 50%;
+				position: absolute;
+			}
+			.hour12 {
+				transform: rotateZ(90deg) translate(-50%, -50%);
+			}
+			.hour1 {
+				transform: rotateZ(-30deg) translate(-50%, -50%);
+			}
+			.hour2 {
+				transform: rotateZ(-60deg) translate(-50%, -50%);
+			}
+			.hour3 {
+				transform: rotateZ(0deg) translate(-50%, -50%);
+			}
+			.hour4 {
+				transform: rotateZ(30deg) translate(-50%, -50%);
+			}
+			.hour5 {
+				transform: rotateZ(60deg) translate(-50%, -50%);
+			}
+			.minutes-container, .hours-container, .seconds-container {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+			}
+			.hours {
+				background: #000;
+				width: 2.5%;
+				height: 30%;
+				position: absolute;
+				top: 20%;
+				left: 48.75%;
+				transform-origin: 50% 100%;
+			}
+			.minutes {
+				background: #000;
+				width: 2%;
+				height: 40%;
+				left: 49%;
+				position: absolute;
+				top: 10%;
+				transform-origin: 50% 100%;
+			}
+			.seconds {
+				background: red;
+				width: 1%;
+				height: 60%;
+				left: 49.5%;
+				position: absolute;
+				top: 2%;
+				transform-origin: 50% 80%;
+				z-index: 8;
+			}
+			@keyframes rotate {
+				100% {
+					transform: rotateZ(360deg);
+				}
+			}
+			.hours-container {
+				animation: rotate 43200s infinite linear;
+			}
+			.minutes-container {
+				transition: transform 0.3s cubic-bezier(.4, 2.08, .55, .44);
+			}
+			.seconds-container {
+				transition: transform 0.2s cubic-bezier(.4, 2.08, .55, .44);
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class="clock simple">
+			<div>
+				<div class="hour12"></div>
+				<div class="hour1"></div>
+				<div class="hour2"></div>
+				<div class="hour3"></div>
+				<div class="hour4"></div>
+				<div class="hour5"></div>
+			</div>
+			<div class="hours-container">
+				<div class="hours"></div>
+			</div>
+			<div class="minutes-container">
+				<div class="minutes"></div>
+			</div>
+			<div class="seconds-container">
+				<div class="seconds"></div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			window.onload = function() {
+				initLocalClocks();
+				setUpMinuteHands();
+				moveSecondHands();
+			}
+
+			function initLocalClocks() {
+				// Get the local time using JS
+				var date = new Date;
+				var seconds = date.getSeconds();
+				var minutes = date.getMinutes();
+				var hours = date.getHours();
+				// Create an object with each hand and it's angle in degrees
+				var hands = [{
+					hand: 'hours',
+					angle: (hours * (360 / 12)) + (minutes * ((360 / 12) / 60)) // 目前時間的時針角度
+					// 時針一圈12小時&#65292;一圈360度&#65292;所以360度/12時=30度/時&#65292;也就是每小時旋轉30度
+					// 對時針來說每分鐘旋轉角度為30度/60分=0.5度/分&#65292;也就是每分鐘旋轉0.5度
+				}, {
+					hand: 'minutes',
+					angle: (minutes * (360 / 60)) // 目前時間的分針角度
+					// 分針一圈60分&#65292;一圈360度&#65292;所以360度/60分=6度/分
+				}, {
+					hand: 'seconds',
+					angle: (seconds * (360 / 60)) // 目前時間的秒針角度
+					// 秒針一圈60秒&#65292;一圈360度&#65292;所以360度/60秒=6度/秒
+				}];
+				for (var j = 0; j < hands.length; j++) {
+					var elements = document.querySelectorAll('.' + hands[j].hand); // 取得所有的指針(時針&#65292;分針&#65292;秒針)
+					// 將指針依照目前時間來設定角度
+					elements[0].style.webkitTransform = 'rotateZ(' + hands[j].angle + 'deg)'; // for Safari 
+					elements[0].style.transform = 'rotateZ(' + hands[j].angle + 'deg)'
+					// 將秒針目前的角度註記在分針上
+					if (hands[j].hand === 'minutes') {
+						elements[0].parentNode.setAttribute('data-second-angle', hands[j + 1].angle); // 秒針目前的角度
+					}
+				}
+			}
+
+			function setUpMinuteHands() {
+				// 計算目前分針還剩多少時間走完目前的分鐘
+				var containers = document.querySelectorAll('.minutes-container'); // 取得分針的container
+				var secondAngle = containers[0].getAttribute("data-second-angle"); // 取得剛註記的秒針角度
+				if (secondAngle > 0) {
+					// 設定在目前的分鐘結束時&#65292;會觸發推動分針的延遲時間
+					var delay = (((360 - secondAngle) / 6) + 0.1) * 1000;
+					// 360度減秒針的角度即為目前分鐘剩下可跑的角度&#65292;在除以每秒6度&#65292;得到目前分鐘剩下可跑的時間
+					// 例如秒針跑了30秒&#65292;則secondAngle為30秒*6度=180度&#65292;又(360度-180度)/6(度/秒)=30秒&#65292;代表目前分鐘還有30秒可以跑完&#12290;
+					// 因為setTimeout的delay單位是以毫秒(千分之一秒)&#65292;所以要乘1000&#65292;也就是(30+0.1)*1000=30100毫秒=30.1秒(多的0.1秒是讓分針的移動比秒針慢一點&#65292;效果更擬真)
+					// 也就是在30.1秒後觸發推動分針的方法moveMinuteHands()
+					setTimeout(function() {
+						moveMinuteHands(containers);
+					}, delay);
+				}
+			}
+			// 用來推動分針的方法
+			// 注意實際轉動是指針的container&#65292;指針本身是固定不動的
+			function moveMinuteHands(containers) {
+				for (var i = 0; i < containers.length; i++) {
+					containers[i].style.webkitTransform = 'rotateZ(6deg)'; // for Safari
+					containers[i].style.transform = 'rotateZ(6deg)'; // 在30.1秒後讓分針轉到6度的位置
+				}
+				// 每間隔60秒執行一次
+				setInterval(function() {
+					for (var i = 0; i < containers.length; i++) {
+						if (containers[i].angle === undefined) {
+							containers[i].angle = 12; // 因為第一次已先移動了6度&#65292;所以下一次要多6度&#65292;所以是12度
+						} else {
+							containers[i].angle += 6; // 之後每一次的位置都是前一次的度數都多加6度
+						}
+						containers[i].style.webkitTransform = 'rotateZ(' + containers[i].angle + 'deg)';
+						containers[i].style.transform = 'rotateZ(' + containers[i].angle + 'deg)';
+						console.log(containers[i].style.transform);
+					}
+				}, 60000); // 60000毫秒=60秒
+			}
+
+			function moveSecondHands() {
+				var containers = document.querySelectorAll('.seconds-container'); // 取得秒針的container
+				// 每間隔1秒執行一次
+				setInterval(function() {
+					if (containers[0].angle === undefined) {
+						containers[0].angle = 6;
+					} else {
+						containers[0].angle += 6;
+					}
+					containers[0].style.webkitTransform = 'rotateZ(' + containers[0].angle + 'deg)';
+					containers[0].style.transform = 'rotateZ(' + containers[0].angle + 'deg)';
+				}, 1000); // 1000毫秒=1秒
+			}
+		</script>
+	</body>
+</html>
