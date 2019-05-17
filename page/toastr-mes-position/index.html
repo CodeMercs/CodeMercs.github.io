@@ -1,0 +1,66 @@
+<!-- Haoye Practice by 20190517 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test</title>
+		<!-- jQuery -->
+			<script src="js/jquery-3.3.1.min.js"></script>
+		<!-- toastr -->
+			<link href="css/toastr.min.css" rel="stylesheet"  />
+			<script src="js/toastr.min.js"></script>
+			<link rel = "stylesheet" type = "text/css" href = "css/bootstrap.min.css">
+			<link rel = "stylesheet" type = "text/css" href = "css/main.css">
+			<style type="text/css">
+				.toast-center {
+					top: 50%;
+					right: 50%;
+				}
+			</style>
+
+	</head>
+	<body class = "bgcol">
+	<div style = "text-align:center">
+			<div>
+				<br>
+				<br>
+				<h1>Haoye</h1>
+				Good luck!
+			</div>
+		<br />
+		<h2>CSS Position</h2>
+		<br />
+		<div>
+			<input type="button" class="btn btn-success btn-wdt" value="Hello!" onclick='notify( "1", "info");'>
+			<input type="button" class="btn btn-primary btn-wdt" value="Hi!" onclick='notify( "2", "success");'>
+			<input type="button" class="btn btn-danger btn-wdt" value="Love!" onclick='notify( "3", "error");'>
+			<input type="button" class="btn btn-warning btn-wdt" value="Bye!" onclick='notify( "4", "warning");'>
+		</div>
+		<br />
+	</body>
+
+	<script type="text/javascript"></script>
+		<script type="text/javascript">
+
+			function notify( msg, type) {
+
+				/* position */
+				toastr.options = {
+					positionClass: 'toast-center',
+					timeOut: "1250"
+					// positionClass: 'toast-bottom-full-width',
+				}
+				if (!type) type = "info";
+				if (type == "info") {
+					toastr.info(msg);
+				} else if (type == "success") {
+					toastr.success(msg);
+				} else if (type == "error") {
+					toastr.error(msg);
+				} else if (type == "warning"){
+					toastr.warning(msg);
+				}
+
+			}
+
+		</script>
+</html>
