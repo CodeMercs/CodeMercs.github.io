@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html ng-app="neTest">
+	<head>
+		<title>Angular JS | Hello</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!-- angularjs - 1.7.7 -->
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	</head>
+	<body style="text-align: center;" ng-controller="neController">
+		<br />
+		<br />
+		<br />
+		<div class="form-group">
+			<h1>AngularJS & nicEdit Test</h1>
+			<br />
+			<input type="text" ng-model="your.name" placeholder="Enter a Name Here">
+			<i  
+				data-container="body" 
+				data-toggle="popover" 
+				title="Information" 
+				data-content="Hi! Angular JS."
+				data-html="true">
+				<span>Here</span>
+			</i>
+			<br />
+			<h1>Hello {{your.name}}! \(O_O)/</h1>
+			<br />
+			<br />
+			<div>
+				<textarea id = "txtarea" style="width: 100%;height: 50%;" ng-model="txt"></textarea>
+			</div>
+			<div>{{txt}}</div>
+		</div>
+
+			<script type="text/javascript" src="js/jquery-slim.min.js"></script>
+			<script type="text/javascript" src="js/popper.min.js"></script>
+			<script type="text/javascript" src="js/util.js"></script>
+			<script type="text/javascript" src="js/tooltip.js"></script>
+			<script type="text/javascript" src="js/popover.js"></script>
+			<script type="text/javascript" src="js/nicEdit.js"></script>
+
+			<script type="text/javascript">
+
+			function init() {
+				$(function() {
+					/* tooltip */
+					$('[data-toggle="tooltip"]').tooltip({
+						container: 'body'
+					});
+					/* Popover */ 
+					$('[data-toggle="popover"]').popover({
+						trigger: 'hover'
+					});
+				});
+			}
+			init();
+
+			var neTest = angular.module('neTest', []);
+			neTest.controller('neController', function neController($scope) {
+			bkLib.onDomLoaded(function() {
+						// new nicEditor({iconsPath : 'img/nicEditorIcons.gif'}).panelInstance('work');
+						var objne = new nicEditor({
+								iconsPath : 'img/nicEditorIcons.gif',
+								// fullPanel : true
+								buttonList : ['fontSize', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript',
+												'superscript', 'bold', 'italic', 'underline', 'left', 'center', 'right',
+												'justify', 'ol', 'ul', 'subscript', 'superscript', 'strikethrough', 'removeformat',
+												'indent', 'outdent', 'hr', 'forecolor', 'bgcolor', 'fontSize', 'fontFamily', 'fontFormat']
+							}).panelInstance("txtarea");
+						
+						document.addEventListener( "keyup", function(){
+							nicEditors.findEditor('txtarea').saveContent();
+							var event = new Event('input', {});
+							document.getElementById('txtarea').dispatchEvent(event);
+						});
+						document.addEventListener( "mouseup", function(){
+							nicEditors.findEditor('txtarea').saveContent();
+							var event = new Event('input', {});
+							document.getElementById('txtarea').dispatchEvent(event);
+						});
+			});
+
+			});
+
+			</script>
+	</body>
+</html>
