@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<title>Practice</title>
+	<!-- AngularJS v1.7.8 -->
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body ng-init="price = 10 ; num = 1;">
+	<div>價格 : <input type="number" ng-model="price"></div><br />
+	<div>數量 : <input type="number" ng-model="num"></div><br />
+	<div >總價 {{price * num}}</div><br />
+	<br />
+</body>
+</html>
