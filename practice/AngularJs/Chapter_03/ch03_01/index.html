@@ -1,36 +1,23 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html ng-app="app">
 <head>
+	<meta charset="UTF-8"> 
 	<title>Practice</title>
-	<!-- AngularJS v1.7.8 -->
-	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular.min.js">
+	</script>
 </head>
-<body ng-contorller="CalcController">
-	<div>價格 : <input type="number" ng-model="price" /></div><br />
-	<div>數量 : <input type="number" ng-model="num" /></div><br />
-	<div>總價 : {{totalPrice()}}</div><br />
-	<br />
+<body ng-controller="CalcController">  
+	<div>價格：<input type="number" ng-model="price" /></div><br/>
+	<div>數量：<input type="number" ng-model="num" /></div><br/>
+	<div>總價：{{totalPrice()}}</div>
 	<script type="text/javascript">
-		/*
-        function CalcController($scope) { 
-            $scope.price = 10;
-            $scope.num = 1;
-            $scope.totalPrice = function() {
-                return $scope.price * $scope.num;
-            }
-        }
-        var app = angular.module("app",[]);
-        app.controller("CalcController",CalcController);*/
-		//alert("FF");
-		
-		angular.module('app',[]).controller('CalcController',  function ($scope){
+			angular.module('app',[]).controller('CalcController',  function CalcController($scope){
 				$scope.price = 10;
-				alert("FF");
 				$scope.num = 1;
 				$scope.totalPrice = function (){
 					return $scope.price * $scope.num;
 				}
-		});
+			});
 	</script>
 </body>
 </html>
