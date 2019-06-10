@@ -1,0 +1,38 @@
+﻿<!doctype html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8"> 
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js">
+	</script>
+</head>
+<body ng-controller="LoginController">
+
+	<div style="text-align: center;">
+		<h3>Login</h3>
+			<div>User Name：<input type="text" ng-model="name" placeholder="User Name" /></div><br />
+			<div>Password：<input type="text" ng-model="passwd" placeholder="Password"  /></div><br />
+
+			<span>
+				<button ng-click = "login()" type = "submit" >Login</button>
+				<button type = "reset">Reset</button>
+			</span>
+	</div>
+
+	<script type="text/javascript">
+		function LoginController($scope){
+			$scope.login = function(){
+				if ($scope.name == "admin" && $scope.passwd == "owo"){
+					alert("Success.");
+					console.log("Success.");
+				} else {
+					alert("Invalid Name and/or Password.");
+					console.log("Invalid Name and/or Password.");
+				}
+			}
+		}
+		var app = angular.module("app", [])
+		app.controller( "LoginController", LoginController);
+	</script>
+</body>
+</html>
