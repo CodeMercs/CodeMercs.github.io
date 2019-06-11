@@ -1,0 +1,22 @@
+﻿<!doctype html>
+<html ng-app="registerModule">
+<head>
+	<meta charset="UTF-8"> 
+	<title>Register</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body ng-controller="UserController">
+
+	<div style="text-align: center;">
+		<h3>Register</h3>
+			<div>User Name：<input type="text" ng-model="name" placeholder="User Name" /></div><br />
+			<div>Password：<input type="text" ng-model="passwd" placeholder="Password"  /></div><br />
+
+			<span>
+				<button ng-click = "submit()" type = "submit" >Login</button>
+				<button type = "reset">Reset</button>
+			</span>
+	</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+﻿<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8"> 
+	<title>Practice</title>
+</head>
+<body>
+	<div>
+		<div id = "show"></div>
+		<br />
+		<div></div>
+	</div>
+		<script type="text/javascript">
+			function Animal(){
+				this.eat = function(){
+					console.log('Eat ...');
+				}
+			}
+			function Cat(age){
+				this.age = age;
+			}
+			Cat.prototype = new Animal();
+			var cat = new Cat(10);
+			console.log("Cat age : " + cat.age);
+			cat.eat();
+		</script>
+</body>
+</html>

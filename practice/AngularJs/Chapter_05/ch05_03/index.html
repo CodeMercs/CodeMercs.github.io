@@ -1,0 +1,28 @@
+﻿<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8"> 
+	<title>Practice</title>
+</head>
+<body>
+	<div>
+		<div id = "show"></div>
+		<br />
+		<div></div>
+	</div>
+		<script type="text/javascript">
+			function Person( name, age){
+				this.name = name;
+				this.age = age;
+			}
+			function Student( name, age, love){
+				Person.call(this, name, age)
+				this.love = love;
+			}
+			var student = new Student( 'Horst', '25', 'Jasmine');
+			console.log("Student Name = " + student.name);
+			console.log("Student Age = " + student.age);
+			console.log("Student Love = " + student.love);
+		</script>
+</body>
+</html>
