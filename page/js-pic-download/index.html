@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<img id="img" src="img/sis.jpg">
+	<br />
+	<a href ="javascript:downImg('img');">Download</a>
+	<script type="text/javascript">
+	function downImg(id){
+		var link = document.createElement('a');
+		link.id = 'downurl';
+		link.href = 'img/sis.jpg';
+		link.download = 'file.jpg';
+		document.body.appendChild(link);
+		document.getElementById('downurl').click();
+	}	
+	</script>
+</body>
+</html>
