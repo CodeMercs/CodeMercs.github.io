@@ -1,0 +1,32 @@
+﻿<!doctype html>
+<html>
+	<head>
+	<title>Canvas tutorial</title>
+	<script type="text/javascript">
+		var x_arr = [200,200,100,300,130,270,130,270],
+			y_arr = [100,300,200,200,130,130,270,270],
+			rad = 100;
+		function draw(){
+			var canvas = document.getElementById('tutorial');
+			if (canvas.getContext){
+				var ctx = canvas.getContext('2d');
+				ctx.beginPath();
+				ctx.arc(200,200,200,0,Math.PI*2,true); 
+				ctx.closePath();
+				ctx.stroke();
+				for(var i = 0; i < x_arr.length; i++){
+					ctx.strokeStyle = i<2?"#F60":(i<4?"#F30":"#F00");
+					ctx.lineWidth=i<2?3:(i<4?6:9);
+					ctx.beginPath();
+					ctx.arc(x_arr[i],y_arr[i],rad,0,Math.PI*2,true);
+					ctx.closePath();
+					ctx.stroke();
+				}
+			}
+		}
+	</script>
+</head>
+	<body onload="draw();">
+		<canvas id="tutorial" width="400" height="400"></canvas>
+	</body>
+</html>
