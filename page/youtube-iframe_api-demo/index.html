@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>JQ</title>
+	<style type="text/css">
+	</style>
+</head>
+<style type="text/css">
+	.bodydiv {
+		text-align: center;
+	}
+	.condiv {
+		position: absolute;
+		left: 30vw;
+		text-align: left;
+	}
+</style>
+
+<body>
+	<div class = "bodydiv">
+		<div id="vdo">
+		</div>
+		<br />
+		<br />
+		<div class = "condiv">
+			<div>
+				Link : 
+				<a href="https://www.youtube.com/iframe_api" target="_blank">https://www.youtube.com/iframe_api</a>
+				<br />
+				Manual : 
+				<a href="https://developers.google.com/youtube/iframe_api_reference" target="_blank">https://developers.google.com/youtube/iframe_api_reference</a>
+			</div>
+
+			<div>
+				<pre>
+					<code>
+						if (!window['YT']) {
+							var YT = {
+								loading: 0,
+								loaded: 0
+							};
+						}
+						if (!window['YTConfig']) {
+							var YTConfig = {
+								'host': 'http://www.youtube.com'
+							};
+						}
+						if (!YT.loading) {
+							YT.loading = 1;
+							(function() {
+								var l = [];
+								YT.ready = function(f) {
+									if (YT.loaded) {
+										f();
+									} else {
+										l.push(f);
+									}
+								};
+								window.onYTReady = function() {
+									YT.loaded = 1;
+									for (var i = 0; i < l.length; i++) {
+										try {
+											l[i]();
+										} catch (e) {}
+									}
+								};
+								YT.setConfig = function(c) {
+									for (var k in c) {
+										if (c.hasOwnProperty(k)) {
+											YTConfig[k] = c[k];
+										}
+									}
+								};
+								var a = document.createElement('script');
+								a.type = 'text/javascript';
+								a.id = 'www-widgetapi-script';
+								a.src = 'https://s.ytimg.com/yts/jsbin/www-widgetapi-vfll-F3yY/www-widgetapi.js';
+								a.async = true;
+								var c = document.currentScript;
+								if (c) {
+									var n = c.nonce || c.getAttribute('nonce');
+									if (n) {
+										a.setAttribute('nonce', n);
+									}
+								}
+								var b = document.getElementsByTagName('script')[0];
+								b.parentNode.insertBefore(a, b);
+							})();
+						}
+					</code>
+				</pre>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+	<script type="text/javascript">
+		var player;
+		function onYouTubeIframeAPIReady() {
+			player = new YT.Player('vdo', {
+				videoId: '9No-FiEInLA', /* Youtube 影片ID */
+				events: {
+					'onStateChange': function(event) {
+						if (event.data == YT.PlayerState.PLAYING) {
+							alert('hello!');  /* 這邊是當開始播放後，需要做的動作 */
+						}
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>
