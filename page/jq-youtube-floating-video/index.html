@@ -167,7 +167,7 @@
 			height: 158px;
 			opacity: .01;
 			background: #000;
-			z-index: 1;
+			z-index: 2000;
 			display: none;
 		}
 		i.fa.fa-arrows-alt {
@@ -202,8 +202,16 @@
 	<h1 class="play-video">Play the Video and Scroll Down !!!</h1>
 	<section class="videowrapper ytvideo">
 		<a class="close-button" href="javascript:void(0);"></a>
-		<div class="gradient-overlay"></div><i aria-hidden="true" class="fa fa-arrows-alt"></i>
-		<iframe allowfullscreen class="featured-video" frameborder="0" height="315" src="https://www.youtube.com/embed/JGwWNGJdvx8?enablejsapi=1&amp;?rel=0&amp;controls=0&amp;showinfo=0" width="560"></iframe>
+		<div class="gradient-overlay"></div>
+		<i aria-hidden="true" class="fa fa-arrows-alt"></i>
+		<iframe 
+			allowfullscreen 
+			class="featured-video" 
+			frameborder="0" 
+			height="315" 
+			src="https://www.youtube.com/embed/JGwWNGJdvx8?enablejsapi=1&amp;?rel=0&amp;controls=0&amp;showinfo=0" 
+			width="560">
+		</iframe>
 	</section>
 	<section class="level two">
 		contents
@@ -216,7 +224,11 @@
 	</section>
 	<section class="videowrapper videoTag">
 		<a class="close-button" href="javascript:void(0);"></a>
-		<div class="gradient-overlay"></div><i aria-hidden="true" class="fa fa-arrows-alt"></i> <video class="initial_video" controls="" loop=""><source id="" src="http://brightcove.vo.llnwd.net/e1/uds/pd/340485632/340485632_4817584832001_4817498778001.mp4" type="video/mp4"></video>
+		<div class="gradient-overlay"></div>
+		<i aria-hidden="true" class="fa fa-arrows-alt"></i>
+		<video class="initial_video" controls="" loop="">
+			<source id="" src="http://brightcove.vo.llnwd.net/e1/uds/pd/340485632/340485632_4817584832001_4817498778001.mp4" type="video/mp4">
+		</video>
 	</section>
 	<section class="level nine">
 		contents
@@ -229,7 +241,15 @@
 	</section>
 	<section class="videowrapper ytvideo">
 		<a class="close-button" href="javascript:void(0);"></a>
-		<div class="gradient-overlay"></div><iframe allowfullscreen class="featured-video" frameborder="0" height="315" src="https://www.youtube.com/embed/87gWaABqGYs?enablejsapi=1&amp;?rel=0&amp;controls=0&amp;showinfo=0" width="560"></iframe>
+		<div class="gradient-overlay"></div>
+		<iframe 
+			allowfullscreen 
+			class="featured-video" 
+			frameborder="0" 
+			height="315" 
+			src="https://www.youtube.com/embed/87gWaABqGYs?enablejsapi=1&amp;?rel=0&amp;controls=0&amp;showinfo=0" 
+			width="560">
+		</iframe>
 	</section>
 	<section class="level five">
 		contents
@@ -242,7 +262,11 @@
 	</section>
 	<section class="videowrapper videoTag">
 		<a class="close-button" href="javascript:void(0);"></a>
-		<div class="gradient-overlay"></div><i aria-hidden="true" class="fa fa-arrows-alt"></i> <video class="initial_video" controls="" loop=""><source id="" src="https://d2cstorage-a.akamaihd.net/atl/Brunomars/Bruno-VersaceOnTheFloor.mp4" type="video/mp4"></video>
+		<div class="gradient-overlay"></div>
+		<i aria-hidden="true" class="fa fa-arrows-alt"></i>
+		<video class="initial_video" controls="" loop="">
+			<source id="" src="https://d2cstorage-a.akamaihd.net/atl/Brunomars/Bruno-VersaceOnTheFloor.mp4" type="video/mp4">
+		</video>
 	</section>
 	<section class="level eight">
 		contents
@@ -256,8 +280,12 @@
 	<section class="videowrapper ytvideo">
 		<a class="close-button" href="javascript:void(0);"></a>
 		<div class="gradient-overlay"></div>
-		<iframe allowfullscreen class="featured-video" frameborder="0" height="315" src="https://www.youtube.com/embed/iKzRIweSBLA?enablejsapi=1&amp;?rel=0&amp;controls=0&amp;showinfo=0" width="560">
-			
+		<iframe 
+			allowfullscreen 
+			class="featured-video" 
+			frameborder="0" 
+			height="315" 
+			src="https://www.youtube.com/embed/iKzRIweSBLA?enablejsapi=1&amp;?rel=0&amp;controls=0&amp;showinfo=0" width="560">
 		</iframe>
 	</section>
 	<section class="level nine">
@@ -285,7 +313,7 @@
 		document.addEventListener('DOMContentLoaded', function() {
 			/* Adding Youtube Iframe API to body */
 			var youTubeVideoTag = document.createElement('script');
-			youTubeVideoTag.src = "//www.youtube.com/iframe_api";
+			youTubeVideoTag.src = "https://www.youtube.com/iframe_api";
 			var firstScriptTag = document.getElementsByTagName('script')[0];
 			document.body.appendChild(youTubeVideoTag, firstScriptTag);
 			/* Getting all the iframe from the Page and finding out valid URL and ID. Then creating instance of players */
