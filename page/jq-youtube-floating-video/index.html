@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>JQ</title>
+	<style type="text/css">
+		body {
+			background-color: #fff;
+			font-family: 'Exo', sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		section.videowrapper {
+			position: relative;
+			height: 0;
+			padding-bottom: 56.25%;
+			margin-bottom: 50px;
+			background: #000;
+		}
+		.videowrapper iframe, .videowrapper video {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			top: 0;
+			left: 0;
+		}
+		h1.play-video {
+			text-transform: capitalize;
+			text-align: center;
+			color: #ff5733;
+		}
+		/* Use .sticky */
+
+		.ytvideo .is-sticky, .videoTag .is-sticky {
+			position: fixed;
+			right: 3px;
+			bottom: 3px;
+			top: auto;
+			left: auto;
+			max-width: 280px;
+			max-height: 158px;
+			width: 280px;
+			height: 158px;
+			-webkit-animation-name: fadeInUp;
+			animation-name: fadeInUp;
+			-webkit-animation-duration: 1s;
+			animation-duration: 1s;
+			-webkit-animation-fill-mode: both;
+			animation-fill-mode: both;
+		}
+		@-webkit-keyframes fadeInUp {
+			0% {
+				opacity: 0;
+				-webkit-transform: translate3d(0, 100%, 0);
+				transform: translate3d(0, 100%, 0);
+			}
+			100% {
+				opacity: 1;
+				-webkit-transform: none;
+				transform: none;
+			}
+		}
+		@keyframes fadeInUp {
+			0% {
+				opacity: 0;
+				-webkit-transform: translate3d(0, 100%, 0);
+				transform: translate3d(0, 100%, 0);
+			}
+			100% {
+				opacity: 1;
+				-webkit-transform: none;
+				transform: none;
+			}
+		}
+		section.main-wrapper {
+			max-width: 760px;
+			margin: 0 auto;
+		}
+		section.level {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			align-items: center;
+			justify-content: center;
+			font-size: 25px;
+			text-transform: uppercase;
+			height: 250px;
+			margin-bottom: 50px;
+		}
+		section.level.one {
+			background: #FFC300;
+			margin-top: 25px;
+		}
+		section.level.two {
+			background: #C70039;
+		}
+		section.level.three {
+			background: #FF5733;
+		}
+		section.level.four {
+			background: #C6E2FF;
+		}
+		section.level.five {
+			background: #0085ca;
+		}
+		section.level.six {
+			background: #0085ca;
+		}
+		section.level.seven {
+			background: #C6E2FF;
+		}
+		section.level.eight {
+			background: #FF5733;
+		}
+		section.level.nine {
+			background: #C70039;
+		}
+		section.level.ten {
+			background: #FFC300;
+		}
+		.close-button {
+			position: fixed;
+			box-sizing: border-box;
+			display: block;
+			right: 24px;
+			bottom: 175px;
+			top: auto;
+			left: auto;
+			-webkit-animation-name: fadeInUp;
+			animation-name: fadeInUp;
+			-webkit-animation-duration: 1s;
+			animation-duration: 1s;
+			-webkit-animation-fill-mode: both;
+			animation-fill-mode: both;
+			display: none;
+		}
+		.close-button:before, .close-button:after {
+			width: 20px;
+			height: 5px;
+			transform: rotate(-45deg);
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			display: block;
+			background-color: #4F2121;
+			transition: all 0.2s ease-out;
+		}
+		.close-button:after {
+			transform: rotate(45deg);
+		}
+		.close-button:hover:after {
+			transform: rotate(-45deg);
+		}
+		.close-button:hover:before {
+			transform: rotate(45deg);
+		}
+		.gradient-overlay {
+			position: fixed;
+			right: 3px;
+			bottom: 3px;
+			top: auto;
+			left: auto;
+			max-width: 280px;
+			max-height: 158px;
+			width: 280px;
+			height: 158px;
+			opacity: .01;
+			background: #000;
+			z-index: 1;
+			display: none;
+		}
+		i.fa.fa-arrows-alt {
+			position: fixed;
+			right: 8px;
+			bottom: 5px;
+			top: auto;
+			left: auto;
+			color: #fff;
+			z-index: 2;
+			cursor: pointer;
+			display: none;
+		}
+		@media only screen and (max-width:1023px) {
+			section.main-wrapper {
+				width: 95%;
+			}
+			section.level {
+				height: 150px;
+				margin-bottom: 50px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+<div>
+	<section class="main-wrapper">
+	<section class="level one">
+		contents
+	</section>
+	<h1 class="play-video">Play the Video and Scroll Down !!!</h1>
+	<section class="videowrapper ytvideo">
+		<a class="close-button" href="javascript:void(0);"></a>
+		<div class="gradient-overlay"></div><i aria-hidden="true" class="fa fa-arrows-alt"></i>
+		<iframe allowfullscreen class="featured-video" frameborder="0" height="315" src="https://www.youtube.com/embed/JGwWNGJdvx8?enablejsapi=1&amp;?rel=0&amp;controls=0&amp;showinfo=0" width="560"></iframe>
+	</section>
+	<section class="level two">
+		contents
+	</section>
+	<section class="level three">
+		contents
+	</section>
+	<section class="level four">
+		contents
+	</section>
+	<section class="videowrapper videoTag">
+		<a class="close-button" href="javascript:void(0);"></a>
+		<div class="gradient-overlay"></div><i aria-hidden="true" class="fa fa-arrows-alt"></i> <video class="initial_video" controls="" loop=""><source id="" src="http://brightcove.vo.llnwd.net/e1/uds/pd/340485632/340485632_4817584832001_4817498778001.mp4" type="video/mp4"></video>
+	</section>
+	<section class="level nine">
+		contents
+	</section>
+	<section class="level ten">
+		contents
+	</section>
+	<section class="level five">
+		contents
+	</section>
+	<section class="videowrapper ytvideo">
+		<a class="close-button" href="javascript:void(0);"></a>
+		<div class="gradient-overlay"></div><iframe allowfullscreen class="featured-video" frameborder="0" height="315" src="https://www.youtube.com/embed/87gWaABqGYs?enablejsapi=1&amp;?rel=0&amp;controls=0&amp;showinfo=0" width="560"></iframe>
+	</section>
+	<section class="level five">
+		contents
+	</section>
+	<section class="level six">
+		contents
+	</section>
+	<section class="level seven">
+		contents
+	</section>
+	<section class="videowrapper videoTag">
+		<a class="close-button" href="javascript:void(0);"></a>
+		<div class="gradient-overlay"></div><i aria-hidden="true" class="fa fa-arrows-alt"></i> <video class="initial_video" controls="" loop=""><source id="" src="https://d2cstorage-a.akamaihd.net/atl/Brunomars/Bruno-VersaceOnTheFloor.mp4" type="video/mp4"></video>
+	</section>
+	<section class="level eight">
+		contents
+	</section>
+	<section class="level five">
+		contents
+	</section>
+	<section class="level six">
+		contents
+	</section>
+	<section class="videowrapper ytvideo">
+		<a class="close-button" href="javascript:void(0);"></a>
+		<div class="gradient-overlay"></div><iframe allowfullscreen class="featured-video" frameborder="0" height="315" src="https://www.youtube.com/embed/iKzRIweSBLA?enablejsapi=1&amp;?rel=0&amp;controls=0&amp;showinfo=0" width="560"></iframe>
+	</section>
+	<section class="level nine">
+		contents
+	</section>
+	<section class="level ten">
+		contents
+	</section>
+	<section class="level seven">
+		contents
+	</section>
+</section>
+</div>
+	<script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+	<script type="text/javascript">
+		var ytIframeList, videoList, currentPlayer, closeButton, gradientOverlay, fullScreenIcon;
+		var inViewPortBol = true;
+		var ytIframeIdList = [];
+		var ytVideoId = [];
+		var ytPlayerId = [];
+		var videoTagId = [];
+		var events = new Array("ended", "pause", "playing");
+		document.addEventListener('DOMContentLoaded', function() {
+			/* Adding Youtube Iframe API to body */
+			var youTubeVideoTag = document.createElement('script');
+			youTubeVideoTag.src = "//www.youtube.com/iframe_api";
+			var firstScriptTag = document.getElementsByTagName('script')[0];
+			document.body.appendChild(youTubeVideoTag, firstScriptTag);
+			/* Getting all the iframe from the Page and finding out valid URL and ID. Then creating instance of players */
+			ytIframeList = document.getElementsByTagName("iframe");
+			for (i = 0; i < ytIframeList.length; i++) {
+				if (new RegExp("\\b" + "enablejsapi" + "\\b").test(ytIframeList[i].src)) {
+					var url = ytIframeList[i].src.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+					if (url[2] !== undefined) {
+						ID = url[2].split(/[^0-9a-z_\-]/i);
+						ID = ID[0];
+						ytIframeIdList.push(ID);
+						ytIframeList[i].id = "featured-video" + i;
+						ytVideoId.push("ytVideoId" + i);
+						ytVideoId[i] = document.getElementById(ytIframeList[i].id);
+						ytPlayerId.push("player" + i);
+					}
+				}
+			}
+			/* Getting Video Tag List and Creating instances */
+			videoList = document.getElementsByTagName("video");
+			for (i = 0; i < videoList.length; i++) {
+				videoList[i].id = "video-featured" + i;
+				videoTagId.push("videoPlayerId" + i);
+				videoTagId[i] = document.getElementById(videoList[i].id);
+			}
+			for (i = 0; i < videoTagId.length; i++) {
+				for (var j in events) {
+					videoTagId[i].addEventListener(events[j], videoTagPlayerhandler, false);
+				}
+			}
+			closeButton = document.querySelector("a.close-button");
+			gradientOverlay = document.querySelector(".gradient-overlay");
+			fullScreenIcon = document.querySelector("i.fa.fa-arrows-alt");
+			fullScreenPlay();
+		});
+		window.onYouTubeIframeAPIReady = function() {
+			for (i = 0; i < ytIframeIdList.length; i++) {
+				ytPlayerId[i] = new YT.Player(ytIframeList[i].id, {
+					events: {
+						"onStateChange": onPlayerStateChange
+					}
+				});
+			}
+		};
+
+		function videoTagPlayerhandler(e) {
+			/* Play Rules */
+			for (i = 0; i < videoTagId.length; i++) {
+				if (e.target == videoTagId[i]) {
+					if (e.type == "playing") {
+						currentPlayer = videoTagId[i];
+						videoTagId[i].classList.remove("is-paused");
+						videoTagId[i].classList.add("is-playing");
+						break;
+					}
+				}
+			}
+			for (i = 0; i < videoTagId.length; i++) {
+				if (currentPlayer == videoTagId[i]) {
+					continue;
+				}
+				videoTagId[i].classList.remove("is-playing");
+				videoTagId[i].classList.add("is-paused");
+			}
+			/* Pause Rules */
+			for (i = 0; i < videoTagId.length; i++) {
+				if (e.target == videoTagId[i]) {
+					if (e.type == "pause") {
+						videoTagId[i].classList.add("is-paused");
+						videoTagId[i].classList.remove("is-playing");
+						videoTagId[i].pause();
+					}
+				}
+			}
+			/* Sticky Rules */
+			for (i = 0; i < videoTagId.length; i++) {
+				if (videoTagId[i].classList.contains("is-sticky")) {
+					videoTagId[i].pause();
+					fullScreenIcon.style.display = "none";
+				}
+			}
+			for (i = 0; i < ytPlayerId.length; i++) {
+				if (ytVideoId[i].classList.contains("is-sticky")) {
+					ytPlayerId[i].pauseVideo();
+					fullScreenIcon.style.display = "none";
+				}
+			}
+			/* End Rules */
+			for (i = 0; i < videoTagId.length; i++) {
+				if (e.target == videoTagId[i]) {
+					if (e.type == "ended") {
+						videoTagId[i].classList.remove("is-playing");
+						videoTagId[i].classList.remove("is-paused");
+					}
+				}
+			}
+			videohandler();
+		};
+
+		function onPlayerStateChange(event) {
+			/* Play Rules */
+			for (i = 0; i < ytPlayerId.length; i++) {
+				if (ytPlayerId[i].getPlayerState() === 1) {
+					currentPlayer = ytVideoId[i];
+					ytVideoId[i].classList.remove("is-paused");
+					ytVideoId[i].classList.add("is-playing");
+					break;
+				}
+			}
+			for (i = 0; i < ytVideoId.length; i++) {
+				if (currentPlayer == ytVideoId[i]) {
+					continue;
+				}
+				ytVideoId[i].classList.remove("is-playing");
+				ytVideoId[i].classList.add("is-paused");
+			}
+			/* Pause Rules */
+			for (i = 0; i < ytPlayerId.length; i++) {
+				if (ytPlayerId[i].getPlayerState() === 2) {
+					ytVideoId[i].classList.add("is-paused");
+					ytVideoId[i].classList.remove("is-playing");
+					ytPlayerId[i].pauseVideo();
+				}
+			}
+			/* Sticky Rules */
+			for (i = 0; i < ytPlayerId.length; i++) {
+				if (ytVideoId[i].classList.contains("is-sticky")) {
+					ytPlayerId[i].pauseVideo();
+					fullScreenIcon.style.display = "none";
+				}
+			}
+			for (i = 0; i < videoTagId.length; i++) {
+				if (videoTagId[i].classList.contains("is-sticky")) {
+					videoTagId[i].pause();
+					fullScreenIcon.style.display = "none";
+				}
+			}
+			/* End Rule */
+			for (i = 0; i < ytPlayerId.length; i++) {
+				if (ytPlayerId[i].getPlayerState() === 0) {
+					ytVideoId[i].classList.remove("is-playing");
+					ytVideoId[i].classList.remove("is-paused");
+				}
+			}
+			videohandler();
+		}
+
+		function videohandler() {
+			if (currentPlayer) {
+				if (closeButton) {
+					closeButton.addEventListener("click", function(e) {
+						if (currentPlayer.classList.contains("is-sticky")) {
+							currentPlayer.classList.remove("is-sticky");
+							closeFloatVideo();
+							for (i = 0; i < ytVideoId.length; i++) {
+								if (currentPlayer == ytVideoId[i]) {
+									ytPlayerId[i].pauseVideo();
+								}
+							}
+							for (i = 0; i < videoTagId.length; i++) {
+								if (currentPlayer == videoTagId[i]) {
+									videoTagId[i].pause();
+								}
+							}
+						} else {
+							for (i = 0; i < ytVideoId.length; i++) {
+								if (currentPlayer != ytVideoId[i]) {
+									ytVideoId[i].classList.remove("is-sticky");
+									closeFloatVideo();
+								}
+							}
+							for (i = 0; i < videoTagId.length; i++) {
+								if (currentPlayer != videoTagId[i]) {
+									videoTagId[i].classList.remove("is-sticky");
+									closeFloatVideo();
+								}
+							}
+						}
+					});
+				}
+			}
+		}
+		window.addEventListener('scroll', function() {
+			inViewPortBol = inViewPort();
+			if (currentPlayer) {
+				if (!inViewPortBol && currentPlayer.classList.contains("is-playing")) {
+					for (i = 0; i < ytVideoId.length; i++) {
+						if (currentPlayer != ytVideoId[i]) {
+							ytVideoId[i].classList.remove("is-sticky");
+						}
+					}
+					for (i = 0; i < videoTagId.length; i++) {
+						if (currentPlayer != videoTagId[i]) {
+							videoTagId[i].classList.remove("is-sticky");
+						}
+					}
+					currentPlayer.classList.add("is-sticky");
+					openFloatVideo();
+				} else {
+					if (currentPlayer.classList.contains("is-sticky")) {
+						currentPlayer.classList.remove("is-sticky");
+						closeFloatVideo();
+					}
+				}
+			}
+		});
+
+		function fullScreenPlay() {
+			if (fullScreenIcon) {
+				fullScreenIcon.addEventListener("click", function() {
+					if (currentPlayer.requestFullscreen) {
+						currentPlayer.requestFullscreen();
+					} else if (currentPlayer.msRequestFullscreen) {
+						currentPlayer.msRequestFullscreen();
+					} else if (currentPlayer.mozRequestFullScreen) {
+						currentPlayer.mozRequestFullScreen();
+					} else if (currentPlayer.webkitRequestFullscreen) {
+						currentPlayer.webkitRequestFullscreen();
+					}
+				});
+			}
+		}
+
+		function inViewPort() {
+			if (currentPlayer) {
+				var videoParentLocal = currentPlayer.parentElement.getBoundingClientRect();
+				return videoParentLocal.bottom > 0 && videoParentLocal.right > 0 && videoParentLocal.left < (window.innerWidth || document.documentElement.clientWidth) && videoParentLocal.top < (window.innerHeight || document.documentElement.clientHeight);
+			}
+		}
+
+		function openFloatVideo() {
+			closeButton.style.display = "block";
+			gradientOverlay.style.display = "block";
+			fullScreenIcon.style.display = "block";
+		}
+
+		function closeFloatVideo() {
+			closeButton.style.display = "none";
+			gradientOverlay.style.display = "none";
+			fullScreenIcon.style.display = "none";
+		}
+	</script>
+</body>
+</html>
