@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>JQ</title>
+	<style type="text/css">
+		body { touch-action: pan-y; }
+		#boxscroll {
+			padding: 40px;
+			height: 220px;
+			border: 2px solid #00F;
+			overflow: auto;
+			margin-bottom: 30px;
+		}
+		#boxscroll2 {
+			padding: 40px;
+			height: 120px;
+			border: 2px solid #F00;
+			overflow: auto;
+		}
+		#boxscroll3 {
+			overflow: hidden;
+		}
+		#boxframe {
+			height: 300px;
+			overflow: auto;
+			border: 2px solid #0F0;
+		}
+		#boxscroll4 {
+			height: 300px;
+			margin-top: 40px;
+			background-color: #00FF66;
+			font-family: Georgia, "Times New Roman", Times, serif;
+			font-size: 18px;
+			padding: 20px;
+			color: #006633;
+			overflow: auto;
+		}
+		#code {
+			height: 400px;
+			border: 2px solid #000000;
+		}
+
+	</style>
+</head>
+
+<body>
+	<div id="div1">
+		<strong>NiceScroll Version:</strong>
+	</div>
+	<div id="boxscroll">
+			OWO ///
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			OWO ///
+	</div>
+		<br /><br /><br />
+	<div id="boxscroll2">
+		<div id="contentscroll2">
+			OWO ///
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			OWO ///
+		</div>
+	</div>
+		<br /><br /><br />
+	<div id="boxscroll4">
+		<div class="wrapper">
+			OWO ///
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			OWO ///
+		</div>
+	</div>
+	<br /><br /><br />
+	<div id="boxframe">
+		<iframe frameborder="0" height="100%" id="boxscroll3" name="boxscroll3" onload="$(this).height($(this).contents().height());" src="iframe/test.html" width="100%"></iframe>
+	</div>
+	<br /><br /><br />
+	<div id="code">
+		<pre>
+			<code>
+				
+	$("#thisdiv").niceScroll({
+
+		cursorcolor: "#424242", 
+
+		/*
+			change cursor color in hex
+			改變卷軸條顏色，使用 16 進制顏色值
+		*/
+
+		cursoropacitymin: 0, 
+
+		/*
+			change opacity when cursor is inactive (scrollabar "hidden" state), range from 1 to 0
+
+			當卷軸是隱藏狀態時改變透明度，值範圍 1 到 0 。
+		*/
+
+		cursoropacitymax: 1, 
+
+		/*
+			change opacity when cursor is active (scrollabar "visible" state), range from 1 to 0
+
+			當卷軸是顯示狀態時改變透明度，值範圍 1 到 0 。
+		*/
+
+		cursorwidth: "5px", 
+
+		/* 
+			cursor width in pixel (you can also write "5px")
+
+			卷軸的寬度，單位：像素
+
+		*/
+
+		cursorborder: "1px solid #fff", 
+
+		/*
+			css definition for cursor border
+
+			CSS 方式定義卷軸邊框
+
+		*/
+
+		cursorborderradius: "5px",
+
+		/*
+			border radius in pixel for cursor 
+
+			卷軸圓角（像素）
+
+		*/
+
+		zindex: "auto" | [number],
+
+		/*
+			change z-index for scrollbar div 
+
+			改變卷軸 DIV 的 z-index 值（auto或數字）
+		*/
+
+		scrollspeed: 60, 
+
+		/*
+			scrolling speed
+
+			滾動速度
+		*/
+
+		mousescrollstep: 40, 
+
+		/*
+			scrolling speed with mouse wheel (pixel)
+
+			鼠標滾輪的滾動速度（像素）
+		*/
+
+		touchbehavior: false,
+
+		/*
+			DEPRECATED!! use "emulatetouch"
+		
+			觸發拖痕滾動
+		*/
+
+		emulatetouch: false,
+
+		/*
+		enable cursor-drag scrolling like touch devices in desktop computer
+		
+		*/
+
+		hwacceleration: true, 
+
+		/*
+			use hardware accelerated scroll when supported
+
+			觸發硬體加速
+		*/
+
+		boxzoom: false,
+
+		/*
+			enable zoom for box content
+
+			觸發放大盒的內容
+		*/
+
+		dblclickzoom: true,
+
+		/*
+			(only when boxzoom=true) zoom activated when double click on box
+
+			（僅當boxzoom = true 時有效）雙擊 box 時放大。
+		*/
+
+		gesturezoom: true, 
+
+		/*
+
+		(only when boxzoom=true and with touch devices) zoom activated when pinch out/in on box
+
+		（僅 boxzoom=true 和觸控設備時有效）觸發變焦當 out / in（兩個手指外張或收縮）
+		*/
+
+		grabcursorenabled: true,
+
+		/*
+			(only when touchbehavior=true) display "grab" icon
+
+		*/
+
+		autohidemode: true, 
+
+		/*
+			how hide the scrollbar works, possible values: 
+
+			隱藏卷軸的方式，可用的值如下：
+
+			true | 
+			// hide when no scrolling - 無滾動時隱藏
+
+			"cursor" |
+			// only cursor hidden - "光標" 隱藏
+
+			false |
+
+			// do not hide, - false 不隱藏
+
+			"leave" |
+
+			// hide only if pointer leaves content - "離開" 僅在指針離開內容時隱藏
+
+			"hidden" |
+
+			 // hide always - "隱藏" 一直隱藏
+
+			 "scroll",
+
+			 // show only on scroll - "滾動" 僅在滾動時顯示
+		*/
+
+		background: "", 
+
+		/*
+			change css for rail background
+
+			背景顏色
+		*/
+
+		iframeautoresize: true, 
+
+		/*
+			autoresize iframe on load event
+
+			加載事件時自動重置 iframe 大小
+		*/
+
+		cursorminheight: 32,
+
+		/*
+			set the minimum cursor height (pixel)
+
+			設置卷軸的最小高度（像素）
+		*/
+
+		preservenativescrolling: true,
+
+		/*
+			you can scroll native scrollable areas with mouse, bubbling mouse wheel event
+
+			可以用鼠標滾動可滾動區域的卷軸和增加鼠標滾輪事件
+		*/
+
+
+		railoffset: false,
+
+		/*
+			you can add offset top/left for rail position
+
+			可用 top / left 來修正位置
+		*/
+
+		bouncescroll: false,
+
+		/*
+			(only hw accell) enable scroll bouncing at the end of content as mobile-like 
+
+			(only hw accell) 啟用滾動跳躍的內容移動
+		*/
+
+		spacebarenabled: true, // enable page down scrolling when space bar has pressed
+
+		railpadding: { top: 0, right: 0, left: 0, bottom: 0 }, // set padding for rail bar
+
+		disableoutline: true, // for chrome browser, disable outline (orange highlight) when selecting a div with nicescroll
+
+		horizrailenabled: true, // nicescroll can manage horizontal scroll
+
+		railalign: right, // alignment of vertical rail
+
+		railvalign: bottom, // alignment of horizontal rail
+
+		enabletranslate3d: true, // nicescroll can use css translate to scroll content
+
+		enablemousewheel: true, // nicescroll can manage mouse wheel events
+
+		enablekeyboard: true, // nicescroll can manage keyboard events
+
+		smoothscroll: true, // scroll with ease movement
+
+		sensitiverail: true, // click on rail make a scroll
+
+		enablemouselockapi: true, // can use mouse caption lock API (same issue on object dragging)
+
+		cursorfixedheight: false, // set fixed height for cursor in pixel
+
+		hidecursordelay: 400, // set the delay in microseconds to fading out scrollbars
+
+		directionlockdeadzone: 6, // dead zone in pixels for direction lock activation
+
+		nativeparentscrolling: true, // detect bottom of content and let parent to scroll, as native scroll does
+
+		enablescrollonselection: true, // enable auto-scrolling of content when selection text
+
+		cursordragspeed: 0.3, // speed of selection when dragged with cursor
+
+		rtlmode: "auto", // horizontal div scrolling starts at left side
+
+		cursordragontouch: false, // drag cursor in touch / touchbehavior mode also
+
+		oneaxismousemode: "auto", // it permits horizontal scrolling with mousewheel on horizontal only content, if false (vertical-only) mousewheel don't scroll horizontally, if value is auto detects two-axis mouse
+
+		scriptpath: "" ,// define custom path for boxmode icons ("" => same script path)
+
+		preventmultitouchscrolling: true, // prevent scrolling on multitouch events
+
+		disablemutationobserver: false ,
+
+		/* 
+			force MutationObserver disabled, 
+		*/
+
+		enableobserver: true ,
+		/* 
+			enable DOM changing observer, it tries to resize/hide/show when parent or content div had changed
+
+		*/
+		scrollbarid: false ,
+		/*
+			set a custom ID for nicescroll bars 
+		*/
+	});
+			</code>
+		</pre>
+	</div>
+		<br /><br />
+		<br /><br /><br />
+	<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="js/jquery.nicescroll.min.js"></script>
+	<script type="text/javascript">
+
+
+
+		$(document).ready(function() {
+			var nice = $("html").niceScroll(); // The document page (body)
+			$("#div1").html($("#div1").html() + ' ' + nice.version);
+			$("#boxscroll").niceScroll({
+				cursorborder: "",
+				cursorcolor: "#00F",
+				boxzoom: true
+			}); // First scrollable DIV
+			$("#boxscroll2").niceScroll("#contentscroll2", {
+				cursorcolor: "#F00",
+				cursoropacitymax: 0.7,
+				boxzoom: true,
+				touchbehavior: true
+			}); // Second scrollable DIV
+			$("#boxframe").niceScroll("#boxscroll3", {
+				cursorcolor: "#0F0",
+				cursoropacitymax: 0.7,
+				boxzoom: true,
+				touchbehavior: true
+			}); // This is an IFrame (iPad compatible)
+			$("#boxscroll4").niceScroll("#boxscroll4 .wrapper", {
+				boxzoom: true
+			}); // hw acceleration enabled when using wrapper
+			$("#code").niceScroll();
+		});
+	</script>
+</body>
+</html>
