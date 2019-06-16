@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JS</title>
+</head>
+<body>
+Look! Console! By F12
+	<script type="text/javascript">
+
+		/*
+		1. 處理
+		var num = 123 定義變數 num 為字串"123"。
+		String(num) 將變數 num 轉為字串"123"。
+		String(123) 將數字123轉為字串"123"。
+		String(num + 10) 將表達式 123 + 10 計算後轉為字串 "133"。 
+		*/
+		var num = 123;
+		var show1 = "1. num value typeof : " + typeof(num);
+		console.log(show1);
+		var show2 = "2. String(num) value typeof : " + typeof(String(num));
+		console.log(show2);
+		var show3 = "3. String(num + 10) value typeof : " + typeof(String(num + 10) + ", " + String(num + 10));
+		console.log(show3);
+
+		/*
+		2. 擷取
+
+		JavaScript substr 與 substring 的差異
+		JavaScript substr 與 substring 的功能都可以從一段字串中擷取其中的一段，但兩者的使用有個不同的地方，substr 從開始結取特定的字串長度，範圍參數可以使用負數，而 substring 則是從開始結取至設定的結尾字符前一個位置，範圍參數不能使用負數。
+
+		JavaScript substr 與 substring 的基本語法
+
+		String.substr( Start , Length ) 
+
+		String.substring( Start , End )
+
+		從基本語法可以看出 substr 的第二個參數是字串長度，可自由設定，如果沒有填寫，則自動取至 String 字串的最後一個字符，substring 的第二個參數是結尾字符，自動擷取至該字符的前一個字符，如果沒有填寫，一樣擷取至最後一個字符。
+
+		var stringObject = "123456789";
+
+		(1) 擷取的是開始與結束的字串。
+
+		stringObject.substring(start,stop) 
+
+
+		(2) 擷取的是開始與字串長度。
+
+		stringObject.substr(start,length) 
+
+
+		(3) 考慮到方法的連綴。
+
+		stringObject.substr(1).substring(-1,0) 
+		*/
+
+		var stringObject = "123456789 123456789";
+		console.log("4. stringObject : " + stringObject);
+		console.log("5. stringObject.substr(3) : " + stringObject.substr(3));
+		console.log("6. stringObject.substr(3,10) : " + stringObject.substr(3,10) + " , Length : " + stringObject.substr(3,10).length);
+		console.log("7. stringObject.substring(3) : " + stringObject.substring(3));
+		console.log("8. stringObject.substring(3,15) : " + stringObject.substring(3,15) + " , Length : " + stringObject.substring(3,15).length);
+		console.log("9. stringObject.substr(1).substring(-1,0) : " + stringObject.substr(1).substring(-1,0));
+
+
+		/*
+		 
+		3. 計算長度
+
+		var string = "test string";
+		document.write(string.length);
+
+		*/
+		var stringLeng = "123456789 123456789";
+		console.log("10. stringLeng : " + stringLeng);
+		console.log("11. stringLeng.length : " + stringLeng.length);
+
+	</script>
+</body>
+</html>
