@@ -1,26 +1,26 @@
 ﻿<!doctype html>
-<html>
+<html ng-app="watchModule">
 <head>
 	<meta charset="UTF-8"> 
 	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
 </head>
 <body>
 	<div>
 		<div id = "show"></div>
+		<input type="text" ng-model="name">
 		<br />
-		<div></div>
+		<div>Change Count : {{count}}</div>
 	</div>
 		<script type="text/javascript">
-			function Person( name, age){
-				this.name = name;
-				this.age = age;
-			}
-			var person = new Person('Horst', '25');
-			var student = Object.create(person);
-			student.love = 'Jasmine';
-			console.log("Student Name = " + student.name);
-			console.log("Student Age = " + student.age);
-			console.log("Student Love = " + student.love);
+			angular.module("watchModule",[])
+				.run(['$rootScope', function($rootScope){
+					$rootScope.count = 0;
+					$rootScope.name = "Kan";
+					$rootScope.$watch( 'name', function(){
+						$rootScope.count++;
+					})
+				}]);
 		</script>
 </body>
 </html>
