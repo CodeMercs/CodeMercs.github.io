@@ -1,0 +1,31 @@
+﻿<!doctype html>
+<html ng-app="watchModule">
+<head>
+	<meta charset="UTF-8"> 
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div>
+		<div>
+			<input ng-model="num" type="number" />
+			<br />
+		</div>
+		<div>Change Count : {{count}}</div>
+	</div>
+		<script type="text/javascript">
+			angular.module("watchModule",[])
+				.run(['$rootScope', function($rootScope){
+					$rootScope.count = 0;
+					$rootScope.num = 100;
+					var unbindWatcher = $rootScope
+										.$watch( 'num', function( newval, oldval){
+											if (newval == 2){
+												unbindWatcher();
+											}
+											$rootScope.count++;
+										})
+				}]);
+		</script>
+</body>
+</html>

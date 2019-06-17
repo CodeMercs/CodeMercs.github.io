@@ -1,0 +1,36 @@
+﻿<!doctype html>
+<html ng-app="msgModule">
+<head>
+	<meta charset="UTF-8"> 
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div ng-controller = "msgContorller">
+		<div>
+			<button ng-click = "scheduleTask()">3 Seconds</button>
+		</div>
+		<div>
+			Message! <br /> {{message}}
+		</div>
+	</div>
+		<script type="text/javascript">
+			angular.module("msgModule",[])
+				.controller('msgContorller', function($scope){
+					$scope.message = '';
+					$scope.num = 0;
+					$scope.scheduleTask = function(){
+						setTimeout(function(){
+								$scope.$apply(function(){
+								$scope.num++;
+								$scope.message = 
+									$scope.message + "Hi! ," 
+									+ String($scope.num + "; ");
+								console.log('Message : ' + $scope.message);	
+							});
+						},2000);
+					}
+				});
+		</script>
+</body>
+</html>

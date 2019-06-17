@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<title>Practice</title>
+	<style type="text/css">
+		* { 
+			margin: 0; 
+			padding: 0; 
+		}
+		li {
+			padding:.9em 0;
+			background: #fff;
+			margin-bottom: .1em;
+		}
+		.center {
+			position: absolute;
+			left: 20vw;
+		}
+	</style>
+</head>
+<body>
+	<div class="center" ng-controller="mycon">
+		<br /><br /><h1>Watch</h1><br />
+		<p>
+			<label>
+				<strong>$watch:</strong>
+			</label>
+			<input type="text" ng-model="name" />
+		</p>
+		<p style="margin-top: 20px">
+			<label>
+				<strong>$watchGroup:</strong>
+			</label>
+			<input type="text" ng-model="one" />
+		</p>
+		<p>
+			<label>
+				<strong>$watchGroup:</strong>
+			</label>
+			<input type="text" ng-model="two" />
+		</p>
+		<p style="margin-top: 20px">
+			<strong>$watchCollection:</strong>
+		</p>
+		<ul>
+			<li ng-repeat="d in lang">{{d}}</li>
+		</ul>
+		<br />
+		<br /><h2>Console :</h2>
+		<br /><br />
+		<span>{{msg}}</span>
+
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app", []);
+		app.controller("mycon", function($scope, $timeout) {
+			$scope.count = 0;
+			$scope.msg = "";
+			$scope.$watch("name", function(newVal, oldVal) {
+				$scope.count++;
+				var tem = $scope.count + ". " + "New : " + newVal + "; Old : " + oldVal +"\n";
+				console.log(tem);
+				$scope.msg = $scope.msg + tem;
+			});
+			$scope.$watchGroup(["one", "two"], function(newVal, oldVal) {
+				$scope.count++;
+				var tem = $scope.count + ". " + "New : " + newVal + "; Old : " + oldVal +"\n";
+				console.log(tem);
+				$scope.msg = $scope.msg + tem;
+			});
+			$scope.lang = ['C/C++', 'Java', 'C#', 'Python'];
+			$scope.$watchCollection('lang', function(newVal, oldVal) {
+				$scope.count++;
+				var tem = $scope.count + ". " + "New : " + newVal + "; Old : " + oldVal +"\n";
+				console.log(tem);
+				$scope.msg = $scope.msg + tem;
+			});
+			$timeout(function() {
+				$scope.lang = ['JavaScript', 'Html5', 'Css3', 'Angularjs'];
+			}, 2000);
+		});
+	</script>
+</body>
+</html>

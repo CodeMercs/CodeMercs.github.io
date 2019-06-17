@@ -1,0 +1,49 @@
+﻿<!doctype html>
+<html ng-app="eventModule">
+<head>
+	<meta charset="UTF-8"> 
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<style type="text/css">
+		#parent{
+			width: 350px;
+			height: 250px;
+			border: 3px solid #ccc;
+		}
+		#child{
+			width: 300px;
+			height: 200px;
+			border: 3px solid #ccc;
+			margin: 10px auto;
+		}
+	</style>
+</head>
+<body>
+	<div id="parent" ng-controller="ParentController"><!-- parent -->
+		parent
+		<div id="child" ng-controller="ChildController"><!-- clild -->
+				clild<br />
+				<button ng-click="postEvent()">Emit</button>
+		</div>
+	</div>
+		<script type="text/javascript">
+			var app = angular.module('eventModule', []);
+
+			app.controller("ParentController", 
+				function($scope){
+					$scope.$on("infoEvent", function(event, data){
+						console.log("Received clildController.");
+						console.log(data);
+					});
+			});
+
+			app.controller("ChildController", 
+				function($scope){
+					$scope.postEvent = function(){
+						$scope.$emit("infoEvent", {name : "Kan", age: 25});
+					};
+			});
+
+		</script>
+</body>
+</html>
