@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="routeModule">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-ui-router.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+</head>
+<body>
+	<div>
+		<div>
+			<ul class="breadcrumb">
+				<li><a ui-sref="home">首頁</a></li>
+				<li><a ui-sref="about">關於</a></li>
+				<li><a ui-sref="contact">聯繫</a></li>
+			</ul>
+		</div>
+		<div ui-view></div>
+		<br /><br />
+		<div>
+			OwO /// : 
+			<div class="container">
+				<a href="https://www.google.com/">
+					https://www.google.com/
+				</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
