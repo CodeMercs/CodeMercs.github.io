@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<style type="text/css">
+		input.ng-invalid {
+			border: #f00 1px solid;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<h1>Use ng-invalid</h1>
+		<br />
+		<form name="user">
+			<div>
+				<label>Email :</label>
+				<input type="email" name="email" ng-model="email" required="" />
+				<span ng-show="user.email.$invalid">內容輸入錯誤，非 Email 格式。</span>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
