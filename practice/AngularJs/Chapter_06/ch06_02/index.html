@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="routeModule">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/bootstrap-theme.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-route.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<style type="text/css">
+		.mainDiv{
+			margin: 25px 50px 75px 50px;
+		}
+	</style>
+</head>
+<body>
+	<div class="mainDiv">
+		<ul class="nav nav-tabs">
+			<li>
+				<a href="#">訂單列表</a>
+			</li>
+		</ul>
+		<div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>訂單編號</th>
+						<th>產品名稱</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="success">
+						<td>1102</td>
+						<td>筆記型電腦</td>
+						<td>
+							<a href="#/showOrder/1102">查看明細</a>
+						</td>
+					</tr>
+					<tr class="info">
+						<td>4531</td>
+						<td>行動硬碟</td>
+						<td>
+							<a href="#/showOrder/4531">查看明細</a>
+						</td>
+					</tr>
+					<tr class="active">
+						<td>1036</td>
+						<td>智慧型手機</td>
+						<td>
+							<a href="#/showOrder/1036">查看明細</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div ng-view></div>
+	</div>
+</body>
+</html>

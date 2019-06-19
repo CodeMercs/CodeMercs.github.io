@@ -1,17 +1,17 @@
 var routeModule = angular.module('routeModule', ['ngRoute']);
-
-routeModule.config(['$routeProvider', 
-	function($routeProvider){
+routeModule.config(['$routeProvider',
+	function($routeProvider) {
 		$routeProvider.
-		when('addOrder',{
-			templateUrl : 'templates/addOrder.html',
-			cotroller : 'addOrderController'
+		when('/addOrder', {
+			templateUrl: 'templates/add-order.html',
+			controller: 'AddOrderController'
 		}).
-		when('showOrder',{
-			templateUrl : 'templates/showOrder.html',
-			cotroller : 'showOrderController'
+		when('/showOrders', {
+			templateUrl: 'templates/show-orders.html',
+			controller: 'ShowOrdersController'
 		}).
 		otherwise({
 			redirectTo: '/addOrder'
 		});
-}]);
+	}
+]);

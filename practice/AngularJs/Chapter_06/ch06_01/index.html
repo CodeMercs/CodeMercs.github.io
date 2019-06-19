@@ -1,32 +1,30 @@
-﻿<!doctype html>
+<!DOCTYPE html>
 <html ng-app="routeModule">
 <head>
-	<meta charset="UTF-8"> 
+	<meta charset="UTF-8">
 	<title>Practice</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-theme.min.css" rel="stylesheet">
 	<script type="text/javascript" src="js/angular.min.js"></script>
 	<script type="text/javascript" src="js/angular-route.min.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 	<style type="text/css">
-		.main-div {
-			margin : 25px 50px 75px 100px;
+		.mainDiv {
+			margin: 25px 50px 75px 100px;
 		}
 	</style>
-
 </head>
 <body>
-	<div class="main-div">
-		<ul>
+	<div class="mainDiv">
+		<ul class="nav nav-tabs">
 			<li>
-				<a href="#/showOrder">
-					<span>訂單列表</span>
-				</a>
+				<a href="#/showOrders">訂單列表</a>
 			</li>
 			<li>
-				<a href="#/addOrder">
-					<span>新增訂單</span>			
-				</a>
+				<a href="#/addOrder">新增訂單</a>
 			</li>
 		</ul>
+		<div ng-view></div>
 	</div>
 </body>
 </html>
