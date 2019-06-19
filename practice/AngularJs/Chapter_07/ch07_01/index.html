@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<h1>Show</h1>
+	by F12 .
+	<br /><br />
+	<div>
+		<form name="user">
+			<input type="text" ng-model="user.uname" />
+		</form>
+	</div>
+	<br />
+	<div>
+		<h1>Note</h1> 
+		<br /><br />
+		<textarea style="width: 30vw;" rows="8"><form name="user" class="ng-pristine ng-valid">
+	<input 
+		type="text" 
+		ng-model="user.uname" 
+		class="ng-pristine ng-untouched ng-valid ng-empty">
+</form></textarea>
+	<br />
+	<br />
+		<ul>
+			<li> CSS > Status ($XX) > Description</li>
+			<li> ng-valid > $valid > 表單輸入合法</li>
+			<li> ng-invalid > $invalid > 表單輸入不合法</li>
+			<li> ng-pristine > $pristine > 表單元素未使用 </li>
+			<li> ng-dirty > $dirty > 表單元素被使用 </li>
+			<li> ng-touched > $touched > 獲得 touch</li>
+			<li> ng-untouched > $untouched > 移去 touch</li>
+			<li> ng-empty > $empty > 內容為空</li>
+		</ul>
+	</div>
+</body>
+</html>
