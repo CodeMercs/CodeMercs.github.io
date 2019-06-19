@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="routeModule">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<base href="https://127.0.0.1:3368/">
+
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-route.min.js"></script>
+	<!--
+	<script 
+		type="text/javascript" 
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js">
+	</script>
+	<script 
+		type="text/javascript" 
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-route.min.js">
+	</script>
+	-->
+
+</head>
+<body>
+	<div ng-controller="LocationController">
+	</div>
+	<script type="text/javascript">
+		var routeModule = angular.module('routeModule', ['ngRoute']);
+		routeModule.config(['$locationProvider', 
+			function($locationProvider) {
+				$locationProvider.html5Mode(true);
+		}]);
+		routeModule.controller('LocationController', 
+			function($scope,$location) {
+				console.log($location.path());
+			}
+		);
+		
+	</script>
+</body>
+</html>
