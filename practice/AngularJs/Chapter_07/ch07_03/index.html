@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<style type="text/css">
+		input.ng-invalid {
+			border: #f00 1px solid;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<h1>Use</h1>
+		<br />
+		<i>ng-minlength="5", ng-maxlength="10", ng-pattern="[a-zA-Z]" .</i>
+		<br /><br />
+		<form name="user">
+			<div>
+				<label>Email :</label>
+				<input 
+					type="email" 
+					name="email" 
+					ng-minlength="5" 
+					ng-maxlength="10" 
+					ng-model="email" 
+					required="" />
+					<br /><br />
+				<span ng-show="user.email.$error.required">
+					[1] 內容輸入錯誤，內容不得為空。
+				</span>
+				<span ng-show="user.email.$error.minlength">
+					[2] 內容輸入錯誤，內容不得小於 5 。
+				</span>
+				<span ng-show="user.email.$error.maxlength">
+					[3] 內容輸入錯誤，內容不得大於 10 。
+				</span>
+				<span ng-show="user.email.$error.email">
+					[4] 內容輸入錯誤，不符合 Email 格式。
+				</span>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

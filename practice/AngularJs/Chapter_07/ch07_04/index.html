@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="formModule">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-messages.min.js"></script>
+</head>
+<body>
+	<div>
+		<h1>Use</h1>
+		<br />
+		<i>angular-messages.min.js ...</i>
+		<br /><br />
+		<form name="exampleForm">
+				<label>User Name :</label>
+				<input type="text" name="userFirstName" ng-model="firstName" required/>
+				<div ng-messages="exampleForm.userFirstName.$error">
+					<div ng-message="required">姓名不得為空 !</div>
+				</div>
+				<label>Email :</label>
+				<input type="email" name="userEmail" ng-model="email" required/>
+				<div ng-messages="exampleForm.userEmail.$error">
+					<div ng-message="required">Email 不得為空 !</div>
+					<div ng-message="email">Email 不符 !</div>
+				</div>
+				<label>Phone :</label>
+				<input 
+					type="email" 
+					name="userPhoneNumber" 
+					ng-model="PhoneNumber" 
+					ng-pattern="/^09\d{8}$/"
+					required/>
+				<div ng-messages="exampleForm.userPhoneNumber.$error">
+					<div ng-message="required">手機號碼不得為空 !</div>
+					<div ng-message="pattern">手機號碼不符 ! 09 開頭，任意8個數字結尾。</div>
+				</div>
+				<label>Message :</label>
+				<textarea 
+					type="text" 
+					name="userMessage" 
+					ng-model="message"
+					rows="4"
+					ng-model="message"
+					ng-minlength="10"
+					ng-maxlength="20" 
+					required></textarea>
+				<div ng-messages="exampleForm.userMessage.$error">
+					<div ng-message="required">留言不得為空 !</div>
+					<div ng-message="minlength">留言不得少於 10 !</div>
+					<div ng-message="maxlength">留言不得多於 20 !</div>
+				</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		angular.module('formModule', ['ngMessages']);
+	</script>
+</body>
+</html>
