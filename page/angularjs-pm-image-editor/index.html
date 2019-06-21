@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<title>Test</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/pm-image-editor.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/pm-image-editor.css" />
+	<style type="text/css">
+		body {
+			font-family: Arial;
+			background-color: #CCCCCC;
+		}
+		.panel {
+			position: relative;
+			left: 10vw;
+		}
+		.output {
+			position: relative;
+			left: 10vw;
+			width: 50vw
+		}
+		.row {
+			margin-bottom: 20px;
+		}
+		.editorArea {
+			margin: auto;
+			overflow: hidden;
+		}
+		.editorArea.big {
+			width: 1000px;
+		}
+		.editorArea.medium {
+			width: 800px;
+		}
+		.editorArea.small {
+			width: 400px;
+		}
+	</style>
+</head>
+<body ng-controller="Ctrl">
+	<div>
+		<div class="panel">
+			<h1>Image Editor</h1>
+			<div class="row">
+				Container Size:
+				<label>
+					<input ng-model="size" type="radio" value="big"> Big
+				</label>
+				<label>
+					<input ng-model="size" type="radio" value="medium"> Medium
+				</label>
+				<label>
+					<input ng-model="size" type="radio" value="small"> Small
+				</label>
+			</div>
+			<div class="row">
+				Image: 
+				<label>
+					<input ng-model="image" type="radio" value="file1.jpg"> file1.jpg
+				</label>
+				<label>
+					<input ng-model="image" type="radio" value="file2.jpg"> file2.jpg
+				</label>
+				<label>
+					<input ng-model="image" type="radio" value="file3.png"> file3.png
+				</label>
+			</div>
+			<div class="row">
+				Selection (width &times; height):
+				<input ng-model="selectionWidth" type="text"> &times;
+				<input ng-model="selectionHeight" type="text">
+			</div>
+		</div>
+		<div 
+			class="editorArea" 
+			ng-class="{'big':size=='big', 'medium':size=='medium', 'small':size=='small'}">
+			<image-editor
+				image="{{ image }}"
+				width="{{ width }}"
+				selection-width="{{ selectionWidth }}"
+				selection-height="{{ selectionHeight }}"
+				state="state">
+			</image-editor>
+		</div>
+		<div class="output">
+			<h1>State JSON:</h1>
+			<div>
+				{{ state | json }} 
+			</div>
+		</div>
+		<br />
+		<br />
+		<br />
+	</div>
+
+	<script type="text/javascript">
+		angular.module('app', ['pmImageEditor']).controller('Ctrl', function($scope) {
+			var widths = {
+				'small': 400,
+				'medium': 800,
+				'big': 1000
+			};
+			$scope.size = 'big';
+			$scope.width = widths[$scope.size];
+			$scope.image = 'file1.jpg';
+			$scope.selectionWidth = widths[$scope.size]/10;
+			$scope.selectionHeight = widths[$scope.size]/100*8;
+			$scope.state = {};
+			$scope.$watch('size', function(value) {
+				if (value) {
+					$scope.width = widths[value]
+				}
+			});
+		});
+	</script>
+</body>
+</html>
