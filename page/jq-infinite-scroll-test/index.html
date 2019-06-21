@@ -45,9 +45,6 @@
 		<div class="article">
 			4
 		</div>
-		     <p class="pagination">
-        <a class="pagination__next" href="index2.html">Next page</a>
-      </p>
 		<!-- 捲軸狀態 -->
 		<div class="scroller-status">
 			<div class="infinite-scroll-request loader-ellips"></div>
@@ -59,9 +56,9 @@
 	<script type="text/javascript">
 		var infScroll = new InfiniteScroll( ".example", {
 			path: function() {
-				// 頁面路徑
+				/* 頁面路徑 */
 				if ( this.loadCount < 1 ) {
-					return "https://codemercs.github.io/page/jq-infinite-scroll-test/tem/"; // 讀取此頁面
+					return "https://codemercs.github.io/page/jq-infinite-scroll-test/tem/a.html"; /* 讀取此頁面 */
 				}
 			},
 			append: ".article", /* 匯入物件類別 */
