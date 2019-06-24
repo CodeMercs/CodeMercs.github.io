@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="directiveModule">
+<head>
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<br />
+	<i>replace:true</i>
+	<br />
+	<div hello-world></div>
+	<br />
+	<script type="text/javascript">
+		var app = angular.module("directiveModule",[]);
+		app.directive("helloWorld", function(){
+			return {
+				restrict:'AEC',
+				replace:true,
+				template:'<h1>My First Custom Directive!</h1>'
+			}
+		});
+	</script>
+</body>
+</html>

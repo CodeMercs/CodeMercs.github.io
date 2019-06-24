@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html ng-app="directiveModule">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<br />
+	<i>Replace True & Use Web Server</i>
+	<br />
+	<div hello-world></div>
+	<br />
+	<script type="text/javascript">
+		var app = angular.module("directiveModule",[]);
+		app.directive("helloWorld",function(){
+			return {
+				restrict:'AEC',
+				replace:true,
+				templateUrl:'template/helloworld.html'
+			}
+		});
+	</script>
+</body>
+</html>
