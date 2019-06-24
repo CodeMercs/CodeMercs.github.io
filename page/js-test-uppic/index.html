@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<!-- JavaScript -->
+	<form action="" enctype="multipart/form-data">
+		<input type="file" onchange="readURL(this)" targetID="preview_img" accept="image/gif, image/jpeg, image/png"/ >
+		<br />
+
+		<img id="preview_default" style="display: block;" src="img/file.jpg" />
+		<img id="preview_img" style="display: none;" src="#" />
+	</form>
+	<script type="text/javascript">
+		function readURL(input){
+			if(input.files && input.files[0]){
+				var imageTagID = input.getAttribute("targetID");
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+					document.getElementById("preview_default").style.display = "none";
+					var img = document.getElementById(imageTagID);
+					img.style.display = "block";
+					img.setAttribute("src", e.target.result)
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+	</script>
+</body>
+</html>

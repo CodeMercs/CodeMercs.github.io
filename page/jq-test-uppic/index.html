@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<!-- JavaScript -->
+	<form action="" enctype="multipart/form-data">
+		<input type="file" id="imgInput" accept="image/gif, image/jpeg, image/png"/ >
+		<br />
+
+		<img id="preview_default" style="display: block;" src="img/file.jpg" />
+		<img id="preview_img" style="display: none;" src="#" />
+	</form>
+	<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript">
+		$("#imgInput").change(function(){
+			readURL(this);
+		});
+		function readURL(input){
+			if(input.files && input.files[0]){
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					document.getElementById("preview_default").style.display = "none";
+					document.getElementById("preview_img").style.display = "block";
+					$("#preview_img").attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+  			}
+		}
+	</script>
+</body>
+</html>
