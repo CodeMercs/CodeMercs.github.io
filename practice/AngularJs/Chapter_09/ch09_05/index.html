@@ -10,17 +10,12 @@
 	</div>
 	<script type="text/javascript">
 		var app = angular.module("app",[]);
-		app.service('myService', function(){
-			this.sayHello = function() {
-				alert('This is my service!');
-			}
+		app.constant( "version", "1.0.0");
+		app.value( "CONFIG", "app.properties");
+		app.controller("MainController", function(version, CONFIG){
+			console.log( "App Version -> " + version);
+			console.log( "Config File -> " + CONFIG);
 		});
-
-		app.controller("MainController",
-			function($scope, myService){
-				myService.sayHello();
-			}
-		);
 	</script>
 </body>
 </html>

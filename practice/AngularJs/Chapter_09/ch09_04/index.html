@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div ng-controller="MainController">
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app",[]);
+		app.provider( "custom", function() {
+			this.name = "Horst";
+			this.getName = function(){
+				return name;
+			}
+			this.$get = function(){
+				var name = this.name;
+				return function() {
+					alert("Hello " + name);
+				}
+			}
+		});
+		app.config(function(customProvider) {
+			customProvider.name = "Kan";
+		})
+		app.controller("MainController", function(custom){
+			custom();
+		});
+	</script>
+</body>
+</html>

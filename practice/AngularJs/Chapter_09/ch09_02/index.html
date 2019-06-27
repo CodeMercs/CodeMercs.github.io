@@ -10,15 +10,19 @@
 	</div>
 	<script type="text/javascript">
 		var app = angular.module("app",[]);
-		app.service('myService', function(){
-			this.sayHello = function() {
-				alert('This is my service!');
+		app.service('myService', function($interval){
+			this.outputMsg = function(){
+				var i = 0;
+				$interval(function(){
+					i++;
+					console.info("Function is called " + i + " times.");
+				},3000);
 			}
 		});
 
 		app.controller("MainController",
 			function($scope, myService){
-				myService.sayHello();
+				myService.outputMsg();
 			}
 		);
 	</script>

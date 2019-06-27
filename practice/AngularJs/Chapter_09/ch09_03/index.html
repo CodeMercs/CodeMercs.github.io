@@ -10,17 +10,16 @@
 	</div>
 	<script type="text/javascript">
 		var app = angular.module("app",[]);
-		app.service('myService', function(){
-			this.sayHello = function() {
-				alert('This is my service!');
+		app.factory('myFactory', function(){
+			return {
+				sayHello:function() {
+					alert("Welcome to you!");
+				}
 			}
 		});
-
-		app.controller("MainController",
-			function($scope, myService){
-				myService.sayHello();
-			}
-		);
+		app.controller("MainController", function(myFactory){
+			myFactory.sayHello();
+		});
 	</script>
 </body>
 </html>
