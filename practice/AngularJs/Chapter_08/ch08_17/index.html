@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html ng-app="directiveModule">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-messages.min.js"></script>
+</head>
+<body>
+	<div style="margin-top: 20px;">
+		<form name="form1">
+			<label>Enter Password : </label>
+			<input 
+				type="text" 
+				name="strongSecret" 
+				ng-model="strongSecret" 
+				strong-secret 
+				required>
+			<br /><br />
+			<div style="color:red;" ng-messages="form1.strongSecret.$error">
+				<div ng-message="numberValidator">密碼中至少包含一個數字!</div>
+				<div ng-message="uppercaseValidator">密碼中至少包含一個大寫字母!</div>
+				<div ng-message="charactersValidator">密碼長度至少為 12 !</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("directiveModule",['ngMessages']);
+		app.directive("strongSecret",function(){
+			return {
+				restrict:'A',
+				require:'ngModel',
+				link: function(scope, element, attrs, ctrl) {
+					function customValidator(ngModelValue) {
+						if (/[A-Z]/.test(ngModelValue)) {
+							ctrl.$setValidity('uppercaseValidator', true);
+						} else {
+							ctrl.$setValidity('uppercaseValidator', false);
+						}
+						if (/[0-9]/.test(ngModelValue)) {
+							ctrl.$setValidity('numberValidator', true);
+						} else {
+							ctrl.$setValidity('numberValidator', false);
+						}
+						if (ngModelValue.length > 12) {
+							ctrl.$setValidity('charactersValidator', true);
+						} else {
+							ctrl.$setValidity('charactersValidator', false);
+						}
+						return ngModelValue;
+					}
+					ctrl.$parsers.push(customValidator);
+				}
+			}
+		});
+	</script>
+</body>
+</html>

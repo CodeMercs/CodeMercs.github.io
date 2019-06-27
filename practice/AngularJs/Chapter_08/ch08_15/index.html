@@ -7,25 +7,26 @@
 </head>
 <body>
 	<div ng-controller="MainController">
-		User Name : <br />
-		<input type="text" ng-model="name">
-		<say-hello name-attr="name"></say-hello> 
+		<repeat-element>
+		</repeat-element>
 	</div>
 	<script type="text/javascript">
 		var app = angular.module("directiveModule",[]);
 		app.controller( "MainController", function($scope){
 			$scope.name = "Horst";
 		});
-		app.directive("sayHello",function(){
+		app.directive("repeatElement",function(){
 			return {
 				restrict:'E',
-				script:{
-					name: '=nameAttr'
+				replace: true,
+				link: function(scope, elem, attrs, ctrl, transcludeFn) {
+					for( i=0; i<5; i++){
+						transcludeFn(function(clone){
+							elem.append(clone);
+						});
+					}
 				},
-				link:function(scope, elem, attrs){
-					scope.name = "Kan";
-				},
-				template:"<h3>Hello, {{name}}</h3>"
+				template:"<span ng-transclude></span>"
 			}
 		});
 	</script>

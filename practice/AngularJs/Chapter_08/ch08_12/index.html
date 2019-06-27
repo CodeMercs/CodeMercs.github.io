@@ -7,25 +7,22 @@
 </head>
 <body>
 	<div ng-controller="MainController">
-		User Name : <br />
-		<input type="text" ng-model="name">
-		<say-hello name-attr="name"></say-hello> 
+		<say-hello on-message="onMessage"></say-hello>
 	</div>
 	<script type="text/javascript">
 		var app = angular.module("directiveModule",[]);
 		app.controller( "MainController", function($scope){
-			$scope.name = "Horst";
+			$scope.onMessage = function(){
+				console.log("onMessage function is called...");
+			}
 		});
 		app.directive("sayHello",function(){
 			return {
 				restrict:'E',
 				script:{
-					name: '=nameAttr'
+					onMessage: '&onMessage'
 				},
-				link:function(scope, elem, attrs){
-					scope.name = "Kan";
-				},
-				template:"<h3>Hello, {{name}}</h3>"
+				template:"<button ng-click='onMessage()'>Click</button>"
 			}
 		});
 	</script>
