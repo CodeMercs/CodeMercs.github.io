@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html ng-app="directiveModule">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div>
+		<hello-world></hello-world> 
+	</div>
+	<br />
+		<i>link</i>
+		<br />
+		<say-hello name="Horst"></say-hello>
+	<br />
+	<script type="text/javascript">
+		var app = angular.module("directiveModule",[]);
+		app.directive("helloWorld",function(){
+			return {
+				restrict:'AEC',
+				replace:true,
+				templateUrl:'helloworld.html',
+				link:function( scope, elem, attrs){
+					scope.$watch('message', function(value){
+						console.log('Message Change');
+					});
+					scope.cleanMessage = function(){
+						scope.message = "";
+					}
+				}
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html ng-app="directiveModule">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<br />
+		<i>link</i>
+		<br />
+		<say-hello name="Horst"></say-hello>
+	<br />
+	<script type="text/javascript">
+		var app = angular.module("directiveModule",[]);
+		app.directive("sayHello",function(){
+			return {
+				restrict:'AEC',
+				replace:true,
+				template:'<h1>Hello, {{name}}!</h1>',
+				link:function( scope, elem, attrs){
+					scope.name = attrs.name;
+				}
+			}
+		});
+	</script>
+</body>
+</html>
