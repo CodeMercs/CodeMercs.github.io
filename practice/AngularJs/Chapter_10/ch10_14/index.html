@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<link rel="stylesheet" type="text/css" href="css/emoji.min.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/emoji.min.js"></script>
+	<script type="text/javascript" src="js/angular-sanitize.min.js"></script>
+	<div ng-controller="MainController">
+		<!--
+			https://github.com/globaldev/angular-emoji-filter
+		-->
+		<div ng-repeat="message in messages">
+			<span ng-bind-html= "message|emoji"></span>
+		</div><br />
+
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app",['emoji', 'ngSanitize']);
+		app.controller("MainController", function($scope){
+			$scope.messages = [
+				"動物: :dog: :cat: :snake:",
+				"表情: :smile: :confused: :angry:",
+				"建築: :house: :school: :hotel:"
+			];
+		});
+	</script>
+</body>
+</html>

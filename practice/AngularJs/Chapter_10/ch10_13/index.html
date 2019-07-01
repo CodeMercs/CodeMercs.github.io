@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-filter.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<body>
+	<div ng-controller="MainController">
+		<div>
+			<label>價格 : </label>
+			<input type="number"  id="mPrice" ng-model="mPrice">
+		</div><br />
+		<table id="serchTextResults" class="table table-bordered">
+			<tr class="bg-info">
+				<th>名稱</th>
+				<th>價格</th>
+			</tr>
+			<tr ng-repeat="product in products|first:1">
+				<td>{{product.name}}</td>
+				<td>{{product.price}}</td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app",['angular.filter']);
+		app.controller("MainController", function($scope){
+			$scope.products = [
+				{name:'行動電源', price: 500},
+				{name:'筆記本', price:1999},
+				{name:'充電器', price:100},
+				{name:'耳機', price:200}];
+		});
+	</script>
+</body>
+</html>
