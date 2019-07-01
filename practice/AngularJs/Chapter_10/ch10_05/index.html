@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div ng-controller="MainController">
+		<div> 預設格式 : {{pi|number}}</div>
+		<div> 保留 0 位 : {{pi|number:0}}</div>
+		<div> 保留 10 位 : {{pi|number:10}}</div>
+		<div> 保留 2 位 : {{pi|number:2}}</div>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app",[]);
+		app.controller("MainController", function($scope){
+			$scope.pi = 3.1415926;
+		});
+	</script>
+</body>
+</html>

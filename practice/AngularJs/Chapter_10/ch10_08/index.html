@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div ng-controller="MainController">
+		<div>{{person|json}}</div>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app",[]);
+		function Person(name,age){
+			this.name = name;
+			this.age = age;
+		}
+		app.controller("MainController", function($scope){
+			$scope.person = new Person("Horst", 25);
+		});
+	</script>
+</body>
+</html>

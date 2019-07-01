@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+	<div ng-controller="MainController">
+		<table class="table table-bordered">
+			<thead>
+				<tr class="bg-info">
+					<th><a href="#" ng-click="sortRule='name'">姓名</a></th>
+					<th><a href="#" ng-click="sortRule='age'">年齡</a></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="person in persons|orderBy:sortRule">
+					<td>{{person.name}}</td>
+					<td>{{person.age}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app",[]);
+		app.controller("MainController", function($scope){
+			$scope.persons = [
+				{name:"Jun", age:11},
+				{name:"Kan", age:22},
+				{name:"Horst", age:25},
+				{name:"Haoye", age:33}
+			];
+		});
+	</script>
+</body>
+</html>

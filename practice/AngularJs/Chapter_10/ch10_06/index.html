@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body>
+	<div ng-controller="MainController">
+		<div>{{text|lowercase}}</div>
+		<div>{{message|lowercase}}</div>
+		<div>{{text|uppercase}}</div>
+		<div>{{message|uppercase}}</div>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app",[]);
+		app.controller("MainController", function($scope){
+			$scope.text = "Hello World!";
+			$scope.message = "Message:1993OWO";
+		});
+	</script>
+</body>
+</html>

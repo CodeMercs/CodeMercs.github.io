@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+	<style type="text/css">
+		ul {
+			padding-left: 0px;
+		}
+		li {
+			list-style-type: none;
+		}	
+	</style>
+<body>
+	<div ng-controller="MainController">
+		資訊 : <input type="text" ng-model="personInfo">
+		<ul>
+			<li ng-repeat="person in persons|filter:personInfo">
+				姓名 : {{person.name}}, 年齡 : {{person.age}}, 性別 : {{person.sex}}	
+			</li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app",[]);
+		app.controller("MainController", function($scope){
+			$scope.persons = [
+				{name:"Jun",age:19,sex:"G"},
+				{name:"Kan",age:30,sex:"B"},
+				{name:"Cheng",age:25,sex:"B"}
+			];
+		});
+	</script>
+</body>
+</html>
