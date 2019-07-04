@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="appMod">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body ng-controller="MainController">
+	<i>Use F12 .</i>
+	<script type="text/javascript">
+		var appMod = angular.module("appMod",[]);
+		function AppLog(){
+			this.startInfo = function(){
+				console.info("-----------應用開始執行-----------");
+				console.error("----------應用起動錯誤-----------");
+				console.info("----------應用關閉，請查核----------");
+			}
+		}
+		function App(appLog){
+			this.start = function(){
+				appLog.startInfo();
+			}
+		}
+		appMod.service("appLog", AppLog);
+		appMod.service("app", App);
+		appMod.controller("MainController", function(app){
+			app.start();
+		})
+	</script>
+</body>
+</html>

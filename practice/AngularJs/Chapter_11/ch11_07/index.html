@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="appMod">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body ng-controller="MainController">
+	<i>Use F12 .</i>
+	<script type="text/javascript">
+		var appMod = angular.module("appMod", []);
+		appMod.config(function($provide){
+			$provide.service("helloService",function(){
+				this.sayHello = function (){
+						alert("Hello, Welcome to you!");
+				}
+			});
+		});
+		appMod.controller("MainController", function(helloService){
+			helloService.sayHello();
+		});
+	</script>
+</body>
+</html>

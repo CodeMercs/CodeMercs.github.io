@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="appMod">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body ng-controller="MainController">
+	<i>Use F12 .</i>
+	<script type="text/javascript">
+		var appMod = angular.module("appMod", []);
+		appMod.service("helloService",function($http){
+			this.sayHello = function (){
+				alert("Hello, Welcome to you!");
+			}
+		});
+		appMod.controller("MainController", function($injector){
+			var depends = $injector.annotate(function( $http, $scope){});
+			console.log(depends);
+		});
+	</script>
+</body>
+</html>

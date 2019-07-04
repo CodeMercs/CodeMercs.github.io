@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<script type="text/javascript" src="js/injector.js"></script>
+</head>
+<body>
+	<i>Use F12 .</i>
+	<script type="text/javascript">
+		function AppLog() {
+			this.startInfo = function(){
+				console.info("-----------應用開始執行-----------");
+				console.error("----------應用起動錯誤-----------");
+				console.info("----------應用關閉，請查核----------");
+			}
+		}
+		function App(appLog) {
+			this.start = function(){
+				appLog.startInfo();
+			}
+		}
+		Injector.add("appLog", new AppLog());
+		Injector.get(App).start();
+	</script>
+</body>
+</html>
