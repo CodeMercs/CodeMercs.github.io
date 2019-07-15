@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-animate.min.js"></script>
+	<script src="js/ng-fx.js"></script>
+	<style type="text/css">
+		.box {
+			width: 100px;
+			height: 100px;
+			background-color: #f60; 
+		}
+	</style>
+</head>
+<body ng-controller="MainController">
+	<div class="box fx-zoom-up fx-speed-1000" ng-if="isShow"></div>
+	<br />
+	<div>
+		<button class="btn" ng-click="isShow=true">SHOW</button>&nbsp;
+		<button class="btn" ng-click="isShow=false">HIDE</button>
+	</div>
+	<script type="text/javascript">
+		var myApp = angular.module('myApp', ['ngAnimate', 'ng-fx']);
+		myApp.controller("MainController", function($scope){
+			$scope.isShow = false;
+		});
+	</script>
+</body>
+</html>

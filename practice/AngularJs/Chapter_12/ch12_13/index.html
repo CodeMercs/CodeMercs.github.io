@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html  ng-app="animateTodo">
+<head>
+	<title>Practice</title>
+	<link rel="stylesheet" href="css/animate.min.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-animate.min.js"></script>
+	<script src="js/main.js"></script>
+</head>
+<body ng-controller="MainController">
+	<div class="container">
+		<h1 class="page-header text-center">備忘錄</h1>
+		<form ng-submit="addTodo(newTodo)">
+			<input 
+				type="text" 
+				ng-model="newTodo"
+				class="form-control"
+				placeholder="Please Enter"
+				focus>
+		</form>
+		<br />
+		<div class="list-group">
+			<div 
+				class="list-group-item todo-list" 
+				ng-repeat="item in items"
+				ng-class="{'todo-complete':item.complete}">
+				<span class="close" ng-click="removeTodo($index)">
+				&times;
+				</span>
+				<label>
+					<input type="checkbox" ng-model="item.complete">
+					<span ng-bind="item.text">已完成事項</span>
+				</label>
+			</div>
+		</div>
+		<button class="btn btn-block btn-danger" ng-click="clearAll()">
+			清除所有事項
+		</button>
+	</div>
+</body>
+</html>
