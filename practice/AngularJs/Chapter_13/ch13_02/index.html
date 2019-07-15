@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+	<br />
+	<br />
+	<br />
+	<div class="container">
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<label for="firstname" class="col-sm-2 control-label">User Name</label>
+				<div class="col-sm-10">
+					<input 
+						type="text" 
+						class="form-control"
+						id="username"
+						placeholder="User Name">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="lastname" class="col-sm-2 control-label">Password</label>
+				<div class="col-sm-10">
+					<input 
+						type="text" 
+						class="form-control"
+						id="password"
+						placeholder="Password">
+				</div>
+			</div>
+			<div>
+				<button class="btn btn-info" onclick="writeCookie()">
+					Write Cookie
+				</button>
+				<button class="btn btn-success" onclick="readCookie()">
+					Read Cookie
+				</button>
+				<button class="btn btn-danger" onclick="alert(document.cookie)">
+					Show Cookie
+				</button>
+			</div>
+		</form>
+		<br />
+		<br />
+		<i>P.S.: Use WebServer.</i>
+	</div>
+	<script type="text/javascript">
+		setCookie = function(cookieName, value, expiredays) {
+			var exdate = new Date();
+			exdate.setDate(exdate.getDate() + expiredays);
+			document.cookie = cookieName + "=" + escape(value) + ((expiredays==null) ? "" : ";expires=" + exdate.toGMTString());
+		}
+		writeCookie = function() {
+			var uname = document.getElementById("username").value;
+			var pword = document.getElementById("password").value;
+			setCookie("username",uname,1);
+			setCookie("password",pword,1);
+		}
+		readCookie = function() {
+			var uname = getCookie("username");
+			var pword = getCookie("password");
+			alert("User Name -> " + uname + "; " + " Password -> " + pword);
+		}
+		getCookie = function(cookieName) {
+			if (document.cookie.length > 0) {
+				var valueStart = document.cookie.indexOf( cookieName + "=" );
+				if (valueStart != -1) { 
+					valueStart = valueStart + cookieName.length + 1;
+					var valueEnd = document.cookie.indexOf(";",valueStart)
+					if (valueEnd == -1) {
+						valueEnd = document.cookie.length;
+					}
+					return unescape(document.cookie.substring( valueStart, valueEnd))
+				} 
+	        }
+			return ""
+		}
+	</script>
+</body>
+</html>
