@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Day</title>
+		<style type="text/css">
+			.tab {
+				height:100px;
+				width:150px;
+				text-align:center;
+			}
+		</style>
+	</head>
+	<body>
+	<p>What day is today?  <span id="time"></span></p>
+
+	<table class="tab">
+		<tr>
+			<td class="sun">Sunday</td>
+			<td class="mon">Monday</td>
+			<td class="tue">Tuesday</td>
+			<td class="wed">Wednesday</td>
+			<td class="thu">Thursday</td>
+			<td class="fri">Friday</td>
+			<td class="sat">Saturday</td>
+		</tr>
+		<tr>
+			<td class="sun">1</td>
+			<td class="mon">1</td>
+			<td class="tue">1</td>
+			<td class="wed">1</td>
+			<td class="thu">1</td>
+			<td class="fri">1</td>
+			<td class="sat">1</td>
+		</tr>
+		<tr>
+			<td class="sun">2</td>
+			<td class="mon">2</td>
+			<td class="tue">2</td>
+			<td class="wed">2</td>
+			<td class="thu">2</td>
+			<td class="fri">2</td>
+			<td class="sat">2</td>
+		</tr>
+	</table>
+	<br />
+	<script type="text/javascript">
+		var show = document.getElementById("time");
+		var sun = document.getElementsByClassName('sun');
+		var mon = document.getElementsByClassName('mon');
+		var tue = document.getElementsByClassName('tue');
+		var web = document.getElementsByClassName('web');
+		var thu = document.getElementsByClassName('thu');
+		var fri = document.getElementsByClassName('fir');
+		var sat = document.getElementsByClassName('sat');
+
+		var day_list = ['日', '一', '二', '三', '四', '五', '六'];
+		var day_table_bgcss_list = 7;
+		var date = new Date();
+		var day  = date.getDay(); 
+
+		/* or "new Date().getDay()"; */
+		show.innerHTML = 'Today is 星期' + day_list[day] ;
+		if (day == 0) {
+			for (i = 0; i < sun.length; i++) {
+				sun[i].style.backgroundColor = "#fff9bc";
+			}
+		}
+		if (day == 1) {
+			for (i = 0; i < mon.length; i++) {
+				mon[i].style.backgroundColor = "#fff9bc";
+			}
+		}
+		if (day == 2) {
+			for (i = 0; i < tue.length; i++) {
+				tue[i].style.backgroundColor = "#fff9bc";
+			}
+		}
+		if (day == 3) {
+			for (i = 0; i < web.length; i++) {
+				web[i].style.backgroundColor = "#fff9bc";
+			}
+		}
+		if (day == 4) {
+			for (i = 0; i < thu.length; i++) {
+				thu[i].style.backgroundColor = "#fff9bc";
+			}
+		}
+		if (day == 5) {
+			for (i = 0; i < fri.length; i++) {
+				fri[i].style.backgroundColor = "#fff9bc";
+			}
+		}
+		if (day == 6) {
+			for (i = 0; i < sat.length; i++) {
+				sat[i].style.backgroundColor = "#fff9bc";
+			}
+		}
+	</script>
+	</body>
+	</script>
+
+</html>
