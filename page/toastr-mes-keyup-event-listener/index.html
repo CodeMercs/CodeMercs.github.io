@@ -28,9 +28,9 @@
 		<br />
 		<h3>Time</h3>
 		<div>
-			<input type="button" class="btn btn-success btn-wdt" value="Hello!" onclick='notify( "1", "success", 0);'>
+			<input type="button" class="btn btn-success btn-wdt" value="Hello!" onclick='notify( "1", "success");'>
 			<input type="button" class="btn btn-primary btn-wdt" value="Hi!" onclick='notify( "2", "info", 0);'>
-			<input type="button" class="btn btn-danger btn-wdt" value="Love!" onclick='notify( "3", "error", 0);'>
+			<input type="button" class="btn btn-danger btn-wdt" value="Love!" onclick='notify( "3", "error", 6600);'>
 			<input type="button" class="btn btn-warning btn-wdt" value="Bye!" onclick='notify( "4", "warning", 0);'>
 		</div>
 		<br />
@@ -40,9 +40,9 @@
 
 		<script type="text/javascript">
 			function notify( msg, type, time) {
-				if (!type) type = 2000;
+				if (time == null) {time = 2000};
 				var temtime = time;
-				var temsg = '<div style="width: 10vw; height: 10vh;"><br /><br /><h1>' + msg + '</h1><br />Time : ' + String(temtime/1000) + ' Second .</div>';
+				var temsg = '<div style="width: 20vw; height: 20vh;"><br /><br /><h3>' + msg + '</h3><br />Time : ' + String(temtime/1000) + ' Second .</div>';
 				/* position */
 				toastr.options = {
 					"positionClass": 'toast-center',
