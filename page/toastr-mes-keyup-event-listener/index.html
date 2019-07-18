@@ -34,12 +34,12 @@
 			<input type="button" class="btn btn-warning btn-wdt" value="Bye!" onclick='notify( "4", "warning", 0);'>
 		</div>
 		<br />
-		<a id ="close-toastr" href="">強制清除</a><br /> Keyup 清除訊息 
+		<a id ="close-toastr" href="">強制清除</a><br /> 按下鍵盤除了 Enter & Space 的任意鍵，滑鼠按畫面任意處會消失。
 	</body>
 	<div style="width: 30vw; height: 20vh;"></div>
 
 		<script type="text/javascript">
-								function notify( msg, type, time) {
+			function notify( msg, type, time) {
 				if (!type) type = 2000;
 				var temtime = time;
 				var temsg = '<div style="width: 10vw; height: 10vh;"><br /><br /><h1>' + msg + '</h1><br />Time : ' + String(temtime/1000) + ' Second .</div>';
@@ -80,14 +80,22 @@
 				$('body').on('click', 'a#close-toastr', function () {
 					toastr.clear();
 				});
-				document.addEventListener( "keyup", function(){
-					// alert("鍵盤觸發");
+				document.addEventListener( "mousedown", function(){
 					toastr.clear();
-				});
-				document.addEventListener( "mouseup", function(){
-					//toastr.clear();
-				});
-
+				})
+				document.addEventListener( "keydown", function(){
+					toastr.clear();
+				})
+				document.body.onkeyup = function(e){
+					if(e.keyCode == 32){
+						toastr.clear();
+					}
+				}
+				document.body.onkeydown = function(e){
+					if(e.keyCode == 32){
+						toastr.clear();
+					}
+				}
 
 		</script>
 </html>
