@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+	<!-- 1.5.5 -->
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+</head>
+<body>
+	<div ng-controller="MainController">
+		<table class="table table-bordered">
+			<thead>
+				<tr class="bg-info">
+					<th>Name</th>
+					<th>Age</th>
+					<th>Sex</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="person in persons">
+					<td>{{person.name}}</td>
+					<td>{{person.age}}</td>
+					<td>{{person.sex}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<br />
+		<br />
+		<button class="btn btn-info" ng-click="getInfo()">獲得資訊</button>
+		<br />
+		<br />
+		<i>by Web Server.</i>
+		<br />
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app", []);
+		app.controller( "MainController", function($scope ,$http){
+			$scope.getInfo = function(){
+				var res = $http({method: 'get', url: 'person.json'});
+				res.success(
+					function(data,status,headers,config){
+						console.info("response data -> " + data);
+						console.info("response status -> " + status);
+						console.info("response headers -> " + headers);
+						console.info("request config object -> " + config);
+						$scope.persons = data;
+				});
+			};
+		});
+	</script>
+</body>
+</html>
