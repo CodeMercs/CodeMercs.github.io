@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+	<!-- 1.7.8 -->
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-resource.min.js"></script>
+</head>
+</head>
+<body>
+	<div  class="container" ng-controller="MainController">
+		<div style="margin-top: 20px;margin-bottom: 20px;" class="input-group">
+			<input 
+				ng-model="uname" 
+				placeholder="User Name" 
+				type="text" 
+				class="form-control" >
+			<span 
+				ng-click="qryPersonInfo()" 
+				class="input-group-addon btn btn-success">
+				Search
+			</span>
+		</div>
+		<table ng-show="showInfo" class="table table-bordered">
+			<thead>
+				<tr class="bg-info">
+					<th>Name</th>
+					<th>Age</th>
+					<th>Sex</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{person.name}}</td>
+					<td>{{person.age}}</td>
+					<td>{{person.sex}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<br />
+		<i>by Web Server.</i>
+		<br />
+	</div>
+	<script type="text/javascript">
+		var app = angular.module("app", ['ngResource']);
+		app.controller( "MainController", function( $scope, $resource){
+			$scope.qryPersonInfo = function(){
+				var Person = $resource('http://localhost:9998/person/:name',
+				{name: '@name'})
+				Person.get({name:$scope.uname})
+				.$promise.then(function(person){
+					if(person.name != undefined){
+						$scope.showInfo = true;
+						$scope.person = person;
+					} else {
+						$scope.showInfo = false;
+					}
+				});
+			};
+		});
+	</script>
+</body>
+</html>
