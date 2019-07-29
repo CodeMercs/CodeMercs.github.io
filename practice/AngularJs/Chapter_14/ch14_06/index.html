@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+	<!-- 1.5.5 -->
+	<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+</head>
+<body>
+	<div  class="container" ng-controller="MainController">
+		<input type="file" file-model="myFile"/><br />
+		<button ng-click="uploadFile()" class="btn btn-info">UpLoad</button>
+	</div>
+
+
+	<script type="text/javascript">
+		var myApp = angular.module("myApp", []);
+		myApp.directive('fileModel', function($parse){
+			return {
+				restrict:'A',
+				link: function(scope, element, attrs){
+					console.log(attrs.fileModel);
+					var model = $parse(attrs.fileModel);
+					var modelSetter = model.assign;
+					element.bind('change', function(){
+						scope.$apply(function(){
+							modelSetter(scope, element[0].files[0]);
+						});
+					});
+				}
+			};
+		});
+		myApp.service('fileUpload', function($http) {
+			this.uploadFileToUrl = function(file, uploadUrl){
+				var fd = new FormData();
+				fd.append('file', file);
+				$http.post(uploadUrl, fd, {
+					transformRequest: angular.identity,
+					headers: {'Content-Type': undefined}
+				}).success(function(){
+					alert("upload file success!");
+				}).error(function(){
+					alert("upload file error!");
+				});
+			}
+		});
+		myApp.controller( "MainController", function( $scope, fileUpload){
+			$scope.uploadFile = function(){
+				var file = $scope.myFile;
+				var uploadUrl = "http://localhost:9998/fileUpload";
+				fileUpload.uploadFileToUrl(file, uploadUrl);
+			}
+		});
+	</script>
+</body>
+</html>

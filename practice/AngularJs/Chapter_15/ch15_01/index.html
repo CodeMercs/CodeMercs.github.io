@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+		<!-- 1.7.8 -->
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/ui-bootstrap.js"></script>
+	<script type="text/javascript" src="js/ui-bootstrap-tpls.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/ui-bootstrap-csp.css">
+</head>
+</head>
+<body>
+	<div ng-controller="AlertDemoController">
+		<div 
+			uib-alert 
+			ng-repeat="alert in alerts"
+			ng-class="'alert-' + (alert.type || 'warning')"
+			close="closeAlert($index)">
+			{{alert.msg}}
+		</div>
+		<br />
+		<button type="button" ng-click="addAlert()" class="btn btn-info">
+			ADD
+		</button>
+	</div>
+	<script type="text/javascript">
+		var myApp = angular.module("myApp", ['ui.bootstrap']);
+		myApp.controller("AlertDemoController",function($scope){
+			$scope.alerts = [
+				{ type: "danger", msg:"Danger !!"},
+				{ type: "success", msg:"Success !!"}
+			];
+			$scope.addAlert = function(){
+				$scope.alerts.push( {msg: "Insert !"});
+			};
+			$scope.closeAlert = function(index){
+				$scope.alerts.splice(index, 1);
+			};
+		});
+	</script>
+</body>
+</html>
