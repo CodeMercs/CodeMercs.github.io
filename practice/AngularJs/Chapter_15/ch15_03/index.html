@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Practice</title>
+		<!-- 1.7.8 -->
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/ui-bootstrap.js"></script>
+	<script type="text/javascript" src="js/ui-bootstrap-tpls.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/ui-bootstrap-csp.css">
+</head>
+</head>
+<body>
+	<div class="container" ng-controller="DatepickerDemoController">
+		<h4>Calendar</h4>
+		<div style="display: inline-block; min-height: 290px;">
+			<div 
+				uib-datepicker 
+				ng-model="dt" 
+				class="well well-sm" 
+				datepicker-options="options">
+			</div>
+		</div>
+		<br />
+		<div>
+			<button 
+				type="button" 
+				class="btn btn-sm btn-info" 
+				ng-click="today()">
+				Today
+			</button>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var myApp = angular.module("myApp", ['ui.bootstrap']);
+		myApp.controller("DatepickerDemoController",function($scope){
+			$scope.options = {
+				minDate: new Date(),
+				showWeeks: true
+			};
+			$scope.today = function() {
+				$scope.dt = new Date();
+			};
+			$scope.today();
+		});
+	</script>
+</body>
+</html>
