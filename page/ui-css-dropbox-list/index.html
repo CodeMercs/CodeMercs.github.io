@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.dropbox {
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			color: #fff;
+			background: #000;
+		}
+		@media(min-width:600px){
+			.dropbox {
+				max-width: 80%;
+				margin: auto 5% 0 auto;
+				border-radius: 5px 5px 0 0;
+			}
+		}
+		.dropbox_toggle {
+			display: none;
+		}
+		.dropbox_triggerBtn {
+			position: absolute;
+			right: 2em;
+			bottom: 100%;
+			padding: 0.2em 1.5em 0;
+			font-size: 12px;
+			background: inherit;
+			border-radius: 5px 5px 0 0;
+			cursor: pointer;
+		}
+		.dropbox_triggerBtn:before {
+			content:"▲";
+		}
+		.dropbox_cont{
+			max-height: 1%;
+			padding: 0 2em;
+			text-align: center;
+			box-sizing: border-box;
+			overflow: hidden;
+			transition: .4s ease-in-out;
+		}
+		.dropbox_cont p {
+			padding: 0.2em 0;
+		}
+		.dropbox_cont button {
+			margin-top: 0.8em;
+		}
+		/* 打開時 */
+		.dropbox_toggle:checked~.dropbox_triggerBtn:before{
+			content:"▼";
+			vertical-align: -1px;
+		}
+		.dropbox_toggle:checked~.dropbox_cont{
+			max-height:500px\9;
+			max-height:80vh;
+		}
+	</style>
+</head>
+<body>
+	<div class="dropbox">
+		<input id="dropbox_toggle" class="dropbox_toggle" type="checkbox" checked>
+		<label for="dropbox_toggle" class="dropbox_triggerBtn"></label>
+		<div class="dropbox_cont">
+			<p>
+				How did you hear about our site?
+				<br />
+				<button>submit</button>
+			</p>
+		</div>
+	</div>
+</body>
+</html>
