@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Table</title>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<style type="text/css">
+		.rwd-table {
+			background: #fff;
+			overflow: hidden;
+		}
+		.rwd-table tr:nth-of-type(2n) {
+			background: #eee;
+		}
+		.rwd-table th, .rwd-table td {
+			margin: 0.5em 1em;
+		}
+		.rwd-table {
+			min-width: 100%;
+		}
+		.rwd-table th {
+			display: none;
+		}
+		.rwd-table td {
+			display: block;
+		}
+		.rwd-table td:before {
+			content: attr(data-th) " : ";
+			font-weight: bold;
+			width: 6.5em;
+			display: inline-block;
+		}
+		.rwd-table th, .rwd-table td {
+			text-align: left;
+		}
+		.rwd-table th, .rwd-table td:before {
+			color: #D20B2A;
+			font-weight: bold;
+		}
+		@media (min-width: 480px) {
+			.rwd-table td:before {
+				display: none;
+			}
+			.rwd-table th, .rwd-table td {
+				display: table-cell;
+				padding: 0.25em 0.5em;
+			}
+			.rwd-table th:first-child, .rwd-table td:first-child {
+				padding-left: 0;
+			}
+			.rwd-table th:last-child, .rwd-table td:last-child {
+				padding-right: 0;
+			}
+			.rwd-table th, .rwd-table td {
+				padding: 1em !important;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-6">
+				<table class="rwd-table">
+					<tr>
+						<th>Name</th>
+						<th>Data</th>
+						<th>Price</th>
+						<th>Position</th>
+						<th>Choose</th>
+					</tr>
+					<tr>
+						<td data-th="Name">Kan</td>
+						<td data-th="Data">09/29</td>
+						<td data-th="Price">$9487</td>
+						<td data-th="Position">6</td>
+						<td data-th="Choose">T</td>
+					</tr>
+					<tr>
+						<td data-th="Name">Jun</td>
+						<td data-th="Data">02/23</td>
+						<td data-th="Price">$7788</td>
+						<td data-th="Position">6</td>
+						<td data-th="Choose">T</td>
+					</tr>
+					<tr>
+						<td data-th="Name">Kevin</td>
+						<td data-th="Data">03/23</td>
+						<td data-th="Price">$9487</td>
+						<td data-th="Position">6</td>
+						<td data-th="Choose">T</td>
+					</tr>
+					<tr>
+						<td data-th="Name">Aev</td>
+						<td data-th="Data">03/23</td>
+						<td data-th="Price">$9487</td>
+						<td data-th="Position">6</td>
+						<td data-th="Choose">T</td>
+					</tr>
+					<tr>
+						<td data-th="Name">Una</td>
+						<td data-th="Data">03/23</td>
+						<td data-th="Price">$9487</td>
+						<td data-th="Position">6</td>
+						<td data-th="Choose">T</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
