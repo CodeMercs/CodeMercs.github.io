@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	.position-all-center {
+		position: absolute;
+		width: 30px;
+		height: 30px;
+		top: 50px;
+		left: 50%;
+	}
+	.btner.box .countarea {
+		background-color: #161616;
+		color: #fff;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-pack: center;
+		justify-content: center;
+		-ms-flex-align: center;
+		align-items: center;
+		position: absolute;
+		z-index: 2;
+		border-radius: 100%;
+		min-width: 26px;
+		min-height: 26px;
+		margin-top: -15px;
+		margin-left: -15px;
+		font-size: 11px;
+		font-weight: 600;
+		/* color */
+		border: 3px solid #e5322d;
+	}
+	.btner.box .gbtn {
+		width: 50px;
+		min-width: 0;
+		padding: 0;
+		height: 50px;
+		border-radius: 100%;
+		/* color */
+		background: #e5322d;
+		color: #fff;
+		text-decoration: none;
+		display: -ms-inline-flexbox;
+		display: inline-flex;
+		-ms-flex-pack: center;
+		justify-content: center;
+		-ms-flex-align: center;
+		align-items: center;
+		-webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .14);
+		box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .14);
+	}
+	.btner.box .gbtn:hover {
+		-webkit-box-shadow: 0 1px 26px 0 rgba(0, 0, 0, .14);
+		box-shadow: 0 1px 26px 0 rgba(0, 0, 0, .14);
+		background: #626870;
+	}
+	.btner.box > .blue {
+		background: #4d90fe;
+	}
+	.blue-bdr {
+		border: 3px solid #4d90fe !important;
+	}
+	.btner.box > .prussian {
+		background: #003155;
+	}
+	.prussian-bdr {
+		border: 3px solid #003155 !important;
+	}
+	.btner.box > .purple {
+		background: #2d0736;
+	}
+	.purple-bdr {
+		border: 3px solid #2d0736 !important;
+	}
+
+	</style>
+</head>
+<body>
+	<div class="position-all-center">
+		<div class="btner box">
+			<div id="countshow1" class="countarea">1</div>
+			<a class="gbtn" href="#" onclick="Add('countshow1');">
+				<svg 
+					xmlns="http://www.w3.org/2000/svg" 
+					width="20" 
+					height="20" 
+					stroke-linecap="round" 
+					stroke-width="2" 
+					stroke="#fff" 
+					fill="none" 
+					stroke-linejoin="round">
+					<path d="M10 1.833v16.333"></path>
+					<path d="M1.833 10h16.333"></path>
+				</svg>
+			</a>
+		</div>
+		<br /><br />
+		<div class="btner box">
+			<div id="countshow2" class="countarea blue-bdr">1</div>
+			<a class="gbtn blue" href="#" onclick="Add('countshow2');">
+				<svg 
+					xmlns="http://www.w3.org/2000/svg" 
+					width="20" 
+					height="20" 
+					stroke-linecap="round" 
+					stroke-width="2" 
+					stroke="#fff" 
+					fill="none" 
+					stroke-linejoin="round">
+					<path d="M10 1.833v16.333"></path>
+					<path d="M1.833 10h16.333"></path>
+				</svg>
+			</a>
+		</div>
+		<br /><br />
+		<div class="btner box">
+			<div id="countshow3" class="countarea prussian-bdr">1</div>
+			<a class="gbtn prussian" href="#" onclick="Add('countshow3');">
+				<svg 
+					xmlns="http://www.w3.org/2000/svg" 
+					width="20" 
+					height="20" 
+					stroke-linecap="round" 
+					stroke-width="2" 
+					stroke="#fff" 
+					fill="none" 
+					stroke-linejoin="round">
+					<path d="M10 1.833v16.333"></path>
+					<path d="M1.833 10h16.333"></path>
+				</svg>
+			</a>
+		</div>
+		<br /><br />
+		<div class="btner box">
+			<div id="countshow4" class="countarea purple-bdr">1</div>
+			<a class="gbtn purple" href="#" onclick="Add('countshow4');">
+				<svg 
+					xmlns="http://www.w3.org/2000/svg" 
+					width="20" 
+					height="20" 
+					stroke-linecap="round" 
+					stroke-width="2" 
+					stroke="#fff" 
+					fill="none" 
+					stroke-linejoin="round">
+					<path d="M10 1.833v16.333"></path>
+					<path d="M1.833 10h16.333"></path>
+				</svg>
+			</a>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	function Add(sid) {
+		var tem = document.getElementById(sid);
+		tem.innerHTML++;
+	}
+</script>
+</html>
