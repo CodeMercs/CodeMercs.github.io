@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>位址列閃爍</title>
+	<script type="text/javascript">
+		var isShine = true;
+		/* Chrome & FireFox */
+		window.onfocus = function() {
+			isShine = false;
+		};
+		window.onblur = function() {
+			isShine = true;
+		};
+		/* IE */
+		document.onfocusin = function() {
+			isShine = false;
+		};
+		document.onfocusout = function() {
+			isShine = true;
+		};
+		debugger;
+		/* 儲存原始 title ，便於還原 */
+		var defaultTitle = document.title
+		setInterval(function() {
+			var title = document.title;
+			/* 判斷是否獲取焦點 */
+			if (isShine == true) {
+			/* 如果沒有獲取焦點就判斷名稱是否包含未讀訊息 */
+				if (/未讀訊息/.test(title) == false) {
+					/* 如果包含就顯示為空 */
+				            document.title = '(未讀訊息)';    
+				} else {
+					/* 否則顯示未讀訊息，間隔 0.5 秒實現閃爍 */
+				            document.title = '(       )';
+				}
+			} else {
+				/* 如果獲取到焦點就不閃爍，使用元素標題 */
+				document.title = defaultTitle;
+			}
+		}, 500);
+	</script>
+</head>
+<body>
+	<div>測試瀏覽器標題欄閃爍</div>
+</body>
+</html>
