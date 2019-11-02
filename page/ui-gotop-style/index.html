@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<title></title>
+</head>
+<body>
+
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" style="background: #c3c3c3;">
+	(function () {
+		var _window = $(window);
+		function goTopAnimation() {
+			var document_scrollTop = _window.scrollTop();
+			var my_gotop = $("#gotop");
+			if (_window.width() <= 749 && document_scrollTop > 100 && (document_scrollTop + $(window).height()) > (_window.height() - screen.height * 1.618)) {
+				my_gotop.slideDown().fadeIn();
+			}
+			/* Web */
+			else if (_window.width() > 749 && document_scrollTop > 100) {
+				my_gotop.slideDown().fadeIn();
+			} else {
+				my_gotop.slideUp().fadeOut();
+			}
+		}
+		_window.on("resize scroll", goTopAnimation);
+	}());
+	$(function() {
+		// To top effect   
+		$('#gotop').on('click', function() {
+			$('html, body').animate({
+				scrollTop: 0
+			}, 500);
+			return false;
+		})
+	})
+</script>
+<div style="height: 6000px;"></div>
+	<a id="gotop" href="#" style="display: none;">Top</a>
+</body>
+</html>

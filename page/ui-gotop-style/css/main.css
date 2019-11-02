@@ -1,0 +1,43 @@
+
+#gotop {
+	display: none;
+	position: fixed;
+	overflow: hidden;
+	width: 46px;
+	height: 46px;
+	right: 30px;
+	bottom: 50px;
+	color: #444;
+	font-size: 34px;
+	line-height: 46px;
+	text-align: center;
+	text-decoration: none;
+	background: none;
+	border-radius: 6px;
+	z-index: 11;
+	filter: alpha(opacity=50);
+	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+}
+@media (max-width:766px) {
+	#gotop {
+		right: 5px;
+		bottom: 60px
+	}
+}
+#gotop i {
+	display: none
+}
+#gotop:before {
+	content: '^';
+	/* font-family: ""; */
+	font-style: normal;
+	font-weight: normal;
+	display: block;
+	width: 42px;
+	height: 42px;
+	color: #898989;
+	line-height: 36px;
+	border-radius: 99em;
+	border: 2px solid #898989;
+	background-color: rgba(255, 255, 255, 0.7)
+}
