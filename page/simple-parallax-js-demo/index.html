@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Simple Parallax Demo</title>
+        <style type="text/css">
+            .container {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                max-width: 900px;
+                margin: 400px auto;
+                /* max-height: 400px;
+                overflow: auto; */
+            }
+
+            .container > div {
+                flex: 33%;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <section class="container">
+            <div>
+                <h3>Basic config</h3>
+                <img class="thumbnail-0" src="img/0.jpg" alt="image">
+            </div>
+        </section>
+        <section class="container">
+            <div>
+                <h3>with a different direction</h3>
+                <img class="thumbnail-1" src="img/1.jpg" alt="image">
+            </div>
+        </section>
+        <section class="container">
+            <div>
+                <h3>with a higher scale</h3>
+                <img class="thumbnail-2" src="img/2.jpg" alt="image">
+            </div>
+        </section>
+        <section class="container">
+            <div>
+                <h3>with overflow</h3>
+                <img class="thumbnail-3" src="img/3.jpg" alt="image">
+            </div>
+        </section>
+        <section class="container">
+            <div>
+                <h3>with delay and transition</h3>
+                <img class="thumbnail-4" src="img/4.jpg" alt="image">
+            </div>
+        </section>
+    </body>
+    <script type="text/javascript" src="js/simpleParallax.js"></script>
+    <script type="text/javascript">
+
+        /* Destroy */
+        /*
+            var images = document.querySelectorAll('img');
+            var instance = new simpleParallax(images);
+            instance.destroy();
+        */
+
+        var image_0 = document.getElementsByClassName('thumbnail-0');
+        new simpleParallax(image_0);
+
+        var image_1 = document.getElementsByClassName('thumbnail-1');
+        new simpleParallax(image_1, {
+            orientation: 'right'
+        });
+
+        var image_2 = document.getElementsByClassName('thumbnail-2');
+        new simpleParallax(image_2, {
+            scale: 1.5
+        });
+
+        var image_3 = document.getElementsByClassName('thumbnail-3');
+        new simpleParallax(image_3, {
+            overflow: true,
+            orientation: 'right'
+        });
+
+        var image_4 = document.getElementsByClassName('thumbnail-4');
+        new simpleParallax(image_4, {
+            delay: .3,
+            transition: 'cubic-bezier(0,0,0,6)',
+            orientation: 'left'
+        });
+    </script>
+</html>
