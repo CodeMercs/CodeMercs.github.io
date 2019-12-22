@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Darkmode JS Demo</title>
+    <style type="text/css">
+        .container {
+            max-width: 560px;
+            padding: 64px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quantum information</h1>
+        <p>
+            In physics and computer science, quantum information is the information of the state of a quantum system. It is the basic entity of study in quantum information theory,and can be manipulated using quantum information processing techniques. Quantum information refers to both the technical definition in terms of Von Neumann entropy and the general computational term.
+        </p>
+        <p>
+            Quantum information, like classical information, can be processed using digital computers, transmitted from one location to another, manipulated with algorithms, and analyzed with computer science and mathematics. Recently, the field quantum computing has become an active research area because of the possibility to disrupt modern computation, communication, and cryptography.
+        </p>
+        <p>
+            https://en.wikipedia.org/wiki/Quantum_information
+        </p>
+    </div>
+    <script type="text/javascript" src="js/darkmode-js.min.js"></script>
+    <script type="text/javascript">
+            // new Darkmode().showWidget();
+        var options = {
+            bottom: '64px', // default: '32px'
+            right: 'unset', // default: '32px'
+            left: '32px', // default: 'unset'
+            time: '0.5s', // default: '0.3s'
+            mixColor: '#fff', // default: '#fff'
+            backgroundColor: '#fff',  // default: '#fff'
+            buttonColorDark: '#100f2c',  // default: '#100f2c'
+            buttonColorLight: '#fff', // default: '#fff'
+            saveInCookies: false, // default: true,
+            label: '&#127763;', // default: ''
+            autoMatchOsTheme: true // default: true
+        }
+
+        const darkmode = new Darkmode(options);
+        darkmode.showWidget();
+    </script>
+</body>
+</html>
