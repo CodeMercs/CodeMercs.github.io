@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Time Ad</title>
+	<!-- bootstrap 4.4.1 -->
+	<link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">	
+		.hw {
+			height: 9000px;
+			width: 100%;
+		}
+		.center-80 {
+			width: 80%;
+			position: absolute;
+			left: 10vw; 
+		}
+		.z-10000 {
+			z-index: 10000;
+		}
+	</style>
+</head>
+<body>
+<br />
+<div class="hw">
+	<div class="center-80">
+		<h1>Advertising</h1>
+	</div>
+</div>
+<br />
+<div id="ad_dialog" class="modal fade z-10000" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Advertising</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Advertisers ...</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<!-- jquery 3.4.1 -->
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<!-- bootstrap 4.4.1 -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+ 	var key = true;			
+	var tem;
+	$(window).scroll(function () {
+			var $window = $(window).scrollTop();
+			var wh = $(document).outerHeight(true);
+			tem = parseInt(wh) -( (parseInt(wh)/100)*30);
+			console.log($window);
+			console.log(tem );
+		if (key) {	
+			if ($window > tem) {
+				$('#ad_dialog').modal('show');
+			}
+		}
+		if ($window < tem) {
+			$('#ad_dialog').modal('hide');
+			key = true;
+		}
+	})
+	$('#ad_dialog').on('hide.bs.modal', function () {
+		key = false;
+	});
+</script>
+</html>
