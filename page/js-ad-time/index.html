@@ -38,7 +38,8 @@
 		<br />
 		<h2>Dialog Time</h2>
 		<input id="dialog-time" type="text" value="" class="w-50 form-control" placeholder="Dialog Time, Default time is 6 seconds." id="time" name="time">
-		<input type="button" class="w-30 btn btn-primary" value="Submit" onclick="dialogTimeRe()">
+		<!--
+		<input type="button" class="w-30 btn btn-primary" value="Submit" onclick="dialogTimeRe()">-->
 	</div>
 </div>
 <br />
@@ -73,22 +74,31 @@
 	var defaultNum = 6;
 	var maxTime;
 	var intervalId;
+	var time;	
 	if (showDialogTimeNum.value == null || showDialogTimeNum.value == '') {
 		maxTime = defaultNum; // Seconds		
 	} else if (showDialogTimeNum.value != null || showDialogTimeNum.value != '') {
 		maxTime = showDialogTimeNum.value;
 	}
 
-	showSecondsNum.innerHTML = maxTime;
+	// showSecondsNum.innerHTML = maxTime;
+	showSecondsNum.innerHTML = showDialogTimeNum.value;
 
-	var time = maxTime;
 
 	$('body').on('keydown mousemove mousedown', function(e) {
-		time = maxTime; // Reset
+		//time = maxTime; // Reset
+		// time = showDialogTimeNum.value;
+		if (showDialogTimeNum.value == null || showDialogTimeNum.value == '') {
+			time = maxTime;	
+		} else if (showDialogTimeNum.value != null || showDialogTimeNum.value != '') {
+			//maxTime = showDialogTimeNum.value;
+			//time = maxTime;
+			time = showDialogTimeNum.value;
+		}
 	});
 	runSetInterval();
 
-	function runSetInterval() {
+	function runSetInterval(sett) {
 		intervalId = setInterval( function() {
 			time--;
 			showSecondsNum.innerHTML = time;
@@ -103,23 +113,23 @@
 		dialogTimeclose();
 		runSetInterval();
 	});
-
+/*
 	function dialogTimeRe() {
 		time = showDialogTimeNum.value;
 		clearInterval(intervalId);
 		runSetInterval();
-	}
+	}*/
 
 	function dialogTimeclose() {
 		if (showDialogTimeNum.value == null || showDialogTimeNum.value == '') {
 			time = maxTime;	
 		} else if (showDialogTimeNum.value != null || showDialogTimeNum.value != '') {
-			time = showDialogTimeNum.value;	
+			maxTime = showDialogTimeNum.value;
+			time = maxTime;
 		}
 	}
 
 	function ShowInvalidLoginMessage() {
-		// alert("");
 		$('#ad_dialog').modal('show');
 	}
 </script>
