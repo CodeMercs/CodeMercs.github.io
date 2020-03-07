@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Time Ad</title>
+	<!-- bootstrap 4.4.1 -->
+	<link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">	
+		.hw {
+			height: 100%;
+			width: 100%;
+		}
+		.center-80 {
+			width: 80%;
+			position: absolute;
+			left: 10vw; 
+		}
+		.w-50 {
+			margin: 10px 10px 10px 10px;
+			width: 50%;
+		}
+		.w-30 {
+			margin: 10px 10px 10px 10px;
+			width: 30%;
+		}
+		.z-10000 {
+			z-index: 10000;
+		}
+	</style>
+</head>
+<body>
+<br />
+<div class="hw">
+	<div class="center-80">
+		<h1>Advertising</h1>
+		<br />
+			<span>當不動作則開始計時。</span>
+			<span><span id="seconds-number"></span> Seconds</span>
+		<br />
+		<h2>Dialog Time</h2>
+		<input id="dialog-time" type="text" value="" class="w-50 form-control" placeholder="Dialog Time, Default time is 6 seconds." id="time" name="time">
+		<input type="button" class="w-30 btn btn-primary" value="Submit" onclick="dialogTimeRe()">
+	</div>
+</div>
+<br />
+
+<div id="ad_dialog" class="modal fade z-10000" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Advertising</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Advertisers ...</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="dialogTimeclose()">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<!-- jquery 3.4.1 -->
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<!-- bootstrap 4.4.1 -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+	var showSecondsNum = document.getElementById('seconds-number');
+	var showDialogTimeNum = document.getElementById('dialog-time');
+	var defaultNum = 6;
+	var maxTime;
+	var intervalId;
+	if (showDialogTimeNum.value == null || showDialogTimeNum.value == '') {
+		maxTime = defaultNum; // Seconds		
+	} else if (showDialogTimeNum.value != null || showDialogTimeNum.value != '') {
+		maxTime = showDialogTimeNum.value;
+	}
+
+	showSecondsNum.innerHTML = maxTime;
+
+	var time = maxTime;
+
+	$('body').on('keydown mousemove mousedown', function(e) {
+		time = maxTime; // Reset
+	});
+	runSetInterval();
+
+	function runSetInterval() {
+		intervalId = setInterval( function() {
+			time--;
+			showSecondsNum.innerHTML = time;
+			if (time <= 0) {
+				ShowInvalidLoginMessage();
+				clearInterval(intervalId);
+			}
+		}, 1000)
+	}
+	$('#ad_dialog').on('hide.bs.modal', function () {
+		// alert('Modal Close');
+		dialogTimeclose();
+		runSetInterval();
+	});
+
+	function dialogTimeRe() {
+		time = showDialogTimeNum.value;
+		clearInterval(intervalId);
+		runSetInterval();
+	}
+
+	function dialogTimeclose() {
+		if (showDialogTimeNum.value == null || showDialogTimeNum.value == '') {
+			time = maxTime;	
+		} else if (showDialogTimeNum.value != null || showDialogTimeNum.value != '') {
+			time = showDialogTimeNum.value;	
+		}
+	}
+
+	function ShowInvalidLoginMessage() {
+		// alert("");
+		$('#ad_dialog').modal('show');
+	}
+</script>
+</html>
