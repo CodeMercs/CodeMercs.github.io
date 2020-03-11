@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Intro</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/introjs.css" rel="stylesheet">
+		<style type="text/css">
+			button {
+				width: 500px;
+			}
+			.popover {
+				z-index: 999999999;
+			}
+			.tooltip {
+				z-index: 999999999;
+			}
+			.mal-display-none {
+				display: none;
+			}
+		</style> 
+	</head>
+	<body>
+		<div class="container">
+			<br /><br />
+			<h1>IntroJS - Ghost Army</h1>
+			<br /><br />
+			<button type="button" class="btn btn-lg btn-danger"
+					data-toggle="popover" title="說明"
+					data-content="執行 IntroJS 時，按鈕無效。"
+					onclick="testIntro()">
+				Intro JS
+			</button>
+			<br /><br />
+			<a href="https://en.wikipedia.org/wiki/Ghost_Army">WWII - Ghost Army</a>
+			<br /><br />
+			<div id="intjs-po">
+				<button type="button" class="mal btn btn-lg btn-danger" 
+						data-toggle="popover" title="Popover"
+						data-content="平常真正的功能">
+					Popover - 我是真人
+				</button>
+				<button type="button" class="ghost btn btn-lg btn-danger mal-display-none"
+						data-toggle="popover" title="Popover"
+						data-content="IntroJS 執行才出現">
+					Popover - 我是演員
+				</button>
+				<a href="https://www.google.com/">Go to Google</a>
+			</div>
+			<br /><br />
+			<div id="intjs-to">
+				<button type="button" class="mal btn btn-lg btn-danger" 
+						data-toggle="tooltip"
+						data-original-title="平常真正的功能">
+					Tooltip - 我是真人
+				</button>
+				<button type="button" class="ghost btn btn-lg btn-danger mal-display-none"
+						data-toggle="tooltip"
+						data-original-title="IntroJS 執行才出現">
+					Tooltip - 我是演員
+				</button>
+				<a href="https://www.google.com/">Go to Google</a>
+			</div>
+			<br /><br />
+			<hr />
+			<br />
+			<h2>CSS</h2>
+			<br />
+			<pre>
+			.mal-display-none {
+				display: none;
+			}
+			</pre>
+			<br />
+			<h2>JS</h2>
+			<br />
+			<pre>
+		/* Intro JS */
+		function aTagStop() {
+			$("a").click( function(e){
+				e.preventDefault();
+				e.stopPropagation();
+			});
+			/* Ghost Army */
+			$("button.mal").addClass("mal-display-none");
+			$("button.ghost").removeClass("mal-display-none");
+		}
+		function testIntro() {
+			var intro = introJs();
+			intro.setOptions({
+				/* 擋遮罩退出 - exitOnOverlayClick */
+				exitOnOverlayClick: false,
+				prevLabel: "Back",
+				nextLabel: "Next",
+				skipLabel: "Skip",
+				doneLabel: "Done",
+				positionPrecedence: [ "bottom", "left", "right", "top" ],
+				steps: [
+					{ element: document.querySelector('#intjs-po'), intro: "1" },
+					{ element: document.querySelector('#intjs-to'), intro: "2" }
+				]
+			});
+			aTagStop();
+			intro.setOption('showProgress', true).start().oncomplete(function() {
+				// 這步驟所想要額外執行的 JS
+				$('a').unbind('click');
+				$("button.mal").removeClass("mal-display-none");
+				$("button.ghost").addClass("mal-display-none");
+			}).onexit(function() {
+				// 退出時所要執行的 JS
+				$('a').unbind('click');
+				$("button.mal").removeClass("mal-display-none");
+				$("button.ghost").addClass("mal-display-none");
+			}).onbeforechange(function() {
+				// 進入下一步驟時所要執行的 JS
+				aTagStop();
+			});
+		}
+
+			</pre>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/jquery-slim.min.js"></script>
+	<script type="text/javascript" src="js/popper.min.js"></script>
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/tooltip.js"></script>
+	<script type="text/javascript" src="js/popover.js"></script>
+	<script type="text/javascript" src="js/intro.js"></script>
+	<script type="text/javascript">
+		function init() {
+			/* tooltip */
+			$('[data-toggle="tooltip"]').tooltip({
+				container: 'body'
+			});
+			/* Popover */ 
+			$('[data-toggle="popover"]').popover({
+				trigger: 'hover'
+			});
+		}
+
+		/* Intro JS */
+		function aTagStop() {
+			$("a").click( function(e){
+				e.preventDefault();
+				e.stopPropagation();
+			});
+			/* Ghost Army */
+			$("button.mal").addClass("mal-display-none");
+			$("button.ghost").removeClass("mal-display-none");
+		}
+		function testIntro() {
+			var intro = introJs();
+			intro.setOptions({
+				/* 擋遮罩退出 - exitOnOverlayClick */
+				exitOnOverlayClick: false,
+				prevLabel: "Back",
+				nextLabel: "Next",
+				skipLabel: "Skip",
+				doneLabel: "Done",
+				positionPrecedence: [ "bottom", "left", "right", "top" ],
+				steps: [
+					{ element: document.querySelector('#intjs-po'), intro: "1" },
+					{ element: document.querySelector('#intjs-to'), intro: "2" }
+				]
+			});
+			aTagStop();
+			intro.setOption('showProgress', true).start().oncomplete(function() {
+				// 這步驟所想要額外執行的 JS
+				$('a').unbind('click');
+				$("button.mal").removeClass("mal-display-none");
+				$("button.ghost").addClass("mal-display-none");
+			}).onexit(function() {
+				// 退出時所要執行的 JS
+				$('a').unbind('click');
+				$("button.mal").removeClass("mal-display-none");
+				$("button.ghost").addClass("mal-display-none");
+			}).onbeforechange(function() {
+				// 進入下一步驟時所要執行的 JS
+				aTagStop();
+			});
+		}
+
+		$(function() {
+			init();
+		});
+	</script>
+</html>
