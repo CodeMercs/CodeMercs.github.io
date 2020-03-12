@@ -17,6 +17,7 @@
 </head>
 <body style="font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif;">
 	<div id = "cbody" >
+		<p id="target2"></p>
 		<div id="click" class ="click">
 			Click
 		</div>
@@ -43,7 +44,7 @@
 		});
 
 		$('#click').click(function() {
-			$.goAnchor($('#target').offset().top, 1000);
+			$.goAnchor($('#target2').offset().top, 1000);
 		});
 		$('#progress').click(function() {
 			$.goAnchor($('#target').offset().top, 1000);
