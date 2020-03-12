@@ -8,11 +8,11 @@
 	<!-- Noto Sans -->
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans|Noto+Sans+JP|Noto+Sans+KR|Noto+Sans+SC|Noto+Sans+TC" rel="stylesheet">
 	<style type="text/css">
-		.pg1{position: fixed; left: 0; right: 0px; top: 0px;width:100%;height:10vh;color:#000;background-color:#f1f1f1;}
-		.pg2{color:#000;background-color:#9e9e9e;height:10vh;}
-		.cc{margin-top:1000px; height:200px; padding-bottom:1000px; background:#FFFFFF}
-		.test{position: fixed; left: 40px; right: 0px; top: 0px;font-size: 20px; z-index: 100;}
-		.click{position: fixed; left: 200px; top: 200px;line-height:40px; height:40px; width:120px; background:#0cf; text-align:center}
+		.pg1 { position: fixed; left: 0; right: 0px; top: 0px;width:100%;height:10vh;color:#000;background-color:#f1f1f1;}
+		.pg2 { color:#000;background-color:#9e9e9e;height:10vh;}
+		.cc { margin-top:1000px; height:200px; padding-bottom:1000px; background:#FFFFFF}
+		.test { position: fixed; left: 40px; right: 0px; top: 0px;font-size: 20px; z-index: 100;}
+		.click { position: fixed; left: 200px; top: 200px;line-height:40px; height:40px; width:120px; background:#0cf; text-align:center}
 	</style>
 </head>
 <body style="font-family: 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans TC', sans-serif;">
@@ -42,10 +42,10 @@
 				}, time);
 			}
 		});
-
-		$('#click').click(function() {
-			$.goAnchor($('#target2').offset().top, 1000);
-		});
+		$('#click').on('click', function () {
+			$('html, body').animate({scrollTop: 0}, 1500);
+			return false;
+		})
 		$('#progress').click(function() {
 			$.goAnchor($('#target').offset().top, 1000);
 		});
