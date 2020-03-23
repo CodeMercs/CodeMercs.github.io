@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Modal</title>
+	<!-- bootstrap 4.4.1 -->
+	<link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+		.hw {
+			height: 100%;
+			width: 100%;
+		}
+		.article {
+			width: 80%;
+			position: absolute;
+			left: 10vw; 
+		}
+	</style>
+</head>
+<body>
+<br />
+<div class="hw">
+	<div class="article">
+		<h1>Modal</h1>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">
+			Modal 1
+		</button>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">
+			Modal 2
+		</button>
+	</div>
+</div>
+<br />
+
+<!-- Modal 1 -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Modal 1</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+			Method 1 ...
+			<br />
+			<code>
+				data-backdrop="static"
+			</code>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal 2 -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Modal 2</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+			Method 2 ...
+			<br />
+			<code>
+				$("#exampleModal2").modal({
+					backdrop:'static', keyboard:false
+				});
+			</code>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<!-- jquery 3.4.1 -->
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<!-- bootstrap 4.4.1 -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$("#exampleModal2").modal({
+		backdrop:'static', keyboard:false
+	});
+</script>
+</html>

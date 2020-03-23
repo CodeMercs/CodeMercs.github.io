@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Show</title>
+	<script type="text/javascript" src="js/support.js"></script>
+	<script type="text/javascript">
+		var info = new Browser();
+		if (info.browser == 'Chrome') {
+			document.write("<link rel='stylesheet' type='text/css' href='css/reset.css'>");
+			document.write("<script type='text/javascript' src='js/jquery.min.js'><"+"/"+"script>");
+		}
+	</script>
+	<script type="text/javascript">
+		if (info.browser == 'Chrome') {
+		$(document).ready(function() {
+			$("#play").show();
+		});
+		}
+	</script>
+</head>
+<body>
+	<div id="play" style="display: none;">
+		JQuery OK !! - jQuery v3.3.1
+	</div>
+	<br />
+	<br />
+	<!--[if IE 7 ]>
+		<p>Only IE 7 will see this - jQuery v1.12.4</p>
+	<script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+	<![endif]-->
+</body>
+</html>

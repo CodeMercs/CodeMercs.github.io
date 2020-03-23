@@ -1,0 +1,196 @@
+<!-- Reference -->
+<!-- 1. https://github.com/mumuy/browser -->
+<!-- 2. https://summer.mycrypto.com/brave.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+		<title>瀏覽器判斷</title>
+		<meta name="description" content="通過 Useragent 和瀏覽器環境變量等方式判斷瀏覽器、系统及設備類型，是判斷瀏覽器的常用方法。">
+		<meta name="keywords" content="Useragent,用户代理,瀏覽器判斷,瀏覽器類型,瀏覽器資訊">
+		<script type="text/javascript" src="js/browser.js"></script>
+		<script type="text/javascript" src="js/isbrave.js"></script>
+		<style type="text/css">
+			a {
+				text-decoration: none;
+				color: #757575;
+			}
+			a:hover {
+				text-decoration: underline;
+			}
+			.wrapper {
+				width: 100%;
+				max-width: 960px;
+				margin: 0 auto;
+			}
+			.container {
+				margin-bottom: 20px;
+			}
+			.footer {
+				line-height: 40px;
+				text-align: right;
+			}
+			.footer a {
+				margin: 0 5px;
+			}
+			.module table {
+				width: 100%;
+				table-layout: fixed;
+				border-collapse: collapse;
+				border-spacing: 0;
+				text-align: center;
+			}
+			.module thead {
+				background: #eee;
+			}
+			.module th,.module td {
+				padding: 8px 5px;
+				line-height: 24px;
+				border: 1px solid #eee;
+			}
+
+			.module-brave table {
+				width: 100%;
+				border-collapse: collapse;
+				border-spacing: 0;
+			}
+			.module-brave thead {
+				background: #eee;
+			}
+			.module-brave th,.module-brave td {
+				padding: 8px 5px;
+				line-height: 24px;
+				border: 1px solid #eee;
+			}
+			.t-wid {
+				width: 30%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="container">
+				<div class="module">
+					<h1>All Browser</h1>
+					<br />
+					<script type="text/javascript">
+						var info = new Browser();
+						if(info.device!='Mobile'){
+							document.writeln('<table>\
+								<caption>Browser Information : <span>' + navigator.userAgent + '</span></caption>\
+								<thead>\
+									<tr>\
+										<th>瀏覽器</th>\
+										<th>版本</th>\
+										<th>核心</th>\
+										<th>作業系统</th>\
+										<th>設備</th>\
+										<th>語言</th>\
+									</tr>\
+								</thead>\
+								<tbody>\
+									<tr>\
+										<td>' + info.browser + '</td>\
+										<td>' + info.version + '</td>\
+										<td>' + info.engine + '</td>\
+										<td>' + info.os + ' ' + info.osVersion + '</td>\
+										<td>' + info.device + '</td>\
+										<td>' + info.language + '</td>\
+									</tr>\
+								</tbody>\
+							</table>');
+						} else {
+							document.writeln('<table>\
+								<caption>Browser Information : <span>' + navigator.userAgent + '</span></caption>\
+								<thead>\
+									<tr>\
+										<th>瀏覽器</th>\
+										<th>版本</th>\
+										<th>核心</th>\
+									</tr>\
+								</thead>\
+								<tbody>\
+									<tr>\
+										<td>' + info.browser + '</td>\
+										<td>' + info.version + '</td>\
+										<td>' + info.engine + '</td>\
+									</tr>\
+								</tbody>\
+							</table>');
+							document.writeln('<table>\
+								<thead>\
+									<tr>\
+										<th>作業系統</th>\
+										<th>設備類型</th>\
+										<th>語言</th>\
+									</tr>\
+								</thead>\
+								<tbody>\
+									<tr>\
+										<td>' + info.os + ' ' + info.osVersion + '</td>\
+										<td>' + info.device + '</td>\
+										<td>' + info.language + '</td>\
+									</tr>\
+								</tbody>\
+							</table>');
+						}
+					</script>
+				</div>
+				<div class="module-brave">
+					<h1>Is Brave !?</h1>
+					<br />
+					<table>
+						<tr>
+							<td class="t-wid">Conclusion</td>
+							<td><h2 id="conclusion"></h2></td>
+						</tr>
+						<tr>
+							<td class="t-wid">User agent</td>
+							<td id="ua"></td>
+						</tr>
+						<tr>
+							<td class="t-wid">Is Chrome?</td>
+							<td id="isChrome"></td>
+						</tr>
+						<tr>
+							<td class="t-wid">Is Brave?</td>
+							<td id="isBrave"></td>
+						</tr>
+						<tr>
+							<td class="t-wid">Blocks Ads</td>
+							<td id="blocksAds"></td>
+						</tr>
+						<tr>
+							<td class="t-wid">Has Plugins?</td>
+							<td id="hasPlugins"></td>
+						</tr>
+						<tr>
+							<td class="t-wid">Plugins Length</td>
+							<td id="pluginsLength"></td>
+						</tr>
+						<tr>
+							<td class="t-wid">Plugin Names</td>
+							<td id="pluginsName"></td>
+						</tr>
+						<tr>
+							<td class="t-wid">Plugins (Simple)</td>
+							<td id="simplePlugins"></td>
+						</tr>
+						<tr>
+							<td class="t-wid">Plugins (Full)</td>
+							<td id="pluginsObject"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="module">
+				<h1>Reference</h1>
+				<p>https://github.com/mumuy/browser</p>
+				<p>https://summer.mycrypto.com/brave.html</p>				
+			</div>
+			<div class="footer">
+			</div>
+		</div>
+	</body>
+</html>

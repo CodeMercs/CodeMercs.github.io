@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>News</title>
+	<!-- bootstrap 4.4.1 -->
+	<link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+		.hw {
+			height: 3000px;
+			width: 100%;
+		}
+		.article {
+			width: 80%;
+			position: absolute;
+			left: 10vw; 
+		}
+
+		p {
+			margin: 0;
+			padding: 0;
+		}
+
+		a {
+			text-decoration:none;
+		}
+
+		.banner-news {
+			bottom: 90px; 
+			background-color:rgba(0, 0, 0, 0.75); 
+			display: block; 
+			width: 100%; 
+			height: 60px; 
+			color: #fff; 
+			z-index: 99999;
+			-webkit-animation: mymove 1s;  /* Safari 4.0 - 8.0 */
+			-webkit-animation-iteration-count: 1; /* Safari 4.0 - 8.0 */
+			animation: mymove 1s;
+			animation-iteration-count: 1;
+		}
+		.a_tag_close {
+			display: none;
+		}
+
+		/* Safari 4.0 - 8.0 */
+		@-webkit-keyframes mymove {
+			from {
+				bottom: 0;
+			}
+			to {
+				bottom: 90px;
+			}
+		}
+
+		@keyframes mymove {
+			from {
+				bottom: 0;
+			}
+			to {
+				bottom: 90px;
+			}
+		}
+		.effect {
+			position: fixed;
+			-webkit-transform: translate(0, 90px);
+			-moz-transform: translate(0, 90px);
+			-o-transform: translate(0, 90px);
+			transform: translate(0, 90px);
+			-webkit-transition: -webkit-transform 1s linear;
+			-moz-transition: -moz-transform 1s linear;
+			-o-transition: -o-transform 1s linear;
+			transition: transform 1s linear;
+		}
+
+		.closeabtn {
+			position: absolute;
+			font-size: 2em;
+			font-weight: lighter;
+			height: 30px;
+			overflow: hidden;
+			right: 10px;
+			background-color: rgba(0, 0, 0, 0.7);
+			text-align: center;
+			border: 0;
+			color: #fff;
+			padding: 0 15px;
+			top: -30px;
+			line-height: 0;
+			border-radius: 5px 5px 0 0;
+		}
+
+		.closeabtn:hover{
+			color: #ff5500;
+		}
+
+		button {
+			padding: 0; 
+		}
+
+		.flexbox {
+			display:flex;
+			align-items:center;
+			justify-content:center;
+			width: 100%;
+			height: 60px;
+			box-shadow: 0 -3px 10px 0 rgba(0,0,0,.15);
+		}
+
+		.banner-title {
+			display: inline-block;
+			font-size: 1.35em;
+			font-weight: 700;
+			color: #fff;
+		}	
+
+		.banner-button {
+			display: inline-block;
+			background-color: #ff5500;
+			color: #fff;
+			padding: 3px 7px;
+			border-radius: 5px;
+			font-size: 0.9em;
+			line-height: 1.5;
+			margin: 0 8px;
+		}
+
+		@media (max-width: 767px) {
+			.banner-title{
+				font-size: 1.25em;
+			}
+
+			.banner-button {
+				font-size: 0.85em;
+			}
+		}
+
+	</style>
+</head>
+<body>
+<br />
+<div class="hw">
+	<div class="article">
+		<h1>News</h1>
+	</div>
+</div>
+<br />
+<div class="banner-news effect close_target">
+	<button type="button" class="closeabtn" data-dismiss="modal" aria-label="Close" onclick="view_btn_a_tag_close()">
+		<span aria-hidden="true">×</span>
+	</button>
+	<div class="flexbox">
+		<p class="banner-title">所要顯示的訊息</p>
+		<a href="https://www.google.com/" target="_blank"><p class="banner-button">按鈕</p></a>
+	</div>
+</div>
+
+</body>
+<!-- jquery 3.4.1 -->
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<!-- bootstrap 4.4.1 -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	function view_btn_a_tag_close () {
+		$('.close_target').addClass('a_tag_close');
+	}
+</script>
+</html>

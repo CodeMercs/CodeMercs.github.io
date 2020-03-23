@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Intro</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/introjs.css" rel="stylesheet">
+		<style type="text/css">
+			button {
+				width: 500px;
+			}
+			.popover {
+				z-index: 999999999;
+			}
+			.tooltip {
+				z-index: 999999999;
+			}
+		</style> 
+	</head>
+	<body>
+		<div class="container">
+			<br /><br />
+			<h1>Intro</h1>
+			<br /><br />
+			<button type="button" class="btn btn-lg btn-danger" onclick="testIntro()">
+				Intro JS
+			</button>
+			<br /><br />
+			<div id="intjs-po">
+				<button type="button" class="btn btn-lg btn-danger" 
+						data-toggle="popover" title="Popover"
+						data-content="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX">
+					Popover
+				</button>
+			</div>
+			<br /><br />
+			<div id="intjs-to">
+				<button type="button" class="btn btn-lg btn-danger" 
+						data-toggle="tooltip"
+						data-original-title="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX">
+					Tooltip
+				</button>
+			</div>
+			<br /><br />
+			<hr />
+			<code>
+			.popover {
+				z-index: 999999999;
+			}
+			.tooltip {
+				z-index: 999999999;
+			}
+			</code>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/jquery-slim.min.js"></script>
+	<script type="text/javascript" src="js/popper.min.js"></script>
+	<script type="text/javascript" src="js/util.js"></script>
+	<script type="text/javascript" src="js/tooltip.js"></script>
+	<script type="text/javascript" src="js/popover.js"></script>
+	<script type="text/javascript" src="js/intro.js"></script>
+	<script type="text/javascript">
+		function init() {
+			/* tooltip */
+			$('[data-toggle="tooltip"]').tooltip({
+				container: 'body'
+			});
+			/* Popover */ 
+			$('[data-toggle="popover"]').popover({
+				trigger: 'hover'
+			});
+		}
+		function testIntro() {
+			var intro = introJs();
+			intro.setOptions({
+				exitOnOverlayClick: false,
+				prevLabel: "Back",
+				nextLabel: "Next",
+				skipLabel: "Skip",
+				doneLabel: "Done",
+				positionPrecedence: [ "bottom", "left", "right", "top" ],
+				steps: [
+					{ element: document.querySelector('#intjs-po'), intro: "1" },
+					{ element: document.querySelector('#intjs-to'), intro: "2" }
+				]
+			});
+			intro.setOption('showProgress', true).start().oncomplete(function() {
+				// 這步驟所想要額外執行的 JS
+			}).onexit(function() {
+				// 退出時所要執行的 JS
+			}).onbeforechange(function() {
+				// 進入下一步驟時所要執行的 JS
+			});
+		}
+
+		$(function() {
+			init();
+		});
+	</script>
+</html>
