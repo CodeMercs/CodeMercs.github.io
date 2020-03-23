@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JS</title>
+	<script type="text/javascript" src="js/babel-6.26.0.js"></script>
+	<script type="text/javascript" src="js/babel-polyfill-7.8.7.min.js"></script>
+	<!-- Html5shiv 3.7.3 -->
+	<!-- Respond 1.4.2 -->
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="js/html5shiv.min.js"></script>
+	<script type="text/javascript" src="js/respond.min.js"></script>
+	<script type="text/javascript" src="js/selectivizr.js"></script>
+	<![endif]-->
+	<!--[if (gte IE 6)&(lte IE 8)]>
+		<script type="text/javascript" src="js/selectivizr.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div id="output"></div>
+	<!-- Babel Script -->
+	<script type="text/babel">
+	const getMessage = () => "Hello World";
+	document.getElementById('output').innerHTML = getMessage();
+	</script>
+</body>
+</html>
