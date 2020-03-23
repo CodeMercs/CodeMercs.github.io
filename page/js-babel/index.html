@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JS</title>
+	<script type="text/javascript" src="js/babel.js"></script>
+	<script type="text/javascript" src="js/babel-polyfill-7.8.7.min.js"></script>
+</head>
+<body>
+	<h1>ES6</h1>
+	<div id="output"></div>
+	<div id="for-output"></div>
+	<!-- Babel Script -->
+	<script type="text/babel">
+	const getMessage = () => "Hello World";
+	document.getElementById('output').innerHTML = getMessage();
+	let arr = ['1', '2', '3', '4', '5'];
+	var tem ="";
+	for (var d of arr) { tem = tem + d;}
+	document.getElementById('for-output').innerHTML = tem;
+	</script>
+</body>
+</html>
