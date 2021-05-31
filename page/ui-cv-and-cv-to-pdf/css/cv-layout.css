@@ -1,0 +1,74 @@
+.div-width {
+	width: 100%;
+}
+.t-r-10 {
+	position: absolute;
+	right: 10%;
+}
+.t-r-15 {
+	position: absolute;
+	right: 15%;
+}
+.icon {
+	width: 25px;
+	height: 25px;
+}
+.huge-btn {
+	width: 45px;
+	height: 45px;
+	position: fixed;
+	border-radius: 10px;
+}
+.sun-dark-btn {
+	right: 20px;
+	top: 20px;
+}
+.topbtn {
+	right: 20px;
+	bottom: 20px;
+	display: none;
+}
+.t-l-15 {
+	position: absolute;
+	left: 45%;
+}
+.topbtnsize {
+	font-size: 30px;
+}
+.common-btn-size-zh {
+	font-size: 29px;
+}
+.common-btn-size-en {
+	font-size: 20px;
+}
+.lang-btn-sc {
+	right: 20px;
+	top: 140px;
+}
+.lang-btn-tc {
+	right: 20px;
+	top: 200px;
+}
+.lang-btn-en {
+	right: 20px;
+	top: 80px;
+}
+
+/*li {
+    margin-bottom: 2.8em;
+}*/
+
+@media (max-width: 500px) {
+	li {
+		margin-bottom: 2em;
+	}
+	li.minli {
+		margin-bottom: 2.8em;
+	}
+}
+
+@media (max-width: 768px) {
+	li.minli {
+		margin-bottom: 2.8em;
+	}
+}

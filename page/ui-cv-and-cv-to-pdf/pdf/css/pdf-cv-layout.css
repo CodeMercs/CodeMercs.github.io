@@ -1,0 +1,201 @@
+html {
+	font-size: 62.5%;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+body {
+	font-size: 1.8rem;
+	line-height: 1.618;
+	color: #d9d8dc;
+	/* background-color: #120c0e; */
+	background-color: #111111;
+	padding: 13px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1.1;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+	font-weight: 700;
+	margin-top: 3rem;
+	margin-bottom: 1.5rem;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-word;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+}
+
+h1 {
+	font-size: 2.35em;
+}
+
+h2 {
+	font-size: 2.00em;
+}
+
+h3 {
+	font-size: 1.75em;
+}
+
+h4 {
+	font-size: 1.5em;
+}
+
+h5 {
+	font-size: 1.25em;
+}
+
+h6 {
+	font-size: 1em;
+}
+
+p {
+	margin-top: 0px;
+	margin-bottom: 2.5rem;
+}
+
+small, sub, sup {
+	font-size: 75%; 
+}
+
+hr {
+	border-color: #eb99a1;
+}
+
+a {
+	text-decoration: none;
+	color: #eb99a1;
+}
+
+a:hover {
+	color: #DA4453;
+	border-bottom: 2px solid #d9d8dc;
+}
+
+ul {
+	padding-left: 1.4em;
+	margin-top: 0px;
+	margin-bottom: 2.5rem;
+}
+
+li {
+	margin-bottom: 0.4em;
+}
+
+img {
+	height: auto;
+	max-width: 100%;
+	margin-top: 0px;
+	margin-bottom: 2.5rem;
+}
+
+/* Pre and Code */
+pre {
+	background-color: #40363a;
+	display: block;
+	padding: 1em;
+	overflow-x: auto;
+	margin-top: 0px;
+	margin-bottom: 2.5rem; 
+}
+
+code {
+	font-size: 0.9em;
+	padding: 0 0.5em;
+	background-color: #40363a;
+	white-space: pre-wrap;
+}
+
+pre > code {
+	padding: 0;
+	background-color: transparent;
+	white-space: pre;
+}
+
+/* Tables */
+table {
+	text-align: justify;
+	width: 100%;
+	border-collapse: collapse; 
+}
+
+td, th {
+	padding: 0.5em;
+	border-bottom: 1px solid #40363a; 
+}
+
+.section_outer {
+	font-size: 110.5%;
+	width: 1732px;
+	margin: 0 auto; 
+	background:#120c0e;
+	height:2450px;
+}
+
+.a4_size {
+	height:2450px;
+}
+
+.article-position-obj {
+	position: relative;
+	top: 200px;
+}
+
+article {
+	width: 702.8px;
+	margin-top: 60px;
+	margin-left: 300px;
+}
+
+.div-width {
+	width: 800px;
+}
+
+.t-l-1200 {
+	position: absolute;
+	left: 1200px;
+}
+
+.t-l-850 {
+	position: absolute;
+	left: 850px;
+}
+
+.bar-layout {
+	width: 100%;
+	height: 50px;
+}
+
+.bar-content {
+	background: #d9d8dc;
+	z-index: 100;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	color: #120c0e;
+}
+
+.bar-title {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+}
+
+.pdf-btn {
+	position: absolute;
+	top: 10px;
+	right: 5%;
+	background: #ab1d20;
+	color: #d9d8dc;
+	padding: 6px 12px;
+	border-radius: 10px;
+	border: 0px solid #ab1d20;
+}
+
+.pdf-btn:hover {
+	background: #ca484b;
+	border: 0px solid #ca484b;
+}
