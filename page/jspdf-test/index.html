@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="js/jspdf.min.js"></script>
+	<script type="text/javascript" src="js/html2canvas.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/tailwind.min.css">
+</head>
+<body>
+	<div id="ShowObj">
+		<h1>
+			Hi!
+		</h1>
+		<p>
+			OÜO
+		</p>
+	</div>
+
+	<button id="prhw" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Hello world! PDF</button>
+	<button id="exportShowPDF" type="button" class="bg-gray-500 text-white px-6 py-2 rounded font-medium mx-3 hover:bg-gray-600 transition duration-200 each-in-out">Export Demo PDF</button>
+	<button id="exportPDF" type="button" class="bg-red-500 text-white px-6 py-2 rounded font-medium mx-3 hover:bg-red-600 transition duration-200 each-in-out">Export PDF</button>
+</body>
+<script type="text/javascript">
+	$("#exportShowPDF").click(function() {
+		html2canvas(document.querySelector("#ShowObj")).then(canvas => {
+			document.body.appendChild(canvas)
+		});
+	});
+
+	$("#exportPDF").click(function() {
+		var doc = new jsPDF();
+		html2canvas(document.querySelector("#ShowObj")).then(canvas => {
+			var image = canvas.toDataURL("image/png");
+			doc.addImage(image, 'JPEG', 0, 0, canvas.width, canvas.height);
+			doc.save('test.pdf');
+		});
+	});
+
+	$("#prhw").click(function() {
+		var doc = new jsPDF();
+		doc.text('Hello world!', 10, 10);
+		doc.save('helloworld.pdf');
+	});
+</script>
+</html>
