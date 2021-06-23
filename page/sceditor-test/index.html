@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Test</title>
+	<link rel="stylesheet" type="text/css" href="./minified/themes/defaultdark.min.css">
+	<script type="text/javascript" src="./minified/sceditor.min.js"></script>
+	<script type="text/javascript" src="./minified/icons/monocons.js"></script>
+	<script type="text/javascript" src="./minified/formats/bbcode.js"></script>
+	<style type="text/css">
+		html {
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 13px;
+		}
+		form div {
+			padding: .5em;
+		}
+		code:before {
+			position: absolute;
+			content: 'Code:';
+			top: -1.35em;
+			left: 0;
+		}
+		code {
+			margin-top: 1.5em;
+			position: relative;
+			background: #eee;
+			border: 1px solid #aaa;
+			white-space: pre;
+			padding: .25em;
+			min-height: 1.25em;
+		}
+		code:before, code {
+			display: block;
+			text-align: left;
+		}
+	</style>
+</head>
+<body>
+		<form action="" method="post">
+			<div>
+				<textarea id="example" style="height:300px;width:600px;">[center][size=3][b]BBCode SCEditor[/b][/size][/center]
+
+Give it a try! :)
+
+[color=#ff00]Red text! [/color][color=#3399ff]Blue?[/color]
+
+[ul][li]A simple list[/li][li]list item 2[/li][/ul]
+
+If you are using IE9+ or any non-IE browser just type [b]:[/b]) and it should be converted into :) as you type.</textarea>
+
+				<p>If you are using IE9+ or any other browser then it should automatically replace
+					:) and other emoticon codes with theit emoticon images.</p>
+			</div>
+		</form>
+</body>
+	<script type="text/javascript">
+		var textarea = document.getElementById('example');
+		sceditor.create(textarea, {
+			format: 'bbcode',
+			icons: 'monocons',
+			style: '../minified/themes/content/default.min.css'
+		});
+	</script>
+</html>
