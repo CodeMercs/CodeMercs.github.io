@@ -1,6 +1,7 @@
 /*
 	By Osvaldas Valutis, www.osvaldas.info
 	Available for use under the MIT License
+	20210624 - Kan Edit
 */
 
 'use strict';
