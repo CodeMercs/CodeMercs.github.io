@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scheduler and AngularJS (controllerAs)</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://doc.daypilot.org/scheduler/angularjs/">AngularJS
+        Scheduler</a>.
+    </div>
+
+    <div ng-app="main" ng-controller="SchedulerCtrl as ctrl">
+        <daypilot-scheduler
+            id="dp"
+            config="ctrl.config"
+            events="ctrl.events"
+            publish-as="ctrl.scheduler"
+            on-event-selected="ctrl.onEventSelected(args)"
+            on-event-moved="ctrl.onEventMoved(args)"
+        >
+        </daypilot-scheduler>
+        <div class="space">
+            New event:
+            <button ng-click="ctrl.add()">Add</button>
+        </div>
+        <div class="space">
+            First event:
+            <button ng-click="ctrl.move()">Move</button>
+            <button ng-click="ctrl.rename()">Rename</button>
+        </div>
+        <div class="space">
+            <span class="bold">Scale:</span>
+            <a ng-click="ctrl.scale('Day')" href="javascript:void(0)">Days</a>
+            <a ng-click="ctrl.scale('Week')" href="javascript:void(0)">Weeks</a>
+            <span class="bold">Scroll to:</span>
+            <a ng-click="ctrl.scrollTo('2015-01-09')" href="javascript:void(0)">2015-01-09</a>
+        </div>
+        <div class="space">
+            <div class="space">Event list:</div>
+            <ul>
+                <li ng-repeat="item in ctrl.events">
+                    {{item}}
+                </li>
+            </ul>
+            <div class="space">Selected events (click or Ctrl+click to select):</div>
+            <ul>
+                <li ng-repeat="item in ctrl.selectedEvents">
+                    {{item.text()}} - {{item.start()}}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module('main', ['daypilot']).controller('SchedulerCtrl', function () {
+
+            var ctrl = this;
+
+            this.onEventSelected = function (args) {
+                ctrl.selectedEvents = ctrl.scheduler.multiselect.events();
+            };
+
+            this.onEventMoved = function (args) {
+                ctrl.scheduler.message("Event moved: " + args.e.text());
+            };
+
+            this.config = {
+                scale: "Day",
+                days: 365,
+                bubble: new DayPilot.Bubble(),
+                startDate: "2014-09-01",
+                eventClickHandling: "Select",
+                contextMenu: new DayPilot.Menu({
+                    items: [
+                        {
+                            text: "Show event ID", onclick: function () {
+                                alert("Event value: " + this.source.value());
+                            }
+                        },
+                        {
+                            text: "Show event text", onclick: function () {
+                                alert("Event text: " + this.source.text());
+                            }
+                        },
+                        {
+                            text: "Show event start", onclick: function () {
+                                alert("Event start: " + this.source.start().toStringSortable());
+                            }
+                        },
+                        {
+                            text: "Delete", onclick: function () {
+                                $scope.dp.events.remove(this.source);
+                            }
+                        },
+                        {
+                            text: "Disabled menu item", onclick: function () {
+                                alert("disabled")
+                            }, disabled: true
+                        }
+                    ]
+                }),
+                timeHeaders: [
+                    {groupBy: "Month"},
+                    {groupBy: "Cell", format: "d"}
+                ],
+                resources: [
+                    {name: "Room B", id: "B"},
+                    {name: "Room C", id: "C"},
+                    {name: "Room D", id: "D"},
+                    {name: "Room E", id: "E"}
+                ]
+            };
+
+            this.events = [
+                {
+                    start: new DayPilot.Date("2014-09-05T00:00:00"),
+                    end: new DayPilot.Date("2014-09-06T00:00:00"),
+                    id: DayPilot.guid(),
+                    resource: "B",
+                    text: "One-Day Event",
+                    bubbleHtml: "Details"
+                }
+            ];
+
+            this.add = function () {
+                this.events.push(
+                    {
+                        start: new DayPilot.Date("2014-09-05T00:00:00"),
+                        end: new DayPilot.Date("2014-09-06T00:00:00"),
+                        id: DayPilot.guid(),
+                        resource: "B",
+                        text: "One-Day Event",
+                        bubbleHtml: "Details"
+                    }
+                );
+            };
+
+            this.move = function () {
+                var event = this.events[0];
+                if (event) {
+                    event.start = event.start.addDays(1);
+                    event.end = event.end.addDays(1);
+                }
+            };
+
+            this.rename = function () {
+                this.events[0].text = "New name";
+            };
+
+            this.scrollTo = function (date) {
+                this.scheduler.scrollTo(date);
+            };
+
+            this.scale = function (val) {
+                this.config.scale = val;
+            };
+
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

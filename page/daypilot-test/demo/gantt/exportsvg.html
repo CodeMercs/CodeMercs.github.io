@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Gantt Chart</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+    <script src="../helpers/jquery-1.12.2.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b>
+        Read more about the <a href="https://doc.daypilot.org/gantt/client-side-image-export/">Gantt chart client-side
+            image export</a>.
+    </div>
+
+
+    <div id="dp"></div>
+
+    <div class="space">
+        Area:
+        <select id="area">
+            <option value="viewport">Viewport</option>
+            <option value="full">Full</option>
+        </select>
+    </div>
+    <div class="space">
+        <a href="#" id="export-button">Export</a>
+        <a href="#" id="download-button">Download</a>
+    </div>
+
+    <div id="zoom" style="display:none" class="space">
+        <a href="#" id="zoomin">Zoom +</a>
+        <a href="#" id="zoomout">Zoom -</a>
+    </div>
+
+    <div id="export"></div>
+
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Gantt("dp");
+
+        dp.days = 30;
+
+        // generate and load sample tasks
+        var start = new DayPilot.Date().getDatePart();
+        var last = null;
+        for (var i = 0; i < 5; i++) {
+            var duration = Math.floor(Math.random() * 3) + 1; // 1 to 3
+            var end = start.addDays(duration);
+
+            var e = new DayPilot.Task({
+                start: start,
+                end: end,
+                id: DayPilot.guid(),
+                text: "Task " + i,
+                tags: {
+                    info: "info text"
+                },
+                children: [
+                    {
+                        start: start,
+                        end: end,
+                        id: DayPilot.guid(),
+                        text: "Subtask 1",
+                        complete: Math.floor(Math.random() * 101) // 0 to 100
+                    },
+                    {
+                        start: start,
+                        end: end,
+                        id: DayPilot.guid(),
+                        text: "Subtask 2",
+                        complete: Math.floor(Math.random() * 101) // 0 to 100
+                    },
+                    {
+                        start: end,
+                        id: DayPilot.guid(),
+                        text: "Milestone 1",
+                        type: "Milestone"
+                    }
+
+                ]
+            });
+
+            dp.tasks.add(e);
+
+            if (last) {
+                dp.links.add(new DayPilot.Link({
+                    id: DayPilot.guid(),  // optional
+                    from: last,
+                    to: e.id(),
+                    type: "FinishToStart"
+                }));
+            }
+            last = e.id();
+            start = end;
+
+        }
+
+        dp.columns = [
+            {
+                title: "Name",
+                width: 50,
+                property: "text"
+            },
+            {
+                title: "Info",
+                width: 50,
+                property: "info"
+            },
+            {
+                title: "Duration",
+                width: 50
+            }
+        ];
+
+        dp.onBeforeRowHeaderRender = function (args) {
+            var duration = args.task.duration();
+            var html = duration.toString("d") + "d " + duration.toString("h") + "h";
+            args.row.columns[2].html = html;
+        };
+
+        dp.separators = [
+            {
+                color: "red",
+                location: DayPilot.Date.today().addDays(1),
+                layer: "BelowEvents"
+            }
+        ];
+
+        dp.init();
+
+
+        $(document).ready(function () {
+            $("#export-button").click(function (ev) {
+                ev.preventDefault();
+                var area = $("#area").val();
+                $("#zoom").show();
+
+                var e = dp.exportAs("svg", {area: area});
+                var element = e.toElement();
+                element.style.height = e.dimensions().height + "px";
+                element.style.width = e.dimensions().width + "px";
+                $("#export").html('').append(element);
+                return false;
+            });
+            $("#download-button").click(function (ev) {
+                ev.preventDefault();
+                var area = $("#area").val();
+                dp.exportAs("svg", {area: area}).download();
+            });
+            $("#zoomin").click(function (ev) {
+                ev.preventDefault();
+
+                var height = $("svg").height();
+                $("svg").height(height * 1.1);
+
+                var width = $("svg").width();
+                $("svg").width(width * 1.1);
+            });
+            $("#zoomout").click(function (ev) {
+                ev.preventDefault();
+
+                var height = $("svg").height();
+                $("svg").height(height / 1.1);
+
+                var width = $("svg").width();
+                $("svg").width(width / 1.1);
+            });
+        });
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

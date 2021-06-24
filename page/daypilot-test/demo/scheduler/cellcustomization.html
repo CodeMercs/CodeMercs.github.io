@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cell Customization (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> You can write custom HTML to grid cells. You can also modify cell properties, such as
+        background color, CSS class and IsBusiness status. Read more about <a
+            href="https://doc.daypilot.org/scheduler/cell-customization/">cell customization</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2021-01-01";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "ddd d"}
+        ];
+
+        dp.cellWidth = 80;
+        dp.eventHeight = 40;
+
+        dp.onBeforeCellRender = function (args) {
+            if (args.cell.resource === "A" && args.cell.start.getDay() === 1) { // first day of month
+                args.cell.areas = [
+                    {backColor: "#f1c232", top: 0, left: 0, right: 0, height: 4},
+                    {
+                        backColor: "#ffe599",
+                        top: 4,
+                        left: 0,
+                        right: 0,
+                        height: 15,
+                        text: "Maintenance",
+                        style: "text-align: center; color: #333; font-size: 8pt;"
+                    },
+                ];
+                args.cell.properties.status = "Under Maintenance";
+            }
+            if (args.cell.resource === "D") {
+                // args.cell.html = "<div style='position:absolute;right:2px;bottom:2px;font-size:8pt;color:#666;'>Unavailable</div>";
+                args.cell.areas = [
+                    {backColor: "#e06666", top: 0, left: 0, right: 0, height: 4},
+                    {
+                        backColor: "#f4cccc",
+                        top: 4,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        text: "Unavailable",
+                        style: "text-align: center; color: #333; font-size: 8pt;"
+                    },
+                ];
+            }
+        };
+
+        dp.onCellMouseOver = function (args) {
+            if (args.cell.properties.status) {
+                new DayPilot.Bubble().showHtml(args.cell.properties.status, args.cell.div);
+            }
+        };
+
+        dp.onCellMouseOut = function (args) {
+            DayPilot.Bubble.hideActive();
+        };
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"},
+            {name: "Room J", id: "J"},
+            {name: "Room K", id: "K"},
+        ];
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.init();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

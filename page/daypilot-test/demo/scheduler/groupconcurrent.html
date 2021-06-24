@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group Concurrent Events (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a
+        href="https://doc.daypilot.org/scheduler/concurrent-event-groups/">grouping concurrent events</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2019-11-10";  // or just dp.startDate = "2013-03-25";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "ddd d"}
+        ];
+
+        dp.bubble = new DayPilot.Bubble();
+
+        dp.contextMenu = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Edit", onclick: function () {
+                        alert("Event value: " + this.source.value());
+                    }
+                },
+                {
+                    text: "Delete", onclick: function () {
+                        alert("Event text: " + this.source.text());
+                    }
+                },
+                {text: "-"},
+                {
+                    text: "Copy", onclick: function () {
+                        alert("Event start: " + this.source.start().toStringSortable());
+                    }
+                },
+                {
+                    text: "Select", onclick: function () {
+                        alert("Event start: " + this.source.start().toStringSortable());
+                    }
+                },
+            ]
+        });
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"},
+            {name: "Room J", id: "J"},
+            {name: "Room K", id: "K"},
+        ];
+
+        // generate and load events
+        dp.events.list = [{
+            "start": "2019-11-31T00:00:00",
+            "end": "2019-12-01T18:00:00",
+            "id": "b44007a4-520f-5e8c-febb-b05c359ce18d",
+            "resource": "B",
+            "text": "Event"
+        }, {
+            "start": "2019-11-28T00:00:00",
+            "end": "2019-11-31T16:00:00",
+            "id": "d79db2db-f76b-c32e-b5d5-9538a016f681",
+            "resource": "C",
+            "text": "Event"
+        }, {
+            "start": "2019-12-01T00:00:00",
+            "end": "2019-12-02T15:00:00",
+            "id": "7d33dbb4-c1c9-76cf-dc42-d10b115216bf",
+            "resource": "C",
+            "text": "Event"
+        }, {
+            "start": "2019-11-31T00:00:00",
+            "end": "2019-12-03T13:00:00",
+            "id": "e8ac07f2-d5ff-afc1-85cd-bc70bcefbc89",
+            "resource": "A",
+            "text": "Event"
+        }, {
+            "start": "2019-11-29T00:00:00",
+            "end": "2019-12-01T17:00:00",
+            "id": "7b70d267-b437-b384-6c4c-820b0085baed",
+            "resource": "D",
+            "text": "Event"
+        }, {
+            "start": "2019-11-29T00:00:00",
+            "end": "2019-11-30T13:00:00",
+            "id": "01a50b6b-2a6e-5268-e45c-5e33aabd2520",
+            "resource": "E",
+            "text": "Event"
+        }, {
+            "start": "2019-11-29T00:00:00",
+            "end": "2019-11-29T18:00:00",
+            "id": "c186e3dd-8c33-6e9a-c8be-5411fc88c990",
+            "resource": "C",
+            "text": "Event"
+        }, {
+            "start": "2019-11-28T00:00:00",
+            "end": "2019-11-31T14:00:00",
+            "id": "2e28f67c-ddfa-013b-e66c-8abed108279b",
+            "resource": "E",
+            "text": "Event"
+        }, {
+            "start": "2019-11-30T00:00:00",
+            "end": "2019-12-01T16:00:00",
+            "id": "3d4abc2c-f3c4-89fc-7558-a1c6c75cfe09",
+            "resource": "D",
+            "text": "Event"
+        }, {
+            "start": "2019-11-31T00:00:00",
+            "end": "2019-12-02T17:00:00",
+            "id": "484ba1ef-0295-0693-05e0-c80f120f137c",
+            "resource": "B",
+            "text": "Event"
+        }, {
+            "start": "2019-11-30T00:00:00",
+            "end": "2019-11-31T14:00:00",
+            "id": "01a36e2e-ec37-a7f1-508a-858073288fea",
+            "resource": "D",
+            "text": "Event"
+        }, {
+            "start": "2019-11-30T00:00:00",
+            "end": "2019-11-30T18:00:00",
+            "id": "9608cd21-5374-cc47-4777-7755982f5f06",
+            "resource": "D",
+            "text": "Event"
+        }, {
+            "start": "2019-11-27T00:00:00",
+            "end": "2019-11-27T16:00:00",
+            "id": "b3d465c2-f6d5-6984-b2a0-9dc766a6aabc",
+            "resource": "D",
+            "text": "Event"
+        }, {
+            "start": "2019-11-31T00:00:00",
+            "end": "2019-12-01T18:00:00",
+            "id": "a54d3aa1-64a8-4051-e47f-fa4319a6ae2e",
+            "resource": "D",
+            "text": "Event"
+        }, {
+            "start": "2019-12-01T00:00:00",
+            "end": "2019-12-06T15:00:00",
+            "id": "e63c739c-945f-daa0-d991-5e734345dfa2",
+            "resource": "C",
+            "text": "Event"
+        }, {
+            "start": "2019-12-01T00:00:00",
+            "end": "2019-12-01T10:15:00",
+            "id": "761debfc-6ec6-fe00-4279-ebdf661b827e",
+            "resource": "H",
+            "text": "Test 1"
+        }, {
+            "start": "2019-12-01T10:15:00",
+            "end": "2019-12-02T00:00:00",
+            "id": "a23bfb40-a221-f54d-a1b0-dd1cd6833b1e",
+            "resource": "H",
+            "text": "Test 2"
+        }];
+        //dp.events.list = [{"start":"2019-11-31T00:00:00","end":"2019-12-02T17:00:00","id":"484ba1ef-0295-0693-05e0-c80f120f137c","resource":"A.1","text":"Event"},{"start":"2019-11-31T00:00:00","end":"2019-12-02T18:00:00","id":"484ba1ef-0295-0693-05e0-c80f120f137d","resource":"A.1","text":"Event"},];
+
+        dp.dynamicEventRenderingCacheSweeping = true;
+
+        dp.eventHoverHandling = "Bubble";
+
+        dp.eventMovingStartEndEnabled = true;
+        dp.eventResizingStartEndEnabled = true;
+        dp.timeRangeSelectingStartEndEnabled = true;
+
+        dp.onBeforeEventRender = function (args) {
+            args.e.bubbleHtml = "<div><b>" + args.e.text + "</b></div><div>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "</div>";
+        };
+
+        dp.onBeforeResHeaderRender = function (args) {
+        };
+
+        dp.onBeforeRowHeaderRender = function (args) {
+            var hasExpanded = args.row.groups.expanded().length > 0;
+            var hasCollapsed = args.row.groups.collapsed().length > 0;
+
+            if (hasExpanded && hasCollapsed) {
+                args.row.areas = [
+                    {
+                        v: "Visible",
+                        right: 14,
+                        top: 0,
+                        height: 12,
+                        width: 12,
+                        style: "cursor:pointer",
+                        html: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAIAAABv85FHAAAAKXRFWHRDcmVhdGlvbiBUaW1lAHDhIDMwIEkgMjAwOSAwODo0NjozMSArMDEwMClDkt4AAAAHdElNRQfZAR4HLyUoFBT0AAAACXBIWXMAAA7CAAAOwgEVKEqAAAAABGdBTUEAALGPC/xhBQAAAFJJREFUeNpjrK6s5uTl/P75OybJ0NLW8h8bAIozgeRhgJGREc4GijMBtTNgA0BxFog+uA4IA2gmUJwFog/IgUhAGBB9KPYhA3T74Jog+hjx+A8A1KRQ+AN5vcwAAAAASUVORK5CYII=' />",
+                        action: "JavaScript",
+                        js: function (row) {
+                            row.groups.expandAll();
+                        }
+                    },
+                    {
+                        v: "Visible",
+                        right: 0,
+                        top: 0,
+                        height: 12,
+                        width: 12,
+                        style: "cursor:pointer",
+                        html: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAIAAABv85FHAAAAKXRFWHRDcmVhdGlvbiBUaW1lAHDhIDMwIEkgMjAwOSAwODo0NjozMSArMDEwMClDkt4AAAAHdElNRQfZAR4HLxB+p9DXAAAACXBIWXMAAA7CAAAOwgEVKEqAAAAABGdBTUEAALGPC/xhBQAAAENJREFUeNpjrK6s5uTl/P75OybJ0NLW8h8bAIozgeSxAaA4E1A7VjmgOAtEHyMjI7IE0EygOAtEH5CDqY9c+xjx+A8ANndK9WaZlP4AAAAASUVORK5CYII=' />",
+                        action: "JavaScript",
+                        js: function (row) {
+                            row.groups.collapseAll();
+                        }
+                    }
+                ];
+            } else if (hasCollapsed) {
+                args.row.areas = [
+                    {
+                        v: "Visible",
+                        right: 0,
+                        top: 0,
+                        height: 12,
+                        width: 12,
+                        style: "cursor:pointer",
+                        html: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAIAAABv85FHAAAAKXRFWHRDcmVhdGlvbiBUaW1lAHDhIDMwIEkgMjAwOSAwODo0NjozMSArMDEwMClDkt4AAAAHdElNRQfZAR4HLyUoFBT0AAAACXBIWXMAAA7CAAAOwgEVKEqAAAAABGdBTUEAALGPC/xhBQAAAFJJREFUeNpjrK6s5uTl/P75OybJ0NLW8h8bAIozgeRhgJGREc4GijMBtTNgA0BxFog+uA4IA2gmUJwFog/IgUhAGBB9KPYhA3T74Jog+hjx+A8A1KRQ+AN5vcwAAAAASUVORK5CYII=' />",
+                        action: "JavaScript",
+                        js: function (row) {
+                            row.groups.expandAll();
+                        }
+                    },
+                ];
+            } else if (hasExpanded) {
+                args.row.areas = [
+                    {
+                        v: "Visible",
+                        right: 0,
+                        top: 0,
+                        height: 12,
+                        width: 12,
+                        style: "cursor:pointer",
+                        html: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAIAAABv85FHAAAAKXRFWHRDcmVhdGlvbiBUaW1lAHDhIDMwIEkgMjAwOSAwODo0NjozMSArMDEwMClDkt4AAAAHdElNRQfZAR4HLxB+p9DXAAAACXBIWXMAAA7CAAAOwgEVKEqAAAAABGdBTUEAALGPC/xhBQAAAENJREFUeNpjrK6s5uTl/P75OybJ0NLW8h8bAIozgeSxAaA4E1A7VjmgOAtEHyMjI7IE0EygOAtEH5CDqY9c+xjx+A8ANndK9WaZlP4AAAAASUVORK5CYII=' />",
+                        action: "JavaScript",
+                        js: function (row) {
+                            row.groups.collapseAll();
+                        }
+                    }
+                ];
+            }
+        };
+
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onEventClicked = function (args) {
+            alert("clicked: " + args.e.id() + " ctrl: " + args.ctrl);
+        };
+
+        dp.onTimeHeaderClick = function (args) {
+            console.log(args.header);
+            alert("clicked: " + args.header.start);
+        };
+
+        dp.separators = [
+            {color: "Red", location: "2019-11-29T00:00:00", layer: "BelowEvents"}
+        ];
+
+        dp.groupConcurrentEvents = true;
+        dp.groupConcurrentEventsLimit = 1;
+
+        dp.init();
+
+        dp.scrollTo("2019-11-25");
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

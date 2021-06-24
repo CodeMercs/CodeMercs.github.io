@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monthly Event Calendar</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://doc.daypilot.org/month/weeks-view/">weeks
+        view</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Month("dp");
+
+        // behavior and appearance
+        dp.cellMarginBottom = 20;
+
+        dp.viewType = "Weeks";
+        dp.weeks = 2;
+
+        dp.bubble = new DayPilot.Bubble({
+            onLoad: function (args) {
+                var ev = args.source;
+                args.html = "testing bubble for: " + ev.text();
+            }
+        });
+
+        // view
+        dp.startDate = "2013-03-01";  // or just dp.startDate = "2013-03-25";
+
+        // generate and load events
+        for (var i = 0; i < 10; i++) {
+            var duration = Math.floor(Math.random() * 1.2);
+            var start = Math.floor(Math.random() * 6) - 3; // -3 to 3
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2013-03-04T00:00:00").addDays(start),
+                end: new DayPilot.Date("2013-03-04T12:00:00").addDays(start).addDays(duration),
+                id: DayPilot.guid(),
+                text: "Event " + i
+            });
+            dp.events.add(e);
+        }
+
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onEventClicked = function (args) {
+            alert("clicked: " + args.e.id());
+        };
+
+        dp.onHeaderClicked = function (args) {
+            alert("day: " + args.header.dayOfWeek);
+        };
+
+        dp.init();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

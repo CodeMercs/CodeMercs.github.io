@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Timesheet (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note">
+        <b>Note:</b> The <b>timesheet</b> view displays days on the Y axis and 24 hours of day on the X axis. Read more
+        about the <a href="https://doc.daypilot.org/scheduler/timesheet/">timesheet</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = DayPilot.Date.today().firstDayOfMonth();  // or just dp.startDate = "2013-03-25";
+        dp.viewType = "Days";
+        dp.days = dp.startDate.daysInMonth();
+        dp.cellDuration = 15;
+        dp.scale = "CellDuration";
+        dp.timeHeaders = [
+            {groupBy: "Hour"},
+            {groupBy: "Cell"}
+        ];
+
+        // generate and load events
+        for (var i = 0; i < 31; i++) {
+            var start = Math.floor(Math.random() * 6);
+            var duration = Math.floor(Math.random() * 3) + 1; // 1 to 6
+
+            var from = DayPilot.Date.today().firstDayOfMonth().addHours(9);
+
+            var e = new DayPilot.Event({
+                start: from.addDays(i).addHours(start),
+                end: from.addDays(i).addHours(start + duration),
+                id: DayPilot.guid(),
+                text: "Event " + i,
+                bubbleHtml: "" + from.addDays(i).addHours(start) + " - " + from.addDays(i).addHours(start + duration)
+            });
+            dp.events.add(e);
+        }
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        // dp.rowHeaderColumnsMode = "Legacy";
+        dp.rowHeaderColumns = [
+            {title: "Date"},
+            {title: "Day", width: 30}
+        ];
+
+        dp.showNonBusiness = true;
+        dp.cellWidthSpec = "Auto";
+        dp.cellWidthMin = 20;
+        dp.businessWeekends = false;
+
+        dp.onBeforeCellRender = function (args) {
+            var sunday = 0;
+            var saturday = 6;
+            var dayOfWeek = args.cell.start.dayOfWeek();
+            if (dayOfWeek === sunday || dayOfWeek === saturday) {
+                args.cell.backColor = "#f0f0f0"; // apply highlighting
+            }
+
+            // disable weekends
+            var day = args.cell.start.getDayOfWeek();
+            if (day === 6 || day === 0) {
+                args.cell.disabled = true;
+            }
+        };
+
+        dp.onBeforeRowHeaderRender = function (args) {
+            args.row.horizontalAlignment = "center";
+
+            args.row.columns[1].html = args.row.start.toString("ddd");
+            args.row.columns[1].horizontalAlignment = "center";
+        };
+
+        /*
+        dp.businessBeginsHour = 8;
+        dp.businessEndsHour = 21;
+        dp.showNonBusiness = false;
+        */
+
+        /*
+        dp.onIncludeTimeCell = function(args) {
+            if (args.cell.start.getHours() < 8 || args.cell.start.getHours() > 21) {
+                args.cell.visible = false;
+            }
+        };
+        */
+
+        dp.init();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

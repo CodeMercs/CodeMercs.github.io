@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Progressive Task Rendering (JavaScript Gantt Chart)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> This Gantt chart displays 10,000 tasks. Read more about <a
+        href="https://doc.daypilot.org/gantt/progressive-task-rendering/">progressive task rendering</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Gantt("dp");
+
+        dp.taskGroupMode = "Auto";
+
+        dp.heightSpec = "Max";
+        dp.height = 300;
+
+        dp.scrollDelayCells = 200;
+
+        dp.rowHeaderWidthAutoFit = true;
+
+        dp.startDate = new DayPilot.Date().addDays(-1);
+        dp.days = 30;
+
+        // generate and load sample tasks
+        var start = new DayPilot.Date().getDatePart();
+        var last = null;
+        for (var i = 0; i < 10000; i++) {
+            var duration = Math.floor(Math.random() * 3) + 1; // 1 to 3
+            var end = start.addDays(duration);
+
+            var e = new DayPilot.Task({
+                start: start,
+                end: end,
+                id: DayPilot.guid(),
+                text: "Task " + i,
+                tags: {
+                    info: "info text"
+                }
+            });
+            dp.tasks.add(e);
+
+            last = e.id();
+        }
+
+        dp.columns = [
+            {
+                title: "Name",
+                width: 50,
+                property: "text"
+            },
+            {
+                title: "Info",
+                width: 50,
+                property: "info"
+            },
+            {
+                title: "Duration",
+                width: 50,
+                format: function (args) {
+                    var duration = args.task.duration();
+                    return duration.toString("d") + "d " + duration.toString("h") + "h";
+                }
+            }
+        ];
+
+        dp.onTaskClicked = function (args) {
+            alert("Clicked: " + args.e.id());
+        };
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

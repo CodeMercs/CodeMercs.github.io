@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hiding Non-Business Hours (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a
+        href="https://doc.daypilot.org/scheduler/hiding-non-business-hours/">hiding non-business hours</a>.
+    </div>
+
+    <div class="space">
+        Scale:
+        <label><input type="radio" name="scale" id="scale-hour" value="Hour" checked> hours</label>
+        <label><input type="radio" name="scale" id="scale-day" value="Day"> days</label>
+
+        <span style="color: #999; padding-left: 20px;">Note: Business hours are forced in day-scale mode (showNonBusinessForceHours).</span>
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2019-01-01";
+        dp.days = 62;
+        dp.scale = "Hour";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Day", format: "ddd d"},
+            {groupBy: "Hour"}
+        ];
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"},
+            {name: "Room J", id: "J"},
+            {name: "Room K", id: "K"}
+        ];
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2019-01-01T00:00:00"),
+            end: new DayPilot.Date("2019-01-02T00:00:00"),
+            id: DayPilot.guid(),
+            resource: "B",
+            text: "First Event"
+        });
+        dp.events.add(e);
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2019-01-02T00:00:00"),
+            end: new DayPilot.Date("2019-01-02T09:00:00"),
+            id: DayPilot.guid(),
+            resource: "A",
+            text: "Second Event"
+        });
+        dp.events.add(e);
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2019-01-02T09:00:00"),
+            end: new DayPilot.Date("2019-01-02T10:00:00"),
+            id: DayPilot.guid(),
+            resource: "A",
+            text: "Third Event"
+        });
+        dp.events.add(e);
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.showNonBusiness = false;
+        dp.showNonBusinessForceHours = true;
+        dp.businessBeginsHour = 9;
+        dp.businessEndsHour = 18;
+
+        dp.timeRangeSelectingStartEndFormat = "h:mm tt MMMM d, yyyy";
+
+        dp.init();
+
+        var timeHeaders = {
+            Hour: [
+                {groupBy: "Month", format: "MMM yyyy"},
+                {groupBy: "Day", format: "ddd d"},
+                {groupBy: "Hour"}
+            ],
+            Day: [
+                {groupBy: "Month", format: "MMM yyyy"},
+                {groupBy: "Day", format: "ddd d"}
+            ]
+        };
+
+        document.querySelectorAll("input[type=radio]").forEach(function(el) {
+            el.addEventListener("change", function(ev) {
+                var val = document.querySelector("input[type=radio]:checked").value;
+
+                dp.scale = val;
+                dp.timeHeaders = timeHeaders[val];
+                dp.update();
+            });
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

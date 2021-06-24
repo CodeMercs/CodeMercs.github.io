@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Large Data Set (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://javascript.daypilot.org/scheduler/">JavaScript
+        scheduler</a>.
+    </div>
+
+    <div id="dp"></div>
+
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2014-01-01";  // or just dp.startDate = "2013-03-25";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "ddd d"}
+        ];
+
+        dp.bubble = new DayPilot.Bubble();
+
+        dp.onEventRightClicked = function (args) {
+            dp.multiselect.add(args.e);
+        };
+
+        dp.contextMenu = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Edit", onclick: function () {
+                        alert("Event value: " + this.source.value());
+                    }
+                },
+                {
+                    text: "Delete", onclick: function () {
+                        alert("Event text: " + this.source.text());
+                    }
+                },
+                {text: "-"},
+                {
+                    text: "Copy", onclick: function () {
+                        alert("Event start: " + this.source.start().toStringSortable());
+                    }
+                },
+                {
+                    text: "Select", onclick: function () {
+                        alert("Event start: " + this.source.start().toStringSortable());
+                    }
+                },
+            ]
+        });
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {
+                name: "Upper Section", id: "US", expanded: true, children: [
+                    {name: "Room A", id: "A"},
+                    {name: "Room B", id: "B"},
+                    {name: "Room C", id: "C"},
+                    {name: "Room D", id: "D"},
+                    {name: "Room E", id: "E"},
+                    {name: "Room F", id: "F"},
+                    {name: "Room G", id: "G"},
+                    {name: "Room H", id: "H"},
+                    {name: "Room I", id: "I"},
+                    {name: "Room J", id: "J"},
+                    {name: "Room K", id: "K"},
+                    {name: "Room L", id: "L"},
+                    {name: "Room M", id: "M"},
+                    {name: "Room N", id: "N"},
+                    {name: "Room O", id: "O"},
+                    {name: "Room P", id: "P"},
+                    {name: "Room Q", id: "Q"},
+                    {name: "Room R", id: "R"},
+                    {name: "Room S", id: "S"},
+                    {name: "Room T", id: "T"},
+                    {name: "Room U", id: "U"},
+                    {name: "Room V", id: "V"},
+                    {name: "Room W", id: "W"},
+                    {name: "Room X", id: "X"},
+                    {name: "Room Y", id: "Y"},
+                    {name: "Room Z", id: "Z"}
+                ]
+            },
+            {
+                name: "Lower Section", id: "LS", expanded: true, children: [
+                    {name: "Room a", id: "a"},
+                    {name: "Room b", id: "b"},
+                    {name: "Room c", id: "c"},
+                    {name: "Room d", id: "d"},
+                    {name: "Room e", id: "e"},
+                    {name: "Room f", id: "f"},
+                    {name: "Room g", id: "g"},
+                    {name: "Room h", id: "h"},
+                    {name: "Room i", id: "i"},
+                    {name: "Room j", id: "j"},
+                    {name: "Room k", id: "k"},
+                    {name: "Room l", id: "l"},
+                    {name: "Room m", id: "m"},
+                    {name: "Room n", id: "n"},
+                    {name: "Room o", id: "o"},
+                    {name: "Room p", id: "p"},
+                    {name: "Room q", id: "q"},
+                    {name: "Room r", id: "r"},
+                    {name: "Room s", id: "s"},
+                    {name: "Room t", id: "t"},
+                    {name: "Room u", id: "u"},
+                    {name: "Room v", id: "v"},
+                    {name: "Room w", id: "w"},
+                    {name: "Room x", id: "x"},
+                    {name: "Room y", id: "y"},
+                    {name: "Room z", id: "z"}
+                ]
+            }
+
+        ];
+
+        for (var i = 0; i < 1500; i++) {
+            var durationDays = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var start = Math.floor(Math.random() * 360) + 1; // 1 to 300
+            var res = Math.floor(Math.random() * 26); // 0 to 10
+            var upper = Math.round(Math.random()) ? 32 : 0;
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2014-01-01T00:00:00").addDays(start),
+                end: new DayPilot.Date("2014-01-01T00:00:00").addDays(start).addDays(durationDays),
+                id: DayPilot.guid(),
+                resource: String.fromCharCode(65 + res + upper),
+                percentage: 10,
+                text: "Event " + i
+            });
+
+            dp.events.add(e);
+        }
+
+        dp.dynamicEventRenderingCacheSweeping = true;
+
+        dp.eventHoverHandling = "Bubble";
+
+        dp.eventMovingStartEndEnabled = true;
+        dp.eventResizingStartEndEnabled = true;
+        dp.timeRangeSelectingStartEndEnabled = true;
+
+        dp.onBeforeEventRender = function (args) {
+            args.e.bubbleHtml = "<div><b>" + args.e.text + "</b></div><div>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "</div>";
+        };
+
+        dp.onBeforeResHeaderRender = function (args) {
+        };
+
+        dp.onBeforeRowHeaderRender = function (args) {
+        };
+
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+        };
+
+        dp.onEventResize = function (args) {
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onTimeHeaderClick = function (args) {
+            console.log(args.header);
+            alert("clicked: " + args.header.start);
+        };
+
+        dp.separators = [
+            {color: "Red", location: "2014-03-29T00:00:00", layer: "BelowEvents"}
+        ];
+
+        dp.rowMarginTop = 15;
+
+        dp.onBeforeCellRender = function (args) {
+            var utilization = args.cell.utilization("percentage");
+            var visible = utilization > 0;
+
+            if (visible) {
+                var opacity = utilization / 100;
+                args.cell.html = "<div style='position: absolute; left: 0px; top:0px; right: 0px; height: 15px; padding-left: 3px; background-color: red; color:white; opacity: " + opacity + ";'>" + utilization + "%</div>";
+            }
+        };
+
+        dp.heightSpec = "Max";
+        dp.height = 1000;
+
+        dp.init();
+
+        dp.scrollTo("2014-03-25");
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

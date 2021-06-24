@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Progressive Row Rendering (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> This scheduler displays 300 resources, each with 3 children. The row headers are
+        rendered progressively during scrolling (.progressiveRowRendering = true).
+        Read more about <a href="https://doc.daypilot.org/scheduler/progressive-row-rendering/">progressive row
+            rendering</a>.
+    </div>
+
+    <div id="dp"></div>
+
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2014-01-01";  // or just dp.startDate = "2013-03-25";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "ddd d"}
+        ];
+
+        dp.bubble = new DayPilot.Bubble();
+
+        dp.contextMenu = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Edit", onclick: function () {
+                        alert("Event value: " + this.source.value());
+                    }
+                },
+                {
+                    text: "Delete", onclick: function () {
+                        alert("Event text: " + this.source.text());
+                    }
+                },
+                {text: "-"},
+                {
+                    text: "Copy", onclick: function () {
+                        alert("Event start: " + this.source.start().toStringSortable());
+                    }
+                },
+                {
+                    text: "Select", onclick: function () {
+                        alert("Event start: " + this.source.start().toStringSortable());
+                    }
+                },
+            ]
+        });
+
+        dp.treeEnabled = true;
+        dp.resources = [];
+
+
+        for (var i = 0; i < 300; i++) {
+            var r = {
+                name: "Resource " + i,
+                id: "R" + i,
+                children: []
+            };
+
+            for (var x = 0; x < 3; x++) {
+                var c = {
+                    name: "Resource " + i + "." + x,
+                    id: "R" + i + "." + x
+                };
+                r.children.push(c);
+            }
+            dp.resources.push(r);
+        }
+
+        // generate and load events
+
+        for (var i = 0; i < 300; i++) {
+            var e = new DayPilot.Event({
+                start: "2014-03-25",
+                end: "2014-03-25T12:00:00",
+                id: DayPilot.guid(),
+                resource: "R" + i,
+                text: "Event"
+            });
+
+            dp.events.add(e);
+        }
+
+        dp.dynamicEventRenderingCacheSweeping = true;
+        dp.dynamicEventRenderingMargin = 10;
+
+        dp.eventHoverHandling = "Bubble";
+
+        dp.heightSpec = "Max";
+        dp.height = 500;
+        dp.progressiveRowRendering = true;
+
+        dp.onBeforeEventRender = function (args) {
+            args.e.bubbleHtml = "<div><b>" + args.e.text + "</b></div><div>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "</div>";
+        };
+
+        dp.onBeforeResHeaderRender = function (args) {
+        };
+
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onEventClicked = function (args) {
+            alert("clicked: " + args.e.id() + " ctrl: " + args.ctrl);
+        };
+
+        dp.onTimeHeaderClick = function (args) {
+            console.log(args.header);
+            alert("clicked: " + args.header.start);
+        };
+
+        dp.separators = [
+            {color: "Red", location: "2014-03-29T00:00:00", layer: "BelowEvents"}
+        ];
+
+        dp.init();
+
+        dp.scrollTo("2014-03-25");
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Infinite Scrolling (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <style>
+        .scheduler_default_cellparent, .scheduler_default_cell.scheduler_default_cell_business.scheduler_default_cellparent {
+            background: #ddd;
+        }
+
+    </style>
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/scheduler/infinite-scrolling/">infinite
+        scrolling</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <div class="space">Shift:
+        <a href="javascript:dp.infinite.shiftStart(-30);">-30 days</a>
+        |
+        <a href="javascript:dp.infinite.shiftStart(30);">+30 days</a>
+        (changes startDate but the current position remains the same)
+    </div>
+    <div class="space">Scroll to:
+        <div>
+            2019:
+            <a href="javascript:dp.scrollTo('2019-01-01');">January 1</a>
+            |
+            <a href="javascript:dp.scrollTo('2019-06-01');">June 1</a>
+            |
+            <a href="javascript:dp.scrollTo('2019-11-01');">November 1</a>
+        </div>
+        <div>
+            2020:
+            <a href="javascript:dp.scrollTo('2020-01-01');">January 1</a>
+            |
+            <a href="javascript:dp.scrollTo('2020-06-01');">June 1</a>
+            |
+            <a href="javascript:dp.scrollTo('2020-11-01');">November 1</a>
+        </div>
+        <div>
+            <a href="javascript:dp.scrollTo(DayPilot.Date.today());">Today</a>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Day", format: "ddd d"}
+        ];
+
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {
+                name: "Locations", id: "G1", expanded: true, children: [
+                    {name: "Room 1", id: "A"},
+                    {name: "Room 2", id: "B"},
+                    {name: "Room 3", id: "C"},
+                    {name: "Room 4", id: "D"}
+                ]
+            },
+            {
+                name: "People", id: "G2", expanded: true, children: [
+                    {name: "Person 1", id: "E"},
+                    {name: "Person 2", id: "F"},
+                    {name: "Person 3", id: "G"},
+                    {name: "Person 4", id: "H"}
+                ]
+            },
+            {
+                name: "Tools", id: "G3", expanded: true, children: [
+                    {name: "Tool 1", id: "I"},
+                    {name: "Tool 2", id: "J"},
+                    {name: "Tool 3", id: "K"},
+                    {name: "Tool 4", id: "L"}
+                ]
+            },
+        ];
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.treePreventParentUsage = true;
+
+        dp.scrollDelayEvents = 0;
+        dp.infiniteScrollingEnabled = true;
+
+        dp.init();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

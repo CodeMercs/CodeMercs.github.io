@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hide Weekends (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a
+        href="https://doc.daypilot.org/scheduler/hiding-non-business-hours/">hiding non-business hours</a>
+        [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = new DayPilot.Date("2019-03-01");
+        dp.days = dp.startDate.daysInMonth();
+        dp.scale = "Day";
+
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"}
+        ];
+
+        // generate and load events
+        for (var i = 0; i < 10; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var start = Math.floor(Math.random() * 6) - 3; // -3 to 3
+            var res = Math.floor(Math.random() * 6); // 0 to 5
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2019-03-02T00:00:00").addDays(start),
+                end: new DayPilot.Date("2019-03-02T00:00:00").addDays(start).addDays(duration),
+                id: DayPilot.guid(),
+                resource: String.fromCharCode(65 + res),
+                text: "Event"
+            });
+            dp.events.add(e);
+        }
+
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMMM yyyy"},
+            {groupBy: "Day", format: "ddd d"}
+        ];
+
+        dp.onIncludeTimeCell = function (args) {
+            if (args.cell.start.getDayOfWeek() === 0 || args.cell.start.getDayOfWeek() === 6) { // hide Saturdays, Sundays
+                args.cell.visible = false;
+            }
+        };
+
+        dp.timeRangeSelectingStartEndEnabled = true;
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

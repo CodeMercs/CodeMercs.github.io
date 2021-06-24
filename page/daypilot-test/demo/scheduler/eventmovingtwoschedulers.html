@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Moving between Two Schedulers (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> You can move events between two synchronized schedulers.</div>
+
+    <div style="max-height: 100px; overflow: auto;">Status: <span id="status"></span></div>
+
+    <div id="dp1"></div>
+
+    <div id="dp2"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp1");
+
+        // behavior and appearance
+        dp.cellWidth = 40;
+        dp.eventHeight = 25;
+        dp.headerHeight = 25;
+
+        // view
+        dp.startDate = "2017-01-01";
+        dp.days = 365;
+        dp.scale = "Day";
+
+        dp.rowMarginBottom = 5;
+
+        dp.timeHeaders = [
+            {groupBy: "Month"},
+            {groupBy: "Day", format: "d"}
+        ];
+
+        dp.eventClickHandling = "Select";
+
+        // bubble, sync loading
+        // see also DayPilot.Event.data.staticBubbleHTML property
+        dp.bubble = new DayPilot.Bubble({
+            onLoad: function (args) {
+                var ev = args.source;
+                args.html = "testing bubble for: " + ev.text();
+            }
+        });
+
+        dp.contextMenu = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Show event ID", onclick: function () {
+                        alert("Event value: " + this.source.value());
+                    }
+                },
+                {
+                    text: "Show event text", onclick: function () {
+                        alert("Event text: " + this.source.text());
+                    }
+                },
+                {
+                    text: "Show event start", onclick: function () {
+                        alert("Event start: " + this.source.start().toStringSortable());
+                    }
+                },
+            ]
+        });
+
+        dp.treeEnabled = true;
+        dp.rowHeaderWidth = 200;
+        dp.resources = [
+            {
+                name: "Room A", id: "A", children: [
+                    {name: "Part 1", id: "A.1"},
+                    {name: "Part 2", id: "A.2"}
+                ]
+            },
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"},
+            {
+                name: "Room J", id: "J", children: [
+                    {name: "Part 1", id: "J.1"},
+                    {name: "Part 2", id: "J.2"}
+                ]
+            }
+        ];
+
+        // generate and load events
+        for (var i = 0; i < 10; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var start = Math.floor(Math.random() * 6) - 3; // -3 to 3
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2017-03-25T00:00:00").addHours(start),
+                end: new DayPilot.Date("2017-03-25T12:00:00").addHours(start).addHours(duration),
+                id: DayPilot.guid(),
+                resource: String.fromCharCode(65 + i),
+                text: "Event " + i,
+                bubbleHtml: "Testing bubble"
+            });
+            dp.events.add(e);
+        }
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2017-03-20T00:00:00"),
+            end: new DayPilot.Date("2017-03-21T12:00:00"),
+            id: DayPilot.guid(),
+            resource: "C",
+            text: "Event 11",
+            bubbleHtml: "Testing bubble"
+        });
+        dp.events.add(e);
+
+        dp.eventHoverHandling = "Bubble";
+
+        // event moving
+        dp.onEventMove = function (args) {
+            eventMove(dp, args);
+        };
+
+        dp.onEventMoving = function (args) {
+            if (args.overlapping) {
+                args.right.enabled = true;
+                args.right.html = "Conflict with an existing event!";
+            }
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.allowEventOverlap = false;
+
+        //dp.allowMultiMove = true;
+        dp.onEventMoved = function (args) {
+            dp.message("Event " + args.e.text() + " moved.");
+        };
+
+        dp.onEventMoving = function (args) {
+            args.left.enabled = true;
+            args.left.html = args.e.start().toString();
+        };
+
+        dp.dragOutAllowed = true;
+
+        dp.init();
+        dp.scrollTo("2017-03-15");
+
+        var dp2 = new DayPilot.Scheduler("dp2");
+        // behavior and appearance
+        dp2.cellWidth = 40;
+        dp2.eventHeight = 25;
+        dp2.headerHeight = 25;
+
+        // view
+        dp2.startDate = "2017-01-01";
+        dp2.days = 365;
+        dp2.scale = "Day";
+
+        dp2.timeHeaders = [
+            {groupBy: "Month"},
+            {groupBy: "Day", format: "d"}
+        ];
+
+        dp2.treeEnabled = true;
+        dp2.rowHeaderWidth = 200;
+        dp2.resources = [
+            // { name: "Room A", id: "A" },
+            {
+                name: "Room A", id: "A", children: [
+                    {name: "Part 1", id: "A.1"},
+                    {name: "Part 2", id: "A.2"}
+                ]
+            },
+
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"},
+            {
+                name: "Room J", id: "J", children: [
+                    {name: "Part 1", id: "J.1"},
+                    {name: "Part 2", id: "J.2"}
+                ]
+            }
+        ];
+
+        dp2.dragOutAllowed = true;
+        dp2.onEventMove = function (args) {
+            eventMove(dp2, args);
+        };
+
+        dp2.onEventMoving = function (args) {
+            args.left.enabled = true;
+            args.left.html = args.start.toString("MMMM d, yyyy @ h:mm tt");
+        };
+
+        dp2.onEventMoved = function (args) {
+        };
+
+        dp2.onBeforeEventRender = function (args) {
+        };
+
+        dp2.init();
+
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2017-03-20T00:00:00"),
+            end: new DayPilot.Date("2017-03-21T12:00:00"),
+            id: DayPilot.guid(),
+            resource: "A",
+            text: "Event 21",
+            bubbleHtml: "Testing bubble"
+        });
+        dp2.events.add(e);
+
+        // scrollbar synchronization
+        dp.nav.scroll.addEventListener("scroll", function () {
+            dp2.nav.scroll.scrollLeft = dp.nav.scroll.scrollLeft;
+        });
+
+        dp2.nav.scroll.addEventListener("scroll", function () {
+            dp.nav.scroll.scrollLeft = dp2.nav.scroll.scrollLeft;
+        });
+
+        function eventMove(target, args) {
+            var source = args.e.calendar;
+
+            if (target !== source) {
+                source.events.remove(args.e);
+            }
+        }
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

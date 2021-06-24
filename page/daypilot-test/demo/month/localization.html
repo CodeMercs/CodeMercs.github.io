@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Localization (Monthly Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://doc.daypilot.org/month/localization/">monthly
+        event calendar localization</a> [doc.daypilot.org].
+    </div>
+
+    <div>Select locale:
+        <select id="locale">
+            <option>ca-es</option>
+            <option>cs-cz</option>
+            <option>da-dk</option>
+            <option>de-at</option>
+            <option>de-ch</option>
+            <option selected="selected">de-de</option>
+            <option>de-lu</option>
+            <option>en-au</option>
+            <option>en-ca</option>
+            <option>en-gb</option>
+            <option>en-us</option>
+            <option>es-es</option>
+            <option>es-mx</option>
+            <option>eu-es</option>
+            <option>fi-fi</option>
+            <option>fr-be</option>
+            <option>fr-ch</option>
+            <option>fr-fr</option>
+            <option>fr-lu</option>
+            <option>gl-es</option>
+            <option>it-it</option>
+            <option>it-ch</option>
+            <option>ja-jp</option>
+            <option>nb-no</option>
+            <option>nl-nl</option>
+            <option>nl-be</option>
+            <option>nn-no</option>
+            <option>pt-br</option>
+            <option>pl-pl</option>
+            <option>pt-pt</option>
+            <option>ru-ru</option>
+            <option>sk-sk</option>
+            <option>sv-se</option>
+            <option>zh-cn</option>
+        </select>
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Month("dp");
+
+        // behavior and appearance
+        dp.cellMarginBottom = 20;
+
+        dp.locale = "de-de";
+
+        dp.bubble = new DayPilot.Bubble({
+            cssClassPrefix: "bubble_default",
+            onLoad: function (args) {
+                var ev = args.source;
+                args.html = "testing bubble for: " + ev.text();
+            }
+        });
+        dp.eventHoverHandling = "Disabled";
+
+        // view
+        dp.startDate = "2013-03-25";
+
+        // generate and load events
+        for (var i = 0; i < 10; i++) {
+            var duration = Math.floor(Math.random() * 1.2);
+            var start = Math.floor(Math.random() * 6) - 3; // -3 to 3
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2013-03-04T00:00:00").addDays(start),
+                end: new DayPilot.Date("2013-03-04T12:00:00").addDays(start).addDays(duration),
+                id: DayPilot.guid(),
+                text: "Event " + i
+            });
+            dp.events.add(e);
+        }
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.init();
+
+
+        document.querySelector("#locale").addEventListener("change", function(ev) {
+            dp.locale = this.value;
+            dp.update();
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

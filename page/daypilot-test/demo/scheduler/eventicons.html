@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Icons (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+    <style>
+        .icon {
+            color: #ccc;
+        }
+
+        .icon:hover {
+            color: #aaa;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b>
+        This demo uses SVG symbols which are displayed using event active areas. Read more about <a href="https://doc.daypilot.org/scheduler/event-icons/">event icons</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2021-01-01";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMMM yyyy"},
+            {groupBy: "Day", format: "d"}
+        ];
+
+        dp.treeEnabled = true;
+        dp.treePreventParentUsage = true;
+        dp.resources = [
+            {
+                name: "Locations", id: "G1", expanded: true, children: [
+                    {name: "Room 1", id: "A"},
+                    {name: "Room 2", id: "B"},
+                    {name: "Room 3", id: "C"},
+                    {name: "Room 4", id: "D"}
+                ]
+            },
+            {
+                name: "People", id: "G2", expanded: true, children: [
+                    {name: "Person 1", id: "E"},
+                    {name: "Person 2", id: "F"},
+                    {name: "Person 3", id: "G"},
+                    {name: "Person 4", id: "H"}
+                ]
+            },
+            {
+                name: "Tools", id: "G3", expanded: true, children: [
+                    {name: "Tool 1", id: "I"},
+                    {name: "Tool 2", id: "J"},
+                    {name: "Tool 3", id: "K"},
+                    {name: "Tool 4", id: "L"}
+                ]
+            },
+            {
+                name: "Other Resources", id: "G4", expanded: true, children: [
+                    {name: "Resource 1", id: "R1"},
+                    {name: "Resource 2", id: "R2"},
+                    {name: "Resource 3", id: "R3"},
+                    {name: "Resource 4", id: "R4"}
+                ]
+            },
+        ];
+
+        dp.heightSpec = "Max";
+        dp.height = 500;
+
+        dp.events.list = [];
+
+        for (var i = 0; i < 12; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var durationDays = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var start = Math.floor(Math.random() * 6) + 2; // 2 to 7
+
+            var e = {
+                start: new DayPilot.Date("2021-03-05T12:00:00").addDays(start),
+                end: new DayPilot.Date("2021-03-05T12:00:00").addDays(start).addDays(durationDays).addHours(duration),
+                id: DayPilot.guid(),
+                resource: String.fromCharCode(65 + i),
+                text: "Event " + (i + 1),
+                bubbleHtml: "Event " + (i + 1),
+                barColor: barColor(i),
+                barBackColor: barBackColor(i)
+            };
+
+            dp.events.list.push(e);
+        }
+
+        dp.onTimeRangeSelected = function (args) {
+            DayPilot.Modal.prompt("New event name:", "New Event").then(function (modal) {
+                dp.clearSelection();
+                var name = modal.result;
+                if (!name) return;
+                var e = new DayPilot.Event({
+                    start: args.start,
+                    end: args.end,
+                    id: DayPilot.guid(),
+                    resource: args.resource,
+                    text: name
+                });
+                dp.events.add(e);
+                dp.message("Created");
+            });
+        };
+
+        dp.onBeforeEventRender = function(args) {
+            args.data.areas = [
+                {left: 1, top: 7, width: 12, height: 24,  symbol: "../icons/daypilot.svg#move-vertical", cssClass: "icon"},
+                {left: 14, top: 7, width: 24, height: 24,  symbol: "../icons/daypilot.svg#i-circle", cssClass: "icon"},
+                {left: 40, top: 7, width: 24, height: 24,  symbol: "../icons/daypilot.svg#bubble", cssClass: "icon"},
+                {right: 1, top: 7, width: 12, height: 24,  symbol: "../icons/daypilot.svg#resize-right", cssClass: "icon"},
+            ];
+            args.data.text = "";
+        };
+
+        dp.init();
+
+        dp.scrollTo("2021-03-01");
+
+        function barColor(i) {
+            var colors = ["#3c78d8", "#6aa84f", "#f1c232", "#cc0000"];
+            return colors[i % 4];
+        }
+
+        function barBackColor(i) {
+            var colors = ["#a4c2f4", "#b6d7a8", "#ffe599", "#ea9999"];
+            return colors[i % 4];
+        }
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+
+</body>
+</html>
+

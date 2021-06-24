@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Context Menu (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Activate the context menu by right-clicking an event. Read more about the <a
+        href="https://doc.daypilot.org/scheduler/event-context-menu/">event context menu</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <div class="space">
+        <a href='javascript:manualMenu.show({id: "test-id"})'>Manual context menu</a>
+    </div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = new DayPilot.Date("2019-08-01");
+        dp.cellGroupBy = "Month";
+        dp.days = dp.startDate.daysInMonth();
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month"},
+            {groupBy: "Day", format: "d"}
+        ];
+
+        // bubble, sync loading
+        // see also DayPilot.Event.data.staticBubbleHTML property
+        dp.bubble = new DayPilot.Bubble({
+            onLoad: function (args) {
+                var ev = args.source;
+                args.html = "testing bubble for: " + ev.text();
+            }
+        });
+
+        dp.contextMenu = new DayPilot.Menu({
+            hideOnMouseOut: true,
+            items: [
+                {
+                    text: "Show event ID", onClick: function (args) {
+                        alert("Event value: " + args.source.data.id);
+                    }
+                },
+                {
+                    text: "Show event text", onClick: function (args) {
+                        alert("Event text: " + args.source.text());
+                    }
+                },
+                {
+                    text: "Show event start", onClick: function (args) {
+                        alert("Event start: " + args.source.start().toStringSortable());
+                    }
+                },
+                {
+                    text: "Delete", onClick: function (args) {
+                        dp.events.remove(args.source);
+                    }
+                },
+                {
+                    text: "Sub menu", items: [
+                        {
+                            text: "Show event ID", onClick: function (args) {
+                                alert("Event value: " + args.source.value());
+                            }
+                        },
+                        {
+                            text: "Show event text", onClick: function (args) {
+                                alert("Event text: " + args.source.text());
+                            }
+                        }
+                    ]
+                },
+                {
+                    text: "Disabled menu item", onClick: function (args) {
+                        alert("disabled")
+                    }, disabled: true
+                }
+            ]
+        });
+
+        dp.contextMenuSelection = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Show range", onClick: function (args) {
+                        alert("Event value: " + args.source.start + " " + args.source.end);
+                    }
+                },
+            ]
+        });
+
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"}
+        ];
+
+        dp.events.list = [
+            {
+                start: new DayPilot.Date("2019-08-05T00:00:00"),
+                end: new DayPilot.Date("2019-08-10T12:00:00"),
+                id: DayPilot.guid(),
+                resource: "B",
+                text: "Event",
+                bubbleHtml: "Testing bubble"
+            }
+        ];
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        // dp.eventTapAndHoldHandling = "ContextMenu";
+        dp.onEventClick = function(args) {
+            dp.contextMenu.show(args.e);
+        };
+
+        dp.init();
+
+        var manualMenu = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Show event ID", onClick: function (args) {
+                        alert("ID: " + args.source.id);
+                    }
+                },
+            ]
+        });
+
+        dp.contextMenu = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Edit", onClick: function (args) {
+                        dp.events.edit(args.source);
+                    }
+                },
+                {
+                    text: "Delete", onClick: function (args) {
+                        dp.events.remove(args.source);
+                    }
+                },
+                {text: "-"},
+                {
+                    text: "Change background color", onClick: function (args) {
+                        var e = args.source;
+                        e.data.backColor = "red";
+                        dp.events.update(e);
+                    }
+                },
+                {text: "-"},
+                {
+                    text: "Select", onClick: function (args) {
+                        dp.multiselect.add(args.source);
+                    }
+                },
+                {
+                    text: "Submenu", items: [
+                        {
+                            text: "Edit", onClick: function (args) {
+                                dp.events.edit(args.source);
+                            }
+                        },
+                        {
+                            text: "Delete", onClick: function (args) {
+                                dp.events.remove(args.source);
+                            }
+                        },
+                    ]
+                }
+            ]
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kanban Card Active Areas</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <style>
+        .card-info {
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #FFD572;
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .card-info:hover {
+            background-color: #F9BA25;
+        }
+
+    </style>
+
+    <div class="note"><b>Note:</b> Read more about Kanban <a href="https://doc.daypilot.org/kanban/card-active-areas/">card
+        active areas</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Kanban("dp");
+        dp.columns.list = [
+            {name: "New", id: "1", barColor: "#f9ba25"},
+            {name: "Draft", id: "2"},
+            {name: "Implementation", id: "3"}
+        ];
+        dp.cards.list = [
+            {id: 1, "name": "Task 1", column: "1", text: "This is a description of task #1."},
+            {
+                id: 2,
+                "name": "Task 2",
+                column: "1",
+                text: "This is a description of task #2.",
+                barColor: "#ea3624",
+                areas: [
+                    {
+                        right: 0,
+                        top: 0,
+                        width: 20,
+                        height: 20,
+                        cssClass: "card-info",
+                        html: "i",
+                        style: "text-align:center",
+                        action: "JavaScript",
+                        js: function (card) {
+                            alert("name: " + card.data.name);
+                        }
+                    }
+                ]
+            }
+        ];
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

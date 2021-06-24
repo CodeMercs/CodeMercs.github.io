@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resources View (JavaScript Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> The resources view lets you customize the columns and display <b>resources</b>
+        (people, machines, tools, cars) on the horizontal axis. Read more about the calendar <a
+            href="https://doc.daypilot.org/calendar/resources-view/">resources view</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <div id="print"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Calendar("dp");
+
+        // view
+        dp.startDate = "2018-03-26";
+        dp.days = 1;
+
+        dp.viewType = "Resources";
+        dp.columns.list = [
+            {name: "John", id: "J"},
+            {name: "Mary", id: "M"}
+        ];
+
+        dp.eventDeleteHandling = "Update";
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: "Event"
+            });
+            dp.events.add(e);
+            dp.clearSelection();
+            dp.message("Created");
+        };
+
+
+        dp.init();
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2018-03-26T12:00:00"),
+            end: new DayPilot.Date("2018-03-26T12:00:00").addHours(3),
+            id: DayPilot.guid(),
+            text: "Special event",
+            resource: "J"
+
+        });
+        dp.events.add(e);
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

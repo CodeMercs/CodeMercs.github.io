@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Event Calendar</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b>
+        Customize the component using <a href="https://builder.daypilot.org/calendar">Calendar UI Builder</a>
+        and download a ready-to-run project.
+
+        Read more about the <a href="https://javascript.daypilot.org/calendar/">JavaScript event calendar</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <div id="touch"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Calendar("dp");
+
+        // view
+        dp.startDate = DayPilot.Date.today();
+        dp.viewType = "Week";
+        dp.allDayEventHeight = 25;
+
+        dp.eventDeleteHandling = "Update";
+        dp.onEventDelete = function (args) {
+            alert("deleting: " + args.e.text());
+        };
+
+        dp.contextMenu = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Show event ID", onclick: function () {
+                        alert("Event value: " + this.source.value());
+                    }
+                },
+                {
+                    text: "Show event text", onclick: function () {
+                        alert("Event text: " + this.source.text());
+                    }
+                },
+                {
+                    text: "Show event start", onclick: function () {
+                        alert("Event start: " + this.source.start().toStringSortable());
+                    }
+                },
+                {
+                    text: "Delete", onclick: function () {
+                        dp.events.remove(this.source);
+                    }
+                }
+            ]
+        });
+
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onTimeRangeRightClick = function (args) {
+            window.console && console.log(args);
+        };
+
+        dp.onTimeRangeDoubleClicked = function (args) {
+            alert("DoubleClick: start: " + args.start + " end: " + args.end + " resource: " + args.resource);
+        };
+
+        dp.onEventClick = function (args) {
+            //alert("clicked: " + args.e.id());
+            DayPilot.Modal.alert(args.e.data.text);
+        };
+
+        dp.showEventStartEnd = false;
+        dp.scrollLabelsVisible = true;
+
+        dp.contextMenuSelection = new DayPilot.Menu({
+            items: [
+                {
+                    'text': 'Create new event (JavaScript)', 'onclick': function () {
+                        dp.events.add(new DayPilot.Event({
+                            start: this.source.start,
+                            end: this.source.end,
+                            text: "New event",
+                            resource: this.source.resource
+                        }));
+                    }
+                },
+                {'text': '-'},
+                {
+                    'text': 'Show selection details', 'onclick': function () {
+                        alert('Start: ' + this.source.start + '\nEnd: ' + this.source.end + '\nResource id: ' + this.source.resource);
+                    }
+                },
+                {
+                    'text': 'Clean selection', 'onclick': function () {
+                        dp.clearSelection();
+                    }
+                }]
+        });
+
+        dp.timeRangeSelectingStartEndEnabled = true;
+
+        var first = DayPilot.Date.today().firstDayOfWeek("en-us").addDays(1);
+
+        dp.events.list = [
+            {
+                start: first.addHours(12),
+                end: first.addHours(15),
+                id: DayPilot.guid(),
+                text: "Event 1",
+                barColor: "#3c78d8",
+                barBackColor: "#a4c2f4"
+            },
+            {
+                start: first.addDays(1).addHours(10),
+                end: first.addDays(1).addHours(12),
+                id: DayPilot.guid(),
+                text: "Event 2",
+                barColor: "#6aa84f",
+                barBackColor: "#b6d7a8"
+            },
+            {
+                start: first.addDays(1).addHours(13),
+                end: first.addDays(1).addHours(15),
+                id: DayPilot.guid(),
+                text: "Event 3",
+                barColor: "#f1c232",
+                barBackColor: "#ffe599"
+            },
+            {
+                start: first.addDays(2).addHours(11),
+                end: first.addDays(2).addHours(16),
+                id: DayPilot.guid(),
+                text: "Event 4",
+                barColor: "#cc0000",
+                barBackColor: "#ea9999"
+            },
+        ];
+
+        dp.init();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

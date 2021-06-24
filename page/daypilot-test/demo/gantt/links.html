@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Gantt Chart</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/gantt/links/">Gantt chart task
+        links</a>.
+    </div>
+
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Gantt("dp");
+
+        dp.days = 30;
+
+        var colors = ["blue", "red", "green", "black"];
+        var styles = ["solid", "dotted", "dashed", "double"];
+
+        // generate and load sample tasks
+        var start = new DayPilot.Date().getDatePart();
+        var last = null;
+        for (var i = 0; i < 5; i++) {
+            var duration = Math.floor(Math.random() * 3) + 1; // 1 to 3
+            var end = start.addDays(duration);
+
+            var e = new DayPilot.Task({
+                start: start,
+                end: end,
+                id: DayPilot.guid(),
+                text: "Task " + i,
+                tags: {
+                    info: "info text"
+                },
+                children: [
+                    {
+                        start: start,
+                        end: end,
+                        id: DayPilot.guid(),
+                        text: "Subtask 1",
+                        complete: Math.floor(Math.random() * 101) // 0 to 100
+                    },
+                    {
+                        start: start,
+                        end: end,
+                        id: DayPilot.guid(),
+                        text: "Subtask 2",
+                        complete: Math.floor(Math.random() * 101) // 0 to 100
+                    },
+                    {
+                        start: end,
+                        id: DayPilot.guid(),
+                        text: "Milestone 1",
+                        type: "Milestone"
+                    }
+
+                ]
+            });
+
+            dp.tasks.add(e);
+
+            if (last) {
+                dp.links.add(new DayPilot.Link({
+                    id: DayPilot.guid(),  // optional
+                    from: last,
+                    to: e.id(),
+                    width: 2,
+                    color: colors[i - 1],
+                    style: styles[i - 1],
+                    type: "FinishToStart"
+                }));
+            }
+            last = e.id();
+            start = end;
+
+        }
+
+        dp.columns = [
+            {
+                title: "Name",
+                width: 50,
+                property: "text"
+            },
+            {
+                title: "Info",
+                width: 50,
+                property: "info"
+            },
+            {
+                title: "Duration",
+                width: 50
+            }
+        ];
+
+        dp.onBeforeRowHeaderRender = function (args) {
+            var duration = args.task.duration();
+            var html = duration.toString("d") + "d " + duration.toString("h") + "h";
+            args.row.columns[2].html = html;
+        };
+
+        dp.onBeforeTaskRender = function (args) {
+            //args.data.complete = 30;
+            //args.data.html = args.task.text + "*";
+            //args.data.htmlRight = "right";
+            //args.data.htmlLeft = "very long left";
+        };
+
+        dp.onRowMoving = function (args) {
+            //args.position = "forbidden";
+        };
+
+        dp.onColumnResized = function (args) {
+            window.console && console.log(args);
+            window.console && console.log(dp.columns);
+        };
+
+        dp.contextMenuLink = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Show link ID", onclick: function () {
+                        alert("Link ID: " + this.source.data.id);
+                    }
+                },
+                {
+                    text: "Delete link", onclick: function () {
+                        dp.links.remove(this.source);
+                    }
+                }
+            ]
+        });
+
+        dp.contextMenuTask = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Show task ID", onclick: function () {
+                        alert("Task ID: " + this.source.id());
+                    }
+                },
+                {
+                    text: "Delete task", onclick: function () {
+                        dp.tasks.remove(this.source);
+                    }
+                }
+            ]
+        });
+
+        dp.contextMenuRow = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Show task ID", onclick: function () {
+                        alert("Task ID: " + this.source.id());
+                    }
+                },
+                {
+                    text: "Delete task", onclick: function () {
+                        dp.tasks.remove(this.source);
+                    }
+                }
+            ]
+        });
+
+        dp.onTaskClicked = function (args) {
+            window.console && console.log(args);
+            args.task.row.toggle();
+        };
+
+        dp.onTaskDoubleClicked = function (args) {
+            alert("Double-clicked: " + args.task.id());
+            window.console && console.log(args);
+        };
+
+        dp.onRowMove = function (args) {
+            window.console && console.log(args);
+        };
+
+        dp.onRowMoved = function (args) {
+            window.console && console.log(args);
+        };
+
+        dp.onLinkCreate = function (args) {
+            window.console && console.log(args);
+        };
+
+        dp.onRowDoubleClick = function (args) {
+            window.console && console.log(args);
+        };
+
+        dp.onRowSelect = function (args) {
+            window.console && console.log(args);
+        };
+
+        dp.onTaskRightClick = function (args) {
+            window.console && console.log(args);
+        };
+
+        dp.onTaskMove = function (args) {
+            window.console && console.log(args);
+        };
+
+        dp.onTaskMoving = function (args) {
+            window.console && console.log(args);
+        };
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

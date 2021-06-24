@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Localization (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://doc.daypilot.org/scheduler/localization/">scheduler
+        localization</a> [doc.daypilot.org].
+    </div>
+
+    <div style="display: flex;">
+        <div style="margin-right: 10px;">
+            <div id="nav"></div>
+        </div>
+        <div style="flex-grow: 1;">
+            <div class="space">Select locale:
+                <select id="locale">
+                    <option>ca-es</option>
+                    <option>cs-cz</option>
+                    <option>da-dk</option>
+                    <option>de-at</option>
+                    <option>de-ch</option>
+                    <option selected="selected">de-de</option>
+                    <option>de-lu</option>
+                    <option>en-au</option>
+                    <option>en-ca</option>
+                    <option>en-gb</option>
+                    <option>en-us</option>
+                    <option>es-es</option>
+                    <option>es-mx</option>
+                    <option>eu-es</option>
+                    <option>fi-fi</option>
+                    <option>fr-be</option>
+                    <option>fr-ca</option>
+                    <option>fr-ch</option>
+                    <option>fr-fr</option>
+                    <option>fr-lu</option>
+                    <option>gl-es</option>
+                    <option>it-it</option>
+                    <option>it-ch</option>
+                    <option>ja-jp</option>
+                    <option>ko-kr</option>
+                    <option>nb-no</option>
+                    <option>nl-nl</option>
+                    <option>nl-be</option>
+                    <option>nn-no</option>
+                    <option>pt-br</option>
+                    <option>pl-pl</option>
+                    <option>pt-pt</option>
+                    <option>ro-ro</option>
+                    <option>ru-ru</option>
+                    <option>sk-sk</option>
+                    <option>sv-se</option>
+                    <option>tr-tr</option>
+                    <option>zh-cn</option>
+                </select>
+            </div>
+
+            <div id="dp"></div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        var nav = new DayPilot.Navigator("nav");
+        nav.showMonths = 3;
+        nav.selectMode = "month";
+        nav.locale = "de-de";
+        nav.timeRangeSelectedHandling = "JavaScript";
+        nav.onTimeRangeSelected = function (args) {
+            console.log("timeRangeSelected");
+            dp.startDate = args.start;
+            dp.days = DayPilot.DateUtil.daysDiff(args.start, args.end);
+            dp.update();
+        };
+        nav.init();
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        // behavior and appearance
+        dp.locale = "de-de";
+
+        dp.timeHeaders = [{groupBy: 'Month'}, {groupBy: 'Week'}, {groupBy: 'Cell'}];
+
+        // view
+        dp.startDate = nav.selectionStart;
+        dp.days = dp.startDate.daysInMonth();
+        dp.cellDuration = 1440; // one day
+
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"}
+        ];
+
+        // generate and load events
+        for (var i = 0; i < 10; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var start = Math.floor(Math.random() * 6) - 3; // -3 to 3
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2013-03-25T00:00:00").addHours(start),
+                end: new DayPilot.Date("2013-03-25T12:00:00").addHours(start).addHours(duration),
+                id: DayPilot.guid(),
+                resource: "A",
+                text: "Event"
+            });
+            dp.events.add(e);
+        }
+
+        // event moving
+        dp.eventMoveHandling = "JavaScript";
+        dp.onEventMove = function (args) {
+            var e = args.e
+            e.start(args.newStart);
+            e.end(args.newEnd);
+            e.resource(args.newResource);
+            dp.events.update(e);
+            dp.message("Moved");
+        };
+
+        // event resizing
+        dp.eventResizeHandling = "JavaScript";
+        dp.onEventResize = function (args) {
+            var e = args.e;
+            e.start(args.newStart);
+            e.end(args.newEnd);
+            dp.events.update(e);
+            dp.message("Resized");
+        };
+
+        // event creating
+        dp.timeRangeSelectedHandling = "JavaScript";
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: "Event"
+            });
+            dp.events.add(e);
+            dp.clearSelection();
+            dp.message("Created");
+        };
+        dp.init();
+
+        document.querySelector("#locale").addEventListener("change", function(ev) {
+            dp.locale = this.value;
+            dp.update();
+
+            nav.locale = this.value;
+            nav.update();
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

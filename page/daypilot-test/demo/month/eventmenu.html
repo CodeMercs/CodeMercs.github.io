@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Context Menu (Monthly Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/month/event-context-menu/">event
+        context menu</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Month("dp");
+
+        // behavior and appearance
+        dp.cellMarginBottom = 20;
+
+        dp.bubble = new DayPilot.Bubble({
+            cssClassPrefix: "bubble_default",
+            onLoad: function (args) {
+                var ev = args.source;
+                args.html = "testing bubble for: " + ev.text();
+            }
+        });
+
+        dp.contextMenu = new DayPilot.Menu({
+            cssClassPrefix: "menu_default",
+            items: [
+                {
+                    text: "Show event ID", onclick: function () {
+                        alert("Event value: " + this.source.value());
+                    }
+                },
+                {
+                    text: "Show event text", onclick: function () {
+                        alert("Event text: " + this.source.text());
+                    }
+                },
+                {
+                    text: "Show event start", onclick: function () {
+                        alert("Event start: " + this.source.start().toStringSortable());
+                    }
+                },
+                {
+                    text: "Delete", onclick: function () {
+                        dp.events.remove(this.source);
+                    }
+                }
+            ]
+        });
+
+        // view
+        dp.startDate = "2018-03-25";
+
+        // generate and load events
+        for (var i = 1; i <= 10; i++) {
+            var duration = Math.floor(Math.random() * 1.2);
+            var start = Math.floor(Math.random() * 6) - 3; // -3 to 3
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2018-03-04T00:00:00").addDays(start),
+                end: new DayPilot.Date("2018-03-04T12:00:00").addDays(start).addDays(duration),
+                id: DayPilot.guid(),
+                text: "Event " + i
+            });
+            dp.events.add(e);
+        }
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onBeforeEventRender = function (args) {
+            args.data.areas = [
+                {
+                    top: 4,
+                    right: 4,
+                    height: 14,
+                    width: 14,
+                    fontColor: "#999",
+                    symbol: "../icons/daypilot.svg#minichevron-down-4",
+                    visibility: "Hover",
+                    action: "ContextMenu",
+                    style: "border: 1px solid #999; cursor:pointer;"
+                }
+            ];
+        };
+
+        dp.init();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

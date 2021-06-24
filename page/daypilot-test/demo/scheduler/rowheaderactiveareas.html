@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Row Header Active Areas (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+    <link type="text/css" rel="stylesheet" href="../themes/areas.css?v=2021.2.5007"/>
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <style>
+        #dp .scheduler_default_cellparent, .scheduler_default_cell.scheduler_default_cell_business.scheduler_default_cellparent {
+            background: #f3f3f3;
+        }
+
+    </style>
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://javascript.daypilot.org/scheduler/">JavaScript
+        scheduler</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2016-01-01";
+        dp.days = 366;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "d"}
+        ];
+
+        dp.bubble = new DayPilot.Bubble();
+        dp.resourceBubble = new DayPilot.Bubble();
+
+        dp.contextMenu = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Edit", onclick: function () {
+                        dp.events.edit(this.source);
+                    }
+                },
+                {
+                    text: "Delete", onclick: function () {
+                        dp.events.remove(this.source);
+                    }
+                },
+                {text: "-"},
+                {
+                    text: "Select", onclick: function () {
+                        dp.multiselect.add(this.source);
+                    }
+                },
+            ]
+        });
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {
+                name: "Locations", id: "G1", expanded: true, children: [
+                    {name: "Room 1", id: "A"},
+                    {name: "Room 2", id: "B"},
+                    {name: "Room 3", id: "C"},
+                    {name: "Room 4", id: "D"}
+                ]
+            },
+            {
+                name: "People", id: "G2", expanded: true, children: [
+                    {name: "Person 1", id: "E"},
+                    {name: "Person 2", id: "F"},
+                    {name: "Person 3", id: "G"},
+                    {name: "Person 4", id: "H"}
+                ]
+            },
+            {
+                name: "Tools", id: "G3", expanded: false, children: [
+                    {name: "Tool 1", id: "I"},
+                    {name: "Tool 2", id: "J"},
+                    {name: "Tool 3", id: "K"},
+                    {name: "Tool 4", id: "L"}
+                ]
+            },
+
+        ];
+
+        dp.heightSpec = "Max";
+        dp.height = 500;
+
+        dp.events.list = [];
+
+        for (var i = 0; i < 12; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var durationDays = Math.floor(Math.random() * 6); // 0 to 5
+            var start = Math.floor(Math.random() * 6) + 2; // 2 to 7
+
+            var e = {
+                start: new DayPilot.Date("2016-03-25T00:00:00").addDays(start),
+                end: new DayPilot.Date("2016-03-25T12:00:00").addDays(start).addDays(durationDays).addHours(duration),
+                id: DayPilot.guid(),
+                resource: String.fromCharCode(65 + i),
+                text: "Event " + (i + 1)
+            };
+
+            dp.events.list.push(e);
+        }
+
+        dp.eventMovingStartEndEnabled = true;
+        dp.eventResizingStartEndEnabled = true;
+        dp.timeRangeSelectingStartEndEnabled = true;
+
+        dp.onBeforeRowHeaderRender = function (args) {
+        };
+
+        dp.onBeforeCellRender = function (args) {
+            /*
+             if (args.cell.start <= DayPilot.Date.today() && DayPilot.Date.today() < args.cell.end) {
+             args.cell.backColor = "#ffcccc";
+             }
+             */
+        };
+
+        dp.onEventMove = function (args) {
+        };
+
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+        };
+
+        dp.onEventClicked = function (args) {
+        };
+
+        dp.onEventMoving = function (args) {
+            if (args.e.resource() === "A" && args.resource === "B") {  // don't allow moving from A to B
+                args.left.enabled = false;
+                args.right.html = "You can't move an event from Room 1 to Room B";
+
+                args.allowed = false;
+            } else if (args.resource === "B") {  // must start on a working day, maximum length one day
+                while (args.start.getDayOfWeek() == 0 || args.start.getDayOfWeek() == 6) {
+                    args.start = args.start.addDays(1);
+                }
+                args.end = args.start.addDays(1);  // fixed duration
+                args.left.enabled = false;
+                args.right.html = "Events in Room 2 must start on a workday and are limited to 1 day.";
+            }
+
+            if (args.resource === "C") {
+                var except = args.e.data;
+                var events = dp.rows.find(args.resource).events.all();
+
+                var start = args.start;
+                var end = args.end;
+                var overlaps = events.some(function (item) {
+                    return item.data !== except && DayPilot.Util.overlaps(item.start(), item.end(), start, end);
+                });
+
+                while (overlaps) {
+                    start = start.addDays(1);
+                    end = end.addDays(1);
+
+                    overlaps = events.some(function (item) {
+                        return item.data !== except && DayPilot.Util.overlaps(item.start(), item.end(), start, end);
+                    });
+                }
+
+                if (args.start !== start) {
+                    args.start = start;
+                    args.end = end;
+
+                    args.left.enabled = false;
+                    args.right.html = "Start automatically moved to " + args.start.toString("d MMMM, yyyy");
+                }
+
+            }
+        };
+
+        dp.onBeforeEventRender = function (args) {
+            args.data.bubbleHtml = "<div><b>" + args.data.text + "</b></div><div>Start: " + new DayPilot.Date(args.data.start).toString("M/d/yyyy") + "</div><div>End: " + new DayPilot.Date(args.data.end).toString("M/d/yyyy") + "</div>";
+        };
+
+        dp.onEventResize = function (args) {
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        dp.onTimeRangeSelecting = function (args) {
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event" + args.start);
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.separators = [
+            {color: "Red", location: "2016-03-29T00:00:00", layer: "BelowEvents"}
+        ];
+
+        dp.treePreventParentUsage = true;
+
+        dp.onEventClicked = function (args) {
+            alert("clicked");
+        };
+
+        dp.cellBubble = new DayPilot.Bubble({
+            onLoad: function (args) {
+                var cell = args.source;
+                args.html = cell.start.toString("d MMMM yyyy");
+            }
+        });
+
+        dp.timeRangeRightClickHandling = "Disabled";
+        dp.onGridMouseDown = function (args) {
+            var button = DayPilot.Util.mouseButton(args.originalEvent);
+            if (button.right) {
+                args.action = "None";
+            }
+        };
+
+        dp.onBeforeResHeaderRender = function (args) {
+            args.resource.areas = [
+                {
+                    right: 5,
+                    top: 5,
+                    width: 17,
+                    height: 17,
+                    v: "Hover",
+                    html: "<div><div><\/div><\/div>",
+                    cssClass: "resource_action_menu",
+                    action: "ContextMenu",
+                    menu: dp.contextMenuResource
+                }
+            ];
+
+            args.resource.bubbleHtml = "Test";
+        };
+
+
+        dp.contextMenuResource = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Edit...", action: "JavaScript", onclick: function (ev) {
+                        dp.rows.edit(this.source);
+                    }
+                },
+                {text: "-"},
+                {
+                    text: "Delete...", onClick: function (args) {
+                        dp.rows.remove(args.source);
+                    } /*, action: "JavaScript", onclick: function(ev) { dp.rows.remove(this.source); }*/
+                }
+            ]
+        });
+
+
+        dp.init();
+
+        dp.scrollTo("2016-03-25");
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

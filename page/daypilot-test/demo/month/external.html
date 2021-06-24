@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>External Drag and Drop (Monthly Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="http://javascript.daypilot.org/month/">JavaScript
+        monthly calendar</a>.
+    </div>
+
+    <div style="display: flex;">
+        <div style="width:200px; margin-right: 10px;">
+            Drag items from this list to the calendar:
+            <ul id="external">
+                <li data-id="123" data-duration="1"><span style="cursor:move">Item #123 (1 day)</span></li>
+                <li data-id="124" data-duration="2"><span style="cursor:move">Item #124 (2 days)</span></li>
+            </ul>
+        </div>
+        <div style="flex-grow: 1;">
+            <div id="dp"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Month("dp");
+
+        // behavior and appearance
+        dp.cellMarginBottom = 20;
+
+        dp.bubble = new DayPilot.Bubble({
+            onLoad: function (args) {
+                var ev = args.source;
+                args.html = "testing bubble for: " + ev.text();
+            }
+        });
+
+        // view
+        dp.startDate = "2016-11-01";
+
+        // generate and load events
+        for (var i = 0; i < 10; i++) {
+            var duration = Math.floor(Math.random() * 1.2);
+            var start = Math.floor(Math.random() * 6) - 3; // -3 to 3
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2016-11-04T00:00:00").addDays(start),
+                end: new DayPilot.Date("2016-11-04T12:00:00").addDays(start).addDays(duration),
+                id: DayPilot.guid(),
+                text: "Event " + i,
+                tags: {
+                    url: "myurl"
+                }
+            });
+            dp.events.add(e);
+        }
+
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        dp.onBeforeHeaderRender = function (args) {
+
+        };
+
+        dp.onBeforeEventRender = function (args) {
+            //args.data.fontColor = "red";
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onEventClicked = function (args) {
+
+        };
+
+        dp.onHeaderClicked = function (args) {
+
+        };
+
+        dp.init();
+
+        function makeDraggable() {
+            var parent = document.getElementById("external");
+            var items = parent.getElementsByTagName("li");
+            for (var i = 0; i < items.length; i++) {
+                var e = items[i];
+                var item = {
+                    element: e,
+                    id: e.getAttribute("data-id"),
+                    text: e.innerText,
+                    duration: DayPilot.Duration.days(e.getAttribute("data-duration")),
+                };
+                DayPilot.Month.makeDraggable(item);
+            }
+        }
+
+        makeDraggable();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

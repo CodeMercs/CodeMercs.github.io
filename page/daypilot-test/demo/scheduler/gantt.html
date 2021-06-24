@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gantt Chart (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note">
+        <b>Note:</b> See also the new <a href="../gantt/index.html">Gantt chart component demo</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp");
+        dp.viewType = "Gantt";
+        dp.cellWidth = 60;
+        dp.durationBarMode = "PercentComplete";
+        dp.onBeforeEventRender = function (args) {
+            args.e.html = args.e.complete + "%";
+        };
+
+        dp.rowHeaderColumnsMode = "Legacy";
+        dp.rowHeaderColumns = [
+            {name: "Name"},
+            {name: "Details"}
+        ];
+
+        // generate and load sample events
+        var start = new DayPilot.Date().getDatePart();
+        for (var i = 0; i < 10; i++) {
+            var duration = Math.floor(Math.random() * 3) + 1; // 1 to 3
+            var end = start.addHours(duration);
+
+            var e = new DayPilot.Event({
+                start: start,
+                end: end,
+                id: DayPilot.guid(),
+                text: "Event " + i,
+                complete: Math.floor(Math.random() * 101), // 0 to 100
+                columns: [{html: "Event " + i + " details"}]
+            });
+            dp.events.add(e);
+
+            start = end;
+        }
+
+        dp.init();
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

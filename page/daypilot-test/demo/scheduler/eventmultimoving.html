@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Multi-Moving (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> You can select multiple events (use Ctrl+click) and move all of them in time at once.
+        Read more about <a href="https://doc.daypilot.org/scheduler/event-multi-moving/">event multimoving</a>
+        [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = new DayPilot.Date("2021-03-25").firstDayOfMonth();  // or just dp.startDate = "2021-03-25";
+        dp.scale = "Day";
+        dp.timeHeaders = [{groupBy: "Month"}, {groupBy: "Cell"}]
+        dp.days = dp.startDate.daysInMonth();
+
+        dp.eventClickHandling = "Select";
+
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"},
+            {name: "Room J", id: "J"}
+        ];
+
+        // generate and load events
+        for (var i = 0; i < 10; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var start = Math.floor(Math.random() * 6) - 3; // -3 to 3
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2021-03-25T00:00:00").addHours(start),
+                end: new DayPilot.Date("2021-03-25T12:00:00").addHours(start).addHours(duration),
+                id: DayPilot.guid(),
+                resource: String.fromCharCode(65 + i),
+                text: "Event " + i,
+                // bubbleHtml: "Testing bubble"
+            });
+            dp.events.add(e);
+        }
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2021-03-20T00:00:00"),
+            end: new DayPilot.Date("2021-03-21T12:00:00"),
+            id: DayPilot.guid(),
+            resource: "C",
+            text: "Event 11",
+            // bubbleHtml: "Testing bubble"
+        });
+        dp.events.add(e);
+
+        dp.bubble = new DayPilot.Bubble({
+            onLoad: function(args) {
+                var e = args.source;
+                args.html = e.start() + "<br>" + e.end();
+            }
+        });
+
+        dp.onEventMoving = function (args) {
+            if (args.overlapping) {
+                args.right.enabled = true;
+                args.right.html = "Conflict with an existing event!";
+            }
+
+            var event2 = args.multimove.find(function (info) {
+                return info.event.data.text === "Event 2";
+            });
+            if (event2) {
+                event2.start = event2.event.start();
+                event2.end = event2.event.end();
+                event2.resource = event2.event.resource();
+                console.log("event 2", event2);
+            }
+            // console.log(args.multimove);
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.allowEventOverlap = false;
+
+        dp.allowMultiMove = true;
+        dp.multiMoveVerticalMode = "All";  // try "Master" and "All"
+        dp.onEventMoved = function (args) {
+            //console.log(args);
+            dp.message("Events " + args.multimove.map(function (item) {
+                return item.event.id();
+            }).join(', ') + " moved.");
+        };
+
+        dp.init();
+
+        dp.scrollTo(new DayPilot.Date());
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

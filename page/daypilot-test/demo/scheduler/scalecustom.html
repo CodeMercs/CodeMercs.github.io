@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Time Scale: Custom (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://doc.daypilot.org/scheduler/timeline/">scheduler
+        timeline</a> customization [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = new DayPilot.Date("2021-03-01");
+
+        dp.timeHeaders = [
+            {groupBy: "Year"},
+            {groupBy: "Month"},
+            {groupBy: "Cell", format: "d"}
+        ];
+
+        dp.scale = "Manual";
+
+        dp.timeline = [];
+        for (var i = 0; i < 31; i++) {
+            var day = {};
+            day.start = dp.startDate.addDays(i);
+            day.end = day.start.addDays(1);
+            dp.timeline.push(day);
+        }
+
+        for (var i = 0; i < 3; i++) {
+            var month = {};
+            month.start = dp.startDate.addDays(31).addMonths(i);
+            month.end = month.start.addMonths(1);
+            month.width = 100;
+            dp.timeline.push(month);
+        }
+
+        dp.treeEnabled = true;
+        dp.rowHeaderWidth = 200;
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"},
+            {name: "Room J", id: "J"},
+            {name: "Room K", id: "K"},
+        ];
+
+        // generate and load events
+        for (var i = 0; i < 1; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var start = Math.floor(Math.random() * 6) - 3; // -3 to 3
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2021-03-25T00:00:00").addHours(start),
+                end: new DayPilot.Date("2021-03-25T12:00:00").addHours(start).addHours(duration),
+                id: DayPilot.guid(),
+                resource: "B",
+                text: "Event"
+            });
+            dp.events.add(e);
+        }
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onBeforeTimeHeaderRender = function (args) {
+            if (args.header.level === 2) {
+                var duration = new DayPilot.Duration(args.header.start, args.header.end);
+                if (duration.totalDays() > 1) {
+                    args.header.html = "";
+                }
+            }
+        };
+
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

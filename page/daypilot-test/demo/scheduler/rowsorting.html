@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Row Header Columns (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/scheduler/row-sorting/">row
+        sorting</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = new DayPilot.Date("2019-10-01");
+        dp.days = dp.startDate.daysInMonth();
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month"},
+            {groupBy: "Day", format: "d"}
+        ];
+
+        dp.rowHeaderColumnsMode = "Tabular";
+        dp.rowHeaderColumns = [
+            {text: 'Name', display: "name", sort: "name"},
+            {text: 'Floor', display: "location", sort: "location"},
+            {text: 'Size', display: "size", sort: "size"}
+        ];
+
+        dp.resources = [
+            {
+                id: "B", expanded: true, name: "Building B", children: [
+                    {id: "101", name: "Room 101", location: "Floor 1", size: "2 beds"},
+                    {id: "102", name: "Room 102", location: "Floor 1", size: "3 beds"},
+                    {id: "103", name: "Room 103", location: "Floor 1", size: "1 bed"},
+                    {id: "201", name: "Room 201", location: "Floor 2", size: "2 beds"},
+                ]
+            },
+            {
+                id: "A", expanded: true, name: "Building A", children: [
+                    {id: "301", name: "Room 301", location: "Floor 1", size: "2 beds"},
+                    {id: "302", name: "Room 302", location: "Floor 1", size: "3 beds"},
+                    {id: "303", name: "Room 303", location: "Floor 1", size: "1 bed"},
+                    {id: "401", name: "Room 401", location: "Floor 2", size: "2 beds"},
+                ]
+            },
+        ];
+
+        dp.rowSortingMode = "LeavesOnly"; // default
+        dp.treeEnabled = true;
+
+        var start = new DayPilot.Date("2019-10-02T00:00:00");
+
+        // generate and load events
+        for (var i = 1; i < 6; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var end = start.addDays(duration);
+
+            var e = new DayPilot.Event({
+                start: start,
+                end: end,
+                id: DayPilot.guid(),
+                resource: "101",
+                text: "Reservation #" + i
+            });
+            dp.events.add(e);
+
+            start = end.addDays(1);
+        }
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onRowSorted = function (args) {
+            console.log("onRowSorted", args.oldSortParam, dp.rows.sortParam);
+        };
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

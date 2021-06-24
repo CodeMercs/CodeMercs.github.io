@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jQuery Scheduler</title>
+
+    <script src="../helpers/jquery-1.12.2.min.js" type="text/javascript"></script>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://javascript.daypilot.org/scheduler/jquery/">jQuery
+        Scheduler</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp;
+
+        $(document).ready(function () {
+            var options = {
+                startDate: "2014-01-01",
+                days: 365,
+                scale: "Day",
+                timeHeaders: [
+                    {groupBy: "Month", format: "MMM yyyy"},
+                    {groupBy: "Cell", format: "ddd d"}
+                ],
+                treeEnabled: true,
+                resources: [
+                    {
+                        name: "Room A", id: "A", expanded: true, children: [
+                            {name: "Room A.1", id: "A.1"},
+                            {name: "Room A.2", id: "A.2"}
+                        ]
+                    },
+                    {name: "Room B", id: "B"},
+                    {name: "Room C", id: "C"},
+                    {name: "Room D", id: "D"},
+                    {name: "Room E", id: "E"},
+                    {name: "Room F", id: "F"},
+                    {name: "Room G", id: "G"},
+                    {name: "Room H", id: "H"},
+                    {name: "Room I", id: "I"},
+                    {name: "Room J", id: "J"},
+                    {name: "Room K", id: "K"},
+                ],
+
+                /*
+                events: [
+                    {
+                        start: "2014-03-25T00:00:00",
+                        end: "2014-03-25T12:00:00",
+                        id: DayPilot.guid(),
+                        resource: "B",
+                        text: "Event"
+                    }
+                ],
+                */
+
+                events: [
+                    {
+                        start: "2014-03-25T00:00:00",
+                        end: "2014-03-25T12:00:00",
+                        id: DayPilot.guid(),
+                        resource: "B",
+                        text: "Event"
+                    }
+                ],
+
+                // event moving
+                onEventMoved: function (args) {
+                    dp.message("Moved: " + args.e.text());
+                },
+
+                // event resizing
+                onEventResized: function (args) {
+                    dp.message("Resized: " + args.e.text());
+                },
+
+                // event creating
+                onTimeRangeSelected: function (args) {
+                    var name = prompt("New event name:", "Event");
+                    dp.clearSelection();
+                    if (!name) return;
+                    var e = new DayPilot.Event({
+                        start: args.start,
+                        end: args.end,
+                        id: DayPilot.guid(),
+                        resource: args.resource,
+                        text: name
+                    });
+                    dp.events.add(e);
+                    dp.message("Created");
+                },
+
+                scrollTo: "2014-03-25"
+
+            };
+
+            dp = $("#dp").daypilotScheduler(options);
+
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

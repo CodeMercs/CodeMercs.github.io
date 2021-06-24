@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Phases (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/scheduler/event-phases/">event
+        phases</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2016-01-01";  // or just dp.startDate = "2013-03-25";
+        dp.days = 366;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "ddd d"}
+        ];
+
+        dp.cellWidth = 80;
+        dp.eventHeight = 50;
+
+        dp.events.list = [
+            {id: 1, text: "Event 1", start: "2016-01-05", end: "2016-01-12", resource: "A"}
+        ];
+
+        dp.onBeforeEventRender = function (args) {
+            var start = new DayPilot.Date(args.data.start);
+            var end = new DayPilot.Date(args.data.end);
+            args.data.areas = [
+                {
+                    start: start,
+                    end: start.addDays(1),
+                    top: 0,
+                    bottom: 0,
+                    backColor: "#6AA84F",
+                    html: "Preparation",
+                    fontColor: "white",
+                    padding: 5
+                },
+                {
+                    start: start.addDays(1),
+                    end: end.addDays(-1),
+                    top: 0,
+                    bottom: 0,
+                    backColor: "#38761D",
+                    html: args.data.text,
+                    fontColor: "white",
+                    padding: 5
+                },
+                {
+                    start: end.addDays(-1),
+                    end: end,
+                    top: 0,
+                    bottom: 0,
+                    backColor: "#274E13",
+                    html: "Cleanup",
+                    fontColor: "white",
+                    padding: 5
+                },
+            ];
+        };
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {
+                name: "Locations", id: "G1", expanded: true, children: [
+                    {name: "Room 1", id: "A"},
+                    {name: "Room 2", id: "B"},
+                    {name: "Room 3", id: "C"},
+                    {name: "Room 4", id: "D"}
+                ]
+            },
+            {
+                name: "People", id: "G2", expanded: true, children: [
+                    {name: "Person 1", id: "E"},
+                    {name: "Person 2", id: "F"},
+                    {name: "Person 3", id: "G"},
+                    {name: "Person 4", id: "H"}
+                ]
+            },
+            {
+                name: "Tools", id: "G3", expanded: false, children: [
+                    {name: "Tool 1", id: "I"},
+                    {name: "Tool 2", id: "J"},
+                    {name: "Tool 3", id: "K"},
+                    {name: "Tool 4", id: "L"}
+                ]
+            },
+
+        ];
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

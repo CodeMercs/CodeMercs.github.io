@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Row Header Columns (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/scheduler/row-header-columns/">row
+        header columns</a> [doc.daypilot.org].
+    </div>
+    <div class="note">Toggle "Size" column: <a href="#" id="toggle">Toggle</a></div>
+
+    <div class="space">Tabular mode:</div>
+    <div id="dp"></div>
+    <div class="space">Legacy mode:</div>
+    <div id="dp2"></div>
+
+    <script type="text/javascript">
+
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = new DayPilot.Date("2019-03-01");
+        dp.days = dp.startDate.daysInMonth();
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month"},
+            {groupBy: "Day", format: "d"}
+        ];
+
+        dp.rowHeaderColumns = [
+            {text: 'Name', display: "name"},
+            {text: 'Floor', display: "location"},
+            {text: 'Size', display: "size"}
+        ];
+        dp.rowHeaderColumnsMode = "Tabular";
+
+        dp.resources = [
+            {
+                id: "A", expanded: true, name: "Building A", children: [
+                    {id: "101", name: "Room 101", location: "Floor 1", size: "2 beds"},
+                    {id: "102", name: "Room 102", location: "Floor 1", size: "3 beds"},
+                    {id: "103", name: "Room 103", location: "Floor 1", size: "1 bed"},
+                    {id: "201", name: "Room 201", location: "Floor 2", size: "2 beds"},
+                ]
+            },
+            {
+                id: "B", expanded: true, name: "Building B", children: [
+                    {id: "301", name: "Room 301", location: "Floor 1", size: "2 beds"},
+                    {id: "302", name: "Room 302", location: "Floor 1", size: "3 beds"},
+                    {id: "303", name: "Room 303", location: "Floor 1", size: "1 bed"},
+                    {id: "401", name: "Room 401", location: "Floor 2", size: "2 beds"},
+                ]
+            },
+        ];
+
+        dp.treeEnabled = true;
+
+        var start = new DayPilot.Date("2019-03-02T00:00:00");
+
+        // generate and load events
+        for (var i = 1; i < 6; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var end = start.addDays(duration);
+
+            var e = new DayPilot.Event({
+                start: start,
+                end: end,
+                id: DayPilot.guid(),
+                resource: "101",
+                text: "Reservation #" + i
+            });
+            dp.events.add(e);
+
+            start = end.addDays(1);
+        }
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.rowHeaderColumnsResizable = true;
+
+        dp.onBeforeRowHeaderRender = function (args) {
+            args.row.columns[1].horizontalAlignment = "right";
+        };
+
+        dp.init();
+
+
+        function toggle() {
+            dp.rowHeaderColumns[1].hidden = !dp.rowHeaderColumns[1].hidden;
+            dp.update();
+        }
+
+        document.querySelector("#toggle").addEventListener("click", function(ev) {
+            ev.preventDefault();
+            toggle();
+        });
+
+
+    </script>
+
+    <script>
+        var dp2 = new DayPilot.Scheduler("dp2", {
+            startDate: "2019-03-01",
+            days: 31,
+            scale: "Day",
+            timeHeaders: [
+                {groupBy: "Month"},
+                {groupBy: "Day", format: "d"}
+            ],
+            rowHeaderColumns: [
+                {title: 'Name', width: 100},
+                {title: 'Floor', width: 100},
+                {title: 'Size', width: 100}
+            ],
+            rowHeaderColumnsMode: "Legacy",
+            resources: [
+                {
+                    name: "Building A", id: "A", expanded: true, children: [
+                        {name: "Room 101", id: "101", columns: [{text: "Floor 1"}, {text: "2 beds"}]},
+                        {name: "Room 102", id: "102", columns: [{text: "Floor 1"}, {text: "3 beds"}]},
+                        {name: "Room 103", id: "103", columns: [{text: "Floor 1"}, {text: "1 bed"}]},
+                        {name: "Room 201", id: "201", columns: [{text: "Floor 2"}, {text: "2 beds"}]}
+                    ]
+                }
+            ],
+            treeEnabled: true,
+            onTimeRangeSelected: function (args) {
+                var name = prompt("New event name:", "Event");
+                dp2.clearSelection();
+                if (!name) return;
+                var e = new DayPilot.Event({
+                    start: args.start,
+                    end: args.end,
+                    id: DayPilot.guid(),
+                    resource: args.resource,
+                    text: name
+                });
+                dp2.events.add(e);
+                dp2.message("Created");
+            }
+        });
+        dp2.init();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

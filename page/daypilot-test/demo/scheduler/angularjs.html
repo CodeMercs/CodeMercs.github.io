@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scheduler and AngularJS</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://doc.daypilot.org/scheduler/angularjs/">AngularJS
+        Scheduler</a>.
+    </div>
+
+    <div ng-app="main" ng-controller="DemoCtrl">
+        <daypilot-scheduler id="dp" daypilot-config="config" daypilot-events="events"></daypilot-scheduler>
+
+        <div class="space">
+            New event:
+            <button ng-click="add()">Add</button>
+        </div>
+        <div class="space">
+            First event:
+            <button ng-click="move()">Move</button>
+            <button ng-click="rename()">Rename</button>
+        </div>
+        <div class="space">
+            <span class="bold">Scale:</span>
+            <a ng-click="scale('Day')" href="javascript:void(0)">Days</a>
+            <a ng-click="scale('Week')" href="javascript:void(0)">Weeks</a>
+            <span class="bold">Scroll to:</span>
+            <a ng-click="scrollTo('2015-01-09')" href="javascript:void(0)">2015-01-09</a>
+        </div>
+        <div class="space">
+            <div class="space">Event list:</div>
+            <ul>
+                <li ng-repeat="item in events">
+                    {{item}}
+                </li>
+            </ul>
+            <div class="space">Selected events (click or Ctrl+click to select):</div>
+            <ul>
+                <li ng-repeat="item in selectedEvents">
+                    {{item.text()}} - {{item.start()}}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var app = angular.module('main', ['daypilot']).controller('DemoCtrl', function ($scope) {
+
+            $scope.config = {
+                scale: "Day",
+                days: 365,
+                bubble: new DayPilot.Bubble(),
+                startDate: "2014-09-01",
+                onEventMoved: function (args) {
+                    $scope.dp.message("Event moved: " + args.e.text());
+                },
+                eventClickHandling: "Select",
+                onEventSelected: function (args) {
+                    $scope.$apply(function () {
+                        $scope.selectedEvents = $scope.dp.multiselect.events();
+                    });
+                },
+                contextMenu: new DayPilot.Menu({
+                    items: [
+                        {
+                            text: "Show event ID", onclick: function () {
+                                alert("Event value: " + this.source.value());
+                            }
+                        },
+                        {
+                            text: "Show event text", onclick: function () {
+                                alert("Event text: " + this.source.text());
+                            }
+                        },
+                        {
+                            text: "Show event start", onclick: function () {
+                                alert("Event start: " + this.source.start().toStringSortable());
+                            }
+                        },
+                        {
+                            text: "Delete", onclick: function () {
+                                $scope.dp.events.remove(this.source);
+                            }
+                        },
+                        {
+                            text: "Disabled menu item", onclick: function () {
+                                alert("disabled")
+                            }, disabled: true
+                        }
+                    ]
+                }),
+                timeHeaders: [
+                    {groupBy: "Month"},
+                    {groupBy: "Cell", format: "d"}
+                ],
+                resources: [
+                    {name: "Room A", id: "A"},
+                    {name: "Room B", id: "B"},
+                    {name: "Room C", id: "C"},
+                    {name: "Room D", id: "D"},
+                    {name: "Room E", id: "E"}
+                ]
+            };
+
+            $scope.events = [
+                {
+                    start: new DayPilot.Date("2014-09-05T00:00:00"),
+                    end: new DayPilot.Date("2014-09-06T00:00:00"),
+                    id: DayPilot.guid(),
+                    resource: "B",
+                    text: "One-Day Event",
+                    bubbleHtml: "Details"
+                },
+                {
+                    start: new DayPilot.Date("2014-09-05T00:00:00"),
+                    end: new DayPilot.Date("2014-09-06T00:00:00"),
+                    id: DayPilot.guid(),
+                    resource: "A",
+                    text: "One-Day Event",
+                    bubbleHtml: "Details"
+                },
+
+            ];
+
+            $scope.add = function () {
+                $scope.events.push(
+                    {
+                        start: new DayPilot.Date("2014-09-05T00:00:00"),
+                        end: new DayPilot.Date("2014-09-06T00:00:00"),
+                        id: DayPilot.guid(),
+                        resource: "B",
+                        text: "One-Day Event",
+                        bubbleHtml: "Details"
+                    }
+                );
+            };
+
+            $scope.move = function () {
+                var event = $scope.events[0];
+                event.start = event.start.addDays(1);
+                event.end = event.end.addDays(1);
+            };
+
+            $scope.rename = function () {
+                $scope.events[0].text = "New name";
+            };
+
+            $scope.scrollTo = function (date) {
+                $scope.dp.scrollTo(date);
+            };
+
+            $scope.scale = function (val) {
+                $scope.config.scale = val;
+            };
+
+
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

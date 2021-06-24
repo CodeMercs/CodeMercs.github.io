@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kanban Fixed Column Width</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> You can switch to fixed column width using <b>.columnWidthSpec = "Fixed"</b>.</div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Kanban("dp");
+        dp.columns.list = [
+            {name: "Phase 1", id: "1"},
+            {name: "Phase 2", id: "2"},
+            {name: "Phase 3", id: "3"},
+            {name: "Phase 4", id: "4"},
+            {name: "Phase 5", id: "5"},
+            {name: "Phase 6", id: "6"},
+            {name: "Phase 7", id: "7"},
+            {name: "Phase 8", id: "8"},
+            {name: "Phase 9", id: "9"},
+        ];
+        dp.cards.list = [
+            {id: 1, "name": "Task 1", column: "1", text: "This is a description of task #1."},
+            {id: 2, "name": "Task 2", column: "1", text: "This is a description of task #2."}
+        ];
+        dp.cellMarginBottom = 40;
+
+        dp.columnWidthSpec = "Fixed";
+
+        dp.init();
+
+        function add() {
+            var name = prompt("New card name:", "Task");
+            if (!name) {
+                return;
+            }
+            dp.cards.add({id: DayPilot.guid(), name: name, column: "1"});
+        }
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

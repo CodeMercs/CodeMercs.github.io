@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Tree Loading (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a
+        href="https://doc.daypilot.org/scheduler/dynamic-resource-tree-loading/">dynamic resource tree loading</a>
+        [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = new DayPilot.Date("2020-03-25").firstDayOfMonth();
+        dp.cellGroupBy = "Month";
+        dp.days = dp.startDate.daysInMonth();
+        dp.cellDuration = 1440; // one day
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {name: "Building A", id: "A", dynamicChildren: true},
+            {name: "Building B", id: "B", dynamicChildren: true},
+            {name: "Building C", id: "C", dynamicChildren: true}
+        ];
+
+        // async
+        dp.onLoadNode = function (args) {
+            args.async = true;
+
+            // simulating slow server-side load
+            setTimeout(function () {
+                args.resource.children = [
+                    {name: "Room 111", id: args.resource.id + "111"},
+                    {name: "Room 112", id: args.resource.id + "112", expanded: true, children: [
+                            {name: "Room 112.a", id: args.resource.id + "112a"},
+                            {name: "Room 112.b", id: args.resource.id + "112b"},
+                        ]
+                    },
+                    {name: "Room 113", id: args.resource.id + "113"},
+                ];
+                args.loaded();
+            }, 100);
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

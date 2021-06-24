@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Highlighting Unavailable Cells (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <style>
+        #dp .scheduler_default_cellparent, .scheduler_default_cell.scheduler_default_cell_business.scheduler_default_cellparent {
+            background: #f3f3f3;
+        }
+
+    </style>
+
+    <div class="note"><b>Note:</b> Read more about <a
+        href="https://doc.daypilot.org/scheduler/highlighting-unavailable-cells/">highlighting unavailable cells</a>
+        [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2017-01-01";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "d"}
+        ];
+
+        dp.treeEnabled = true;
+        dp.treePreventParentUsage = true;
+        dp.resources = [
+            {
+                name: "Locations", id: "G1", expanded: true, children: [
+                    {
+                        name: "Room 1", id: "A", unavailable: [
+                            {start: "2017-09-05", end: "2017-09-08"},
+                            {start: "2017-09-13", end: "2017-09-15"}
+                        ]
+                    },
+                    {name: "Room 2", id: "B"},
+                    {name: "Room 3", id: "C"},
+                    {name: "Room 4", id: "D"}
+                ]
+            },
+            {
+                name: "People", id: "G2", expanded: true, children: [
+                    {name: "Person 1", id: "E"},
+                    {name: "Person 2", id: "F"},
+                    {name: "Person 3", id: "G"},
+                    {name: "Person 4", id: "H"}
+                ]
+            },
+            {
+                name: "Tools", id: "G3", expanded: false, children: [
+                    {name: "Tool 1", id: "I"},
+                    {name: "Tool 2", id: "J"},
+                    {name: "Tool 3", id: "K"},
+                    {name: "Tool 4", id: "L"}
+                ]
+            },
+
+        ];
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            DayPilot.Modal.prompt("New event name:", "New Event").then(function (modal) {
+                dp.clearSelection();
+                var name = modal.result;
+                if (!name) return;
+                var e = new DayPilot.Event({
+                    start: args.start,
+                    end: args.end,
+                    id: DayPilot.guid(),
+                    resource: args.resource,
+                    text: name
+                });
+                dp.events.add(e);
+                dp.message("Created");
+            });
+        };
+
+        dp.onBeforeCellRender = function (args) {
+            var row = dp.rows.find(args.cell.resource);
+            var unavailable = row.data.unavailable;
+            if (!unavailable) {
+                return;
+            }
+            var matches = unavailable.some(function (range) {
+                var start = new DayPilot.Date(range.start);
+                var end = new DayPilot.Date(range.end).addDays(1);
+                return DayPilot.Util.overlaps(start, end, args.cell.start, args.cell.end);
+            });
+
+            if (matches) {
+                args.cell.backColor = "#ea9999";
+            }
+        };
+
+
+        dp.init();
+
+        dp.scrollTo("2017-09-01");
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+
+</body>
+</html>
+

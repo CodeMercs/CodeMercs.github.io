@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Card Context Menu (JavaScript Kanban)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b>Read more about <a href="https://doc.daypilot.org/kanban/card-context-menu/">Kanban
+        card context menu</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Kanban("dp");
+        dp.columns.list = [
+            {name: "Analysis", id: "1", barColor: "#f9ba25"},
+            {name: "Draft", id: "2"},
+            {name: "Testing", id: "3"}
+        ];
+        dp.cards.list = [
+            {id: 1, "name": "Task 1", column: "1", text: "This is a description of task #1."},
+            {id: 2, "name": "Task 2", column: "1", text: "This is a description of task #2.", barColor: "#1155CC"},
+            {id: 3, "name": "Task 3", column: "1", text: "This is a description of task #3.", barColor: "#999"},
+            {id: 4, "name": "Task 4", column: "1", text: "This is a description of task #4.", barColor: "#6AA84F"},
+            {id: 5, "name": "Task 5", column: "2", text: "This is a description of task #5.", barColor: "#F6B26B"},
+        ];
+        dp.contextMenuCard = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Edit...", onClick: function (args) {
+                        console.log("Editing..." + args.source.data.id);
+                    }
+                },
+                {text: "-"},
+                {
+                    text: "Delete", onClick: function (args) {
+                        dp.cards.remove(args.source);
+                    }
+                }
+            ]
+        });
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

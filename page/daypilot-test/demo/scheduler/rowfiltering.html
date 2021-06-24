@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Row Filtering (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/scheduler/row-filtering/">row
+        filtering</a>.
+    </div>
+
+    <div class="space">
+        Filter: <input id="filter"/> <a href="#" id="clear">Clear</a>
+        <input type="checkbox" id="hideEmpty"> Hide empty
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.onRowFilter = function (args) {
+            var query = args.filter.query;
+            var hideEmpty = args.filter.hideEmpty;
+
+            if (args.row.name.toUpperCase().indexOf(query.toUpperCase()) === -1) {
+                args.visible = false;
+            } else if (hideEmpty && args.row.events.isEmpty()) {
+                args.visible = false;
+            }
+
+        };
+
+        dp.startDate = "2019-01-01";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "d"}
+        ];
+
+        dp.treeEnabled = true;
+
+        dp.resources = [
+            {
+                name: "Group 1", id: "G1", expanded: true, children: [
+                    {name: "Resource 1", id: "R1"},
+                    {name: "Resource 2", id: "R2"},
+                ]
+            },
+            {
+                name: "Group 2", id: "G2", expanded: true, children: [
+                    {name: "Resource 3", id: "R3"},
+                    {name: "Resource 4", id: "R4"},
+                ]
+            },
+        ];
+
+        dp.events.list = [
+            {
+                start: "2019-01-05T00:00:00",
+                end: "2019-01-10T00:00:00",
+                id: DayPilot.guid(),
+                resource: "R1",
+                text: "Event 1"
+            }
+        ];
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+
+        dp.init();
+
+
+        var elements = {
+            filter: document.querySelector("#filter"),
+            hideEmpty: document.querySelector("#hideEmpty"),
+            clear: document.querySelector("#clear")
+        };
+
+        elements.filter.addEventListener("keyup", function() {
+            filter();
+        });
+
+        elements.hideEmpty.addEventListener("change", function() {
+            filter();
+        });
+
+        elements.clear.addEventListener("click", function(ev) {
+            ev.preventDefault();
+            elements.filter.value = "";
+            filter();
+        });
+
+
+        function filter() {
+            // see dp.onRowFilter above
+            dp.rows.filter({
+                query: elements.filter.value,
+                hideEmpty: elements.hideEmpty.checked
+            });
+        }
+
+    </script>
+
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

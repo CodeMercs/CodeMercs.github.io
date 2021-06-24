@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Gantt Chart</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://doc.daypilot.org/gantt/angularjs/">AngularJS
+        Gantt Chart</a>.
+    </div>
+
+
+    <div ng-app="main" ng-controller="DemoCtrl">
+        <daypilot-gantt id="dp" daypilot-config="config"></daypilot-gantt>
+        <div>
+            New task:
+            <button ng-click="add()">Add</button>
+        </div>
+        <div>
+            First task:
+            <button ng-click="move()">Move</button>
+            <button ng-click="rename()">Rename</button>
+        </div>
+        <div>
+            Object:
+            <button ng-click="message()">Show Message</button>
+        </div>
+        <div>
+            Task array (debug):
+            <div ng-repeat="item in config.tasks">
+                {{item}}
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        var app = angular.module('main', ['daypilot']).controller('DemoCtrl', function ($scope) {
+
+            //$scope.config = {};
+
+            $scope.config = {
+                scale: "Day",
+                startDate: "2014-09-01",
+                days: 30,
+                timeHeaders: [
+                    {groupBy: "Month"},
+                    {groupBy: "Day", format: "d"}
+                ],
+                tasks: [
+                    {
+                        start: new DayPilot.Date("2014-09-05T00:00:00"),
+                        end: new DayPilot.Date("2014-09-06T00:00:00"),
+                        id: DayPilot.guid(),
+                        text: "One-Day Task"
+                    }
+                ]
+            };
+
+            $scope.add = function () {
+                $scope.config.tasks.push(
+                    {
+                        start: new DayPilot.Date("2014-09-05T00:00:00"),
+                        end: new DayPilot.Date("2014-09-06T00:00:00"),
+                        id: DayPilot.guid(),
+                        text: "One-Day Task"
+                    }
+                );
+            };
+
+            $scope.move = function () {
+                var task = $scope.config.tasks[0];
+                task.start = task.start.addDays(1);
+                task.end = task.end.addDays(1);
+            };
+
+            $scope.rename = function () {
+                $scope.config.tasks[0].text = "New name";
+            };
+
+            $scope.message = function () {
+                $scope.dp.message("Hi");
+                //console.log($scope.dp);
+            };
+
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

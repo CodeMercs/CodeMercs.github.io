@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Customization (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/scheduler/event-customization/">event
+        customization</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp");
+
+        // behavior and appearance
+        dp.cellWidth = 80;
+        dp.eventHeight = 40;
+
+        // view
+        dp.startDate = new DayPilot.Date("2013-03-01");
+        dp.days = dp.startDate.daysInMonth();
+
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month"},
+            {groupBy: "Day", format: "d"}
+        ];
+
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"}
+        ];
+
+        dp.events.list = [
+            {
+                start: "2013-03-02T12:00:00",
+                end: "2013-03-05T12:00:00",
+                id: 1,
+                resource: "A",
+                text: "Event 1",
+                type: "disabled"
+            },
+            {
+                start: "2013-03-01T00:00:00",
+                end: "2013-03-06T00:00:00",
+                id: 2,
+                resource: "B",
+                text: "Event 1"
+            }
+        ];
+
+        dp.onBeforeEventRender = function (args) {
+            if (args.e.type === "disabled") {
+                //args.e.cssClass = "disabled";
+                args.e.barColor = "#9a0";
+                args.e.barBackColor = "#ac0";
+                args.e.moveDisabled = true;
+                args.e.bubbleHtml = "Moving of this event is disabled.";
+                args.e.areas = [{html: "Disabled", right: 2, bottom: 2}];
+            }
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

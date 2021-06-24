@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disabled Cells (JavaScript Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b>
+        Read more about <a href="https://javascript.daypilot.org/calendar/disabled-cells/">disabled cells</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <div id="touch"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Calendar("dp");
+
+        // view
+        dp.startDate = DayPilot.Date.today();
+        dp.viewType = "Week";
+
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+
+        var e = new DayPilot.Event({
+            start: DayPilot.Date.today().addHours(12),
+            end: DayPilot.Date.today().addHours(15),
+            id: DayPilot.guid(),
+            text: "Special event"
+        });
+        dp.events.add(e);
+
+        dp.contextMenuSelection = new DayPilot.Menu({
+            items: [
+                {
+                    'text': 'Create new event (JavaScript)', 'onclick': function () {
+                        dp.events.add(new DayPilot.Event({
+                            start: this.source.start,
+                            end: this.source.end,
+                            text: "New event",
+                            resource: this.source.resource
+                        }));
+                    }
+                },
+                {'text': '-'},
+                {
+                    'text': 'Show selection details', 'onclick': function () {
+                        alert('Start: ' + this.source.start + '\nEnd: ' + this.source.end + '\nResource id: ' + this.source.resource);
+                    }
+                },
+                {
+                    'text': 'Clean selection', 'onclick': function () {
+                        dp.clearSelection();
+                    }
+                }]
+        });
+
+        dp.onBeforeCellRender = function (args) {
+            if (args.cell.start.getDatePart() <= DayPilot.Date.today()) {
+                args.cell.disabled = true;
+                args.cell.backColor = "#eee";
+
+            }
+        };
+
+        dp.init();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

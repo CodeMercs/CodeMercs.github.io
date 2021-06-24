@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time Drag and Drop Indicators (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div id="msg">Msg</div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.eventMovingStartEndEnabled = true;
+        dp.eventResizingStartEndEnabled = true;
+        dp.timeRangeSelectingStartEndEnabled = true;
+
+        dp.startDate = "2020-01-01";  // or just dp.startDate = "2013-03-25";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMMM yyyy"},
+            {groupBy: "Cell", format: "d"}
+        ];
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"},
+            {name: "Room J", id: "J"},
+            {name: "Room K", id: "K"},
+        ];
+
+        // generate and load events
+
+        for (var i = 0; i < 15; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var durationDays = Math.floor(Math.random() * 6); // 0 to 5
+            var start = Math.floor(Math.random() * 6) + 2; // 2 to 7
+            var res = Math.floor(Math.random() * 6); // 0 to 5
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2020-03-25T00:00:00").addDays(start),
+                end: new DayPilot.Date("2020-03-25T12:00:00").addDays(start).addDays(durationDays).addHours(duration),
+                id: DayPilot.guid(),
+                resource: String.fromCharCode(65 + res),
+                text: "Event"
+            });
+
+
+            dp.events.add(e);
+        }
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+            document.querySelector("#msg").innerText = "moved";
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onEventMoving = function (args) {
+            document.querySelector("#msg").innerText = args.start + " " + args.end + " " + args.resource;
+        };
+
+        dp.onTimeRangeSelecting = function (args) {
+            document.querySelector("#msg").innerText = args.start + " " + args.end + " " + args.resource + " mouse: " + args.button;
+        };
+
+        dp.onEventResizing = function (args) {
+            document.querySelector("#msg").innerText = args.start + " " + args.end;
+        };
+
+        dp.init();
+
+        dp.scrollTo("2020-03-25");
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

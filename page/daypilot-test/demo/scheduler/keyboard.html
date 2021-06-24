@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Keyboard Navigation (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <style>
+        #dp .scheduler_default_cellparent, .scheduler_default_cell.scheduler_default_cell_business.scheduler_default_cellparent {
+            background: #f3f3f3;
+        }
+
+    </style>
+
+    <div class="note"><b>Note:</b>
+        Use arrows, Shift + arrows, &lt;enter&gt;.
+        Read more about the <a href="https://doc.daypilot.org/scheduler/keyboard/">Scheduler keyboard access</a>.
+    </div>
+
+    <div id="dp"></div>
+
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2021-01-01";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "d"}
+        ];
+
+        dp.treeEnabled = true;
+        dp.treePreventParentUsage = true;
+        dp.resources = [
+            {name: "Frozen 1", id: "frozen1", frozen: "top"},
+            {
+                name: "Locations", id: "G1", expanded: true, children: [
+                    {name: "Room 1", id: "A"},
+                    {name: "Room 2", id: "B"},
+                    {name: "Room 3", id: "C"},
+                    {name: "Room 4", id: "D"}
+                ]
+            },
+            {
+                name: "People", id: "G2", expanded: true, children: [
+                    {name: "Person 1", id: "E"},
+                    {name: "Person 2", id: "F"},
+                    {name: "Person 3", id: "G"},
+                    {name: "Person 4", id: "H"}
+                ]
+            },
+            {
+                name: "Tools", id: "G3", expanded: true, children: [
+                    {name: "Tool 1", id: "I"},
+                    {name: "Tool 2", id: "J"},
+                    {name: "Tool 3", id: "K"},
+                    {name: "Tool 4", id: "L"}
+                ]
+            },
+            {name: "Frozen 2", id: "frozen2", frozen: "bottom"},
+        ];
+
+        dp.heightSpec = "Max";
+        dp.height = 300;
+
+        dp.events.list = [{"start":"2021-05-19T07:12:00.001","end":"2021-05-24T20:12:00.001","id":"d5970568-2574-94f6-14bf-b9d530b9a5de","resource":"D","text":"Event 1","bubbleHtml":"Event 1","barColor":"#3c78d8","barBackColor":"#a4c2f4"},{"start":"2021-05-01T16:48:00","end":"2021-05-05T10:48:00","id":"623b925d-84bb-ef6f-0a00-1ce5d804b93b","resource":"D","text":"Event 2","bubbleHtml":"Event 2","barColor":"#6aa84f","barBackColor":"#b6d7a8"},{"start":"2021-05-17T15:00:00","end":"2021-05-24T04:00:00","id":"f1a443fb-4293-e387-476f-cd4bd778726d","resource":"D","text":"Event 3","bubbleHtml":"Event 3","barColor":"#f1c232","barBackColor":"#ffe599"},{"start":"2021-05-06T11:24:00","end":"2021-05-13T00:24:00","id":"0eb0808c-eed9-c83a-69cf-704bb42a8317","resource":"D","text":"Event 4","bubbleHtml":"Event 4","barColor":"#cc0000","barBackColor":"#ea9999"},{"start":"2021-05-08T13:12:00","end":"2021-05-12T05:12:00","id":"ab4c476c-f2c7-14c8-4fc6-b06d95c5233a","resource":"F","text":"Event 5","bubbleHtml":"Event 5","barColor":"#3c78d8","barBackColor":"#a4c2f4"},{"start":"2021-05-04T01:48:00","end":"2021-05-04T07:48:00","id":"52ce6852-4126-a6be-cf95-4b1d48e1f8a6","resource":"F","text":"Event 6","bubbleHtml":"Event 6","barColor":"#6aa84f","barBackColor":"#b6d7a8"},{"start":"2021-05-04T09:36:00","end":"2021-05-04T18:00:00","id":"470f4792-b243-ce22-d977-d3fa1a8846e0","resource":"F","text":"Event 7","bubbleHtml":"Event 7","barColor":"#f1c232","barBackColor":"#ffe599"},{"start":"2021-05-08T04:48:00","end":"2021-05-14T21:48:00","id":"718c5969-ecba-93c3-15f2-87d643496c63","resource":"F","text":"Event 8","bubbleHtml":"Event 8","barColor":"#cc0000","barBackColor":"#ea9999"},{"start":"2021-05-07T00:00:00","end":"2021-05-12T13:00:00","id":"189bcc26-a15a-f1aa-c61a-e1abbd126c65","resource":"I","text":"Event 9","bubbleHtml":"Event 9","barColor":"#3c78d8","barBackColor":"#a4c2f4"},{"start":"2021-05-08T00:00:00","end":"2021-05-10T16:00:00","id":"6884635f-607f-c028-bfa9-75eeae846d85","resource":"J","text":"Event 10","bubbleHtml":"Event 10","barColor":"#6aa84f","barBackColor":"#b6d7a8"},{"start":"2021-05-08T00:00:00","end":"2021-05-12T16:00:00","id":"a8a03aa0-1327-0b94-b890-3df620685ed7","resource":"K","text":"Event 11","bubbleHtml":"Event 11","barColor":"#f1c232","barBackColor":"#ffe599"},{"start":"2021-05-09T00:00:00","end":"2021-05-15T17:00:00","id":"7375eb84-b9dd-17ad-d315-f64288ed9769","resource":"L","text":"Event 12","bubbleHtml":"Event 12","barColor":"#cc0000","barBackColor":"#ea9999"},{"start":"2021-05-07T09:00:00","end":"2021-05-14T09:00:00","id":"03c12830-bd23-6510-cb43-e278ab3bff2d","resource":"D","text":"New Event"},{"start":"2021-05-06T07:12:00","end":"2021-05-11T19:48:00","id":"716bfa16-b217-f801-4b41-02df85ce5439","resource":"A","text":"New Event"}];
+
+        dp.eventMovingStartEndEnabled = true;
+        dp.eventResizingStartEndEnabled = true;
+        dp.timeRangeSelectingStartEndEnabled = true;
+
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            // console.log("args", args);
+            DayPilot.Modal.prompt("New event name:", "New Event").then(function (modal) {
+                dp.clearSelection();
+                var name = modal.result;
+                if (!name) return;
+                var e = new DayPilot.Event({
+                    start: args.start,
+                    end: args.end,
+                    id: DayPilot.guid(),
+                    resource: args.resource,
+                    text: name
+                });
+                dp.events.add(e);
+                dp.message("Created");
+            });
+        };
+
+
+        dp.onEventClick = function(args) {
+            DayPilot.Modal.prompt("Event text:", args.e.data.text).then(function(modal) {
+                if (modal.canceled) {
+                    return;
+                }
+                var e = args.e;
+                e.data.text = modal.result;
+                dp.events.update(e);
+            });
+        };
+
+        // dp.rowMarginTop = 5;
+        // dp.rowMarginBottom = 5;
+        // dp.allowEventOverlap = false;
+
+        dp.keyboardEnabled = true;
+        dp.init();
+
+        dp.scrollTo("2021-05-01");
+
+
+        function barColor(i) {
+            var colors = ["#3c78d8", "#6aa84f", "#f1c232", "#cc0000"];
+            return colors[i % 4];
+        }
+
+        function barBackColor(i) {
+            var colors = ["#a4c2f4", "#b6d7a8", "#ffe599", "#ea9999"];
+            return colors[i % 4];
+        }
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+
+</body>
+</html>
+

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SVG Export (JavaScript Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+    <script src="../helpers/jquery-1.12.2.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="http://javascript.daypilot.org/calendar/">JavaScript
+        event calendar</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <div class="space">
+        Area:
+        <select id="area">
+            <option value="viewport">Viewport</option>
+            <option value="full">Full</option>
+            <option value="range">Range</option>
+        </select>
+
+    </div>
+    <div class="space">
+        <a href="#" id="export-button">Export</a>
+        <a href="#" id="download-button">Download</a>
+    </div>
+
+    <div id="export"></div>
+
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Calendar("dp");
+
+        // view
+        dp.startDate = DayPilot.Date.today();
+        dp.viewType = "Week";
+        dp.allDayEventHeight = 25;
+
+        dp.showAllDayEvents = true;
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.clearSelection();
+            dp.message("Created");
+        };
+
+        dp.events.list = [
+            {
+                start: DayPilot.Date.today().addHours(12),
+                end: DayPilot.Date.today().addHours(15),
+                id: DayPilot.guid(),
+                text: "Special event"
+            },
+            {
+                start: DayPilot.Date.today(),
+                end: DayPilot.Date.today().addDays(3),
+                id: DayPilot.guid(),
+                allday: true,
+                text: "All-day event 1"
+            }, {
+                start: DayPilot.Date.today().addDays(2),
+                end: DayPilot.Date.today().addDays(5),
+                id: DayPilot.guid(),
+                allday: true,
+                text: "All-day event 2"
+            },
+        ];
+
+        dp.onBeforeEventExport = function (args) {
+            /*
+                                    args.text = "abc";
+                                    args.backColor = "lightyellow";
+                                    args.fontColor = "black";
+                                    args.fontStyle = "bold italic";
+                                    args.barWidth = 10;
+                                    args.barColor = "black";
+                                    args.horizontalAlignment = "right";
+                                    args.borderColor = "red";
+            */
+        };
+
+        dp.onBeforeHeaderExport = function (args) {
+        };
+
+        dp.init();
+
+        $(document).ready(function () {
+            $("#export-button").click(function (ev) {
+                ev.preventDefault();
+                var area = $("#area").val();
+                var element = dp.exportAs("jpeg", {
+                    area: area,
+                    dateFrom: "2016-01-01",
+                    dateTo: "2016-01-15"
+                }).toElement();
+                $("#export").html('').append(element);
+
+            });
+            $("#download-button").click(function (ev) {
+                ev.preventDefault();
+                var area = $("#area").val();
+                dp.exportAs("svg", {
+                    area: area,
+                    dateFrom: "2016-01-01",
+                    dateTo: "2016-01-31",
+                    resourceFrom: "A",
+                    resourceTo: "D"
+                }).download();
+            });
+        });
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

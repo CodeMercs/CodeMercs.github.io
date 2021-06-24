@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Containers (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <style>
+        #dp .scheduler_default_cellparent, .scheduler_default_cell.scheduler_default_cell_business.scheduler_default_cellparent {
+            background: #f3f3f3;
+        }
+    </style>
+
+    <div class="note"><b>Note:</b>
+        Event containers force events with the same container id to be rendered at the same vertical position within a
+        row.
+        Read more about <a href="https://doc.daypilot.org/scheduler/event-containers/">event containers</a>
+        [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2019-01-01";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMMM yyyy"},
+            {groupBy: "Day", format: "d"}
+        ];
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {
+                name: "Locations", id: "G1", expanded: true, children: [
+                    {name: "Room 1", id: "A"},
+                    {name: "Room 2", id: "B"},
+                    {name: "Room 3", id: "C"},
+                    {name: "Room 4", id: "D"}
+                ]
+            },
+            {
+                name: "People", id: "G2", expanded: true, children: [
+                    {name: "Person 1", id: "E"},
+                    {name: "Person 2", id: "F"},
+                    {name: "Person 3", id: "G"},
+                    {name: "Person 4", id: "H"}
+                ]
+            },
+            {
+                name: "Tools", id: "G3", expanded: false, children: [
+                    {name: "Tool 1", id: "I"},
+                    {name: "Tool 2", id: "J"},
+                    {name: "Tool 3", id: "K"},
+                    {name: "Tool 4", id: "L"}
+                ]
+            },
+
+        ];
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            DayPilot.Modal.prompt("New event name:", "New Event").then(function (modal) {
+                dp.clearSelection();
+                var name = modal.result;
+                if (!name) return;
+                var e = new DayPilot.Event({
+                    start: args.start,
+                    end: args.end,
+                    id: DayPilot.guid(),
+                    resource: args.resource,
+                    text: name
+                });
+                dp.events.add(e);
+                dp.message("Created");
+            });
+        };
+
+        dp.onBeforeEventRender = function (args) {
+            if (args.data.container) {
+                args.data.html = args.data.text + " (container: " + args.data.container + ")";
+            }
+        };
+
+        dp.events.list = [
+            {
+                "start": "2019-01-07T00:00:00",
+                "end": "2019-01-12T00:00:00",
+                "id": "39441891-f564-8fc3-caf4-a2e892f804de",
+                "resource": "A",
+                "text": "New Event 1",
+            },
+            {
+                "start": "2019-01-11T00:00:00",
+                "end": "2019-01-15T00:00:00",
+                "id": "ce83a6d7-d8ff-ea0c-d149-4c37691b29da",
+                "resource": "A",
+                "text": "New Event 2",
+                container: 1
+            },
+            {
+                "start": "2019-01-17T00:00:00",
+                "end": "2019-01-22T00:00:00",
+                "id": "39fb5fba-d2cc-1c62-41a4-0b8df487f917",
+                "resource": "A",
+                "text": "New Event 3",
+                container: 1
+            }
+        ];
+
+        dp.links.list = [
+            {
+                from: "ce83a6d7-d8ff-ea0c-d149-4c37691b29da",
+                to: "39fb5fba-d2cc-1c62-41a4-0b8df487f917"
+            }
+        ];
+
+        dp.init();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+
+</body>
+</html>
+

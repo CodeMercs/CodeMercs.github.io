@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Localization (JavaScript Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://doc.daypilot.org/calendar/localization/">event
+        calendar localization</a> [doc.daypilot.org].
+    </div>
+
+
+    <div class="space">Select locale:
+        <select id="locale">
+            <option>ca-es</option>
+            <option>cs-cz</option>
+            <option>da-dk</option>
+            <option>de-at</option>
+            <option>de-ch</option>
+            <option selected="selected">de-de</option>
+            <option>de-lu</option>
+            <option>en-au</option>
+            <option>en-ca</option>
+            <option>en-gb</option>
+            <option>en-us</option>
+            <option>es-es</option>
+            <option>es-mx</option>
+            <option>eu-es</option>
+            <option>fi-fi</option>
+            <option>fr-be</option>
+            <option>fr-ch</option>
+            <option>fr-fr</option>
+            <option>fr-lu</option>
+            <option>gl-es</option>
+            <option>it-it</option>
+            <option>it-ch</option>
+            <option>ja-jp</option>
+            <option>nb-no</option>
+            <option>nl-nl</option>
+            <option>nl-be</option>
+            <option>nn-no</option>
+            <option>pt-br</option>
+            <option>pl-pl</option>
+            <option>pt-pt</option>
+            <option>ru-ru</option>
+            <option>sk-sk</option>
+            <option>sv-se</option>
+            <option>zh-cn</option>
+        </select>
+    </div>
+
+    <div id="dp"></div>
+
+    <div id="print"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Calendar("dp");
+
+        // view
+        dp.startDate = "2013-03-25";  // or just dp.startDate = "2013-03-25";
+        dp.viewType = "Week";
+        dp.locale = "de-de";
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: "Event"
+            });
+            dp.events.add(e);
+            dp.clearSelection();
+            dp.message("Created");
+        };
+
+        dp.headerDateFormat = "dddd";
+
+        dp.init();
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2013-03-25T12:00:00"),
+            end: new DayPilot.Date("2013-03-25T12:00:00").addHours(3),
+            id: DayPilot.guid(),
+            text: "Special event"
+        });
+        dp.events.add(e);
+
+    </script>
+
+    <script type="text/javascript">
+        document.querySelector("#locale").addEventListener("change", function() {
+            dp.locale = this.value;
+            dp.update();
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

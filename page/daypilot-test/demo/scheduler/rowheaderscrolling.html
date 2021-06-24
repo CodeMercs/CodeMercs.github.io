@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Row Header Scrollbar (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more the <a href="https://doc.daypilot.org/scheduler/row-header-scrolling/">horizontal
+        scrollbar for row headers</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2021-01-01";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "ddd d"}
+        ];
+
+        dp.rowHeaderColumns = [
+            {name: "Name", width: 120},
+            {name: "Params", width: 120}
+        ];
+
+        dp.rowHeaderWidth = 200;
+        dp.rowHeaderScrolling = true;
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {
+                name: "Room A", id: "A", expanded: true, children: [
+                    {name: "Room A.1", id: "A.1"},
+                    {name: "Room A.2", id: "A.2"}
+                ]
+            },
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"},
+            {name: "Room J", id: "J"},
+            {name: "Room K", id: "K"},
+        ];
+
+        // generate and load events
+
+        for (var i = 0; i < 15; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var durationDays = Math.floor(Math.random() * 6); // 0 to 5
+            var start = Math.floor(Math.random() * 6) + 2; // 2 to 7
+            var res = Math.floor(Math.random() * 6); // 0 to 5
+
+            var e = new DayPilot.Event({
+                start: new DayPilot.Date("2021-03-25T00:00:00").addDays(start),
+                end: new DayPilot.Date("2021-03-25T12:00:00").addDays(start).addDays(durationDays).addHours(duration),
+                id: DayPilot.guid(),
+                resource: String.fromCharCode(65 + res),
+                text: "Event"
+            });
+
+            dp.events.add(e);
+        }
+
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+
+        dp.init();
+
+        dp.scrollTo("2021-03-25");
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

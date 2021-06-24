@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>External Drag and Drop (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <style>
+        .external-shadow {
+            overflow: hidden;
+            width: 100px !important;
+            height: 30px !important;
+            box-sizing: border-box;
+            white-space: nowrap;
+            padding: 5px;
+        }
+    </style>
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/scheduler/external-drag-and-drop/">external
+        drag and drop</a> [doc.daypilot.org].
+    </div>
+
+    <div style="display: flex;">
+        <div style="margin-right: 10px; border: 1px solid #ccc;padding: 5px;" id="queue">
+            Drag items from this list to the scheduler:
+            <ul id="external">
+                <li data-id="123" data-duration="1"><span style="cursor:move">Item #123 (1 hour)</span></li>
+                <li data-id="124" data-duration="2"><span style="cursor:move">Item #124 (2 hours)</span></li>
+            </ul>
+        </div>
+        <div style="flex-grow: 1;">
+            <div id="dp"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = new DayPilot.Date("2019-03-01");
+        dp.days = dp.startDate.daysInMonth();
+        dp.scale = "Hour";
+        dp.timeHeaders = [
+            {groupBy: "Day"},
+            {groupBy: "Hour"}
+        ];
+
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+        ];
+
+        dp.onEventMoving = function (args) {
+            args.right.enabled = true;
+            args.right.html = "external: " + args.external;
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.dragOutAllowed = true;
+
+        dp.init();
+
+        function makeDraggable() {
+            var parent = document.getElementById("external");
+            var items = parent.getElementsByTagName("li");
+            for (var i = 0; i < items.length; i++) {
+                var e = items[i];
+                var item = {
+                    element: e,
+                    remove: e,
+                    id: e.getAttribute("data-id"),
+                    text: e.innerText,
+                    duration: DayPilot.Duration.hours(e.getAttribute("data-duration")),  // hours
+                    barColor: "red",
+                    barBackColor: "white",
+                    externalCssClass: "external-shadow",
+                    externalHtml: e.innerText,
+                    onDragStart: function(args) {
+                        var e = args.options.element;
+                        e.style.opacity = "0.5";
+                    },
+                    onDrop: function(args) {
+                        var e = args.options.element;
+                        e.style.opacity = "";
+                    },
+                };
+                DayPilot.Scheduler.makeDraggable(item);
+            }
+
+        }
+
+        makeDraggable();
+
+        DayPilot.Scheduler.registerDropTarget({
+            element: document.getElementById("queue"),
+            onDrop: args => {
+                const parent = document.getElementById("external");
+                const li = document.createElement("li");
+                li.setAttribute("data-duration", args.e.duration().totalHours());
+                li.setAttribute("data-id", args.e.id());
+                li.style.cursor = "move";
+                li.innerText = args.e.text();
+                parent.appendChild(li);
+
+                makeDraggable();
+
+                dp.events.remove(args.e);
+            },
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

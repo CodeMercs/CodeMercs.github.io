@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Scheduler</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <style>
+        #dp .scheduler_default_cellparent, .scheduler_default_cell.scheduler_default_cell_business.scheduler_default_cellparent {
+            background: #f3f3f3;
+        }
+
+    </style>
+
+    <div class="note"><b>Note:</b>
+        Customize the component using <a href="https://builder.daypilot.org/scheduler">Scheduler UI Builder</a>
+        and download a ready-to-run project.
+
+        Read more about the <a href="https://javascript.daypilot.org/scheduler/">JavaScript scheduler</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.startDate = "2021-01-01";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMMM yyyy"},
+            {groupBy: "Day", format: "d"}
+        ];
+
+        dp.contextMenu = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Edit", onClick: function (args) {
+                        dp.events.edit(args.source);
+                    }
+                },
+                {
+                    text: "Delete", onClick: function (args) {
+                        dp.events.remove(args.source);
+                    }
+                },
+                {text: "-"},
+                {
+                    text: "Select", onClick: function (args) {
+                        dp.multiselect.add(args.source);
+                    }
+                }
+            ]
+        });
+
+        dp.treeEnabled = true;
+        dp.treePreventParentUsage = true;
+        dp.resources = [
+            {
+                name: "Locations", id: "G1", expanded: true, children: [
+                    {name: "Room 1", id: "A"},
+                    {name: "Room 2", id: "B"},
+                    {name: "Room 3", id: "C"},
+                    {name: "Room 4", id: "D"}
+                ]
+            },
+            {
+                name: "People", id: "G2", expanded: true, children: [
+                    {name: "Person 1", id: "E"},
+                    {name: "Person 2", id: "F"},
+                    {name: "Person 3", id: "G"},
+                    {name: "Person 4", id: "H"}
+                ]
+            },
+            {
+                name: "Tools", id: "G3", expanded: true, children: [
+                    {name: "Tool 1", id: "I"},
+                    {name: "Tool 2", id: "J"},
+                    {name: "Tool 3", id: "K"},
+                    {name: "Tool 4", id: "L"}
+                ]
+            },
+            {
+                name: "Other Resources", id: "G4", expanded: true, children: [
+                    {name: "Resource 1", id: "R1"},
+                    {name: "Resource 2", id: "R2"},
+                    {name: "Resource 3", id: "R3"},
+                    {name: "Resource 4", id: "R4"}
+                ]
+            },
+        ];
+
+        dp.heightSpec = "Max";
+        dp.height = 500;
+
+        dp.events.list = [];
+
+        for (var i = 0; i < 12; i++) {
+            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var durationDays = Math.floor(Math.random() * 6) + 1; // 1 to 6
+            var start = Math.floor(Math.random() * 6) + 2; // 2 to 7
+
+            var e = {
+                start: new DayPilot.Date("2021-06-05T12:00:00").addDays(start),
+                end: new DayPilot.Date("2021-06-05T12:00:00").addDays(start).addDays(durationDays).addHours(duration),
+                id: DayPilot.guid(),
+                resource: String.fromCharCode(65 + i),
+                text: "Event " + (i + 1),
+                bubbleHtml: "Event " + (i + 1),
+                barColor: barColor(i),
+                barBackColor: barBackColor(i)
+            };
+
+            dp.events.list.push(e);
+        }
+
+        dp.eventMovingStartEndEnabled = true;
+        dp.eventResizingStartEndEnabled = true;
+        dp.timeRangeSelectingStartEndEnabled = true;
+
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+        };
+
+        dp.onEventMoving = function (args) {
+            if (args.e.resource() === "A" && args.resource === "B") {  // don't allow moving from A to B
+                args.left.enabled = false;
+                args.right.html = "You can't move an event from Room 1 to Room 2";
+
+                args.allowed = false;
+            } else if (args.resource === "B") {  // must start on a working day, maximum length one day
+                while (args.start.getDayOfWeek() === 0 || args.start.getDayOfWeek() === 6) {
+                    args.start = args.start.addDays(1);
+                }
+                args.end = args.start.addDays(1);  // fixed duration
+                args.left.enabled = false;
+                args.right.html = "Events in Room 2 must start on a workday and are limited to 1 day.";
+            }
+
+            if (args.resource === "C") {
+                var except = args.e.data;
+                var events = dp.rows.find(args.resource).events.all();
+
+                var start = args.start;
+                var end = args.end;
+                var overlaps = events.some(function (item) {
+                    return item.data !== except && DayPilot.Util.overlaps(item.start(), item.end(), start, end);
+                });
+
+                while (overlaps) {
+                    start = start.addDays(1);
+                    end = end.addDays(1);
+
+                    overlaps = events.some(function (item) {
+                        return item.data !== except && DayPilot.Util.overlaps(item.start(), item.end(), start, end);
+                    });
+                }
+
+                if (args.start !== start) {
+                    args.start = start;
+                    args.end = end;
+
+                    args.left.enabled = false;
+                    args.right.html = "Start automatically moved to " + args.start.toString("d MMMM, yyyy");
+                }
+
+            }
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            DayPilot.Modal.prompt("New event name:", "New Event").then(function (modal) {
+                dp.clearSelection();
+                var name = modal.result;
+                if (!name) return;
+                var e = new DayPilot.Event({
+                    start: args.start,
+                    end: args.end,
+                    id: DayPilot.guid(),
+                    resource: args.resource,
+                    text: name
+                });
+                dp.events.add(e);
+                dp.message("Created");
+            });
+        };
+
+        dp.onEventMove = function (args) {
+            if (args.ctrl) {
+                var newEvent = new DayPilot.Event({
+                    start: args.newStart,
+                    end: args.newEnd,
+                    text: "Copy of " + args.e.text(),
+                    resource: args.newResource,
+                    id: DayPilot.guid()  // generate random id
+                });
+                dp.events.add(newEvent);
+
+                // notify the server about the action here
+
+                args.preventDefault(); // prevent the default action - moving event to the new location
+            }
+        };
+
+        dp.onEventClick = function (args) {
+            DayPilot.Modal.alert(args.e.data.text);
+        };
+
+        dp.init();
+
+        dp.scrollTo("2021-06-01");
+
+        function barColor(i) {
+            var colors = ["#3c78d8", "#6aa84f", "#f1c232", "#cc0000"];
+            return colors[i % 4];
+        }
+
+        function barBackColor(i) {
+            var colors = ["#a4c2f4", "#b6d7a8", "#ffe599", "#ea9999"];
+            return colors[i % 4];
+        }
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+
+</body>
+</html>
+

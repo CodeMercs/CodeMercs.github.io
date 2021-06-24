@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Queue of Unscheduled Tasks (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/scheduler/external-drag-and-drop/">external
+        drag and drop</a> [doc.daypilot.org].
+    </div>
+
+    <div style="display: flex;">
+        <div style="margin-right: 10px; padding: 5px;">
+            Drag items from the queue to the scheduler and back:
+            <div id="queue" style="max-width: 200px;"></div>
+        </div>
+        <div style="flex-grow: 1;">
+            <div id="dp"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = new DayPilot.Date("2019-03-01");
+        dp.days = dp.startDate.daysInMonth();
+        dp.scale = "Hour";
+        dp.timeHeaders = [
+            {groupBy: "Day"},
+            {groupBy: "Hour"}
+        ];
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+        ];
+
+        dp.onEventMoving = function (args) {
+            args.right.enabled = true;
+            args.right.html = "external: " + args.external;
+        };
+
+        dp.onEventMove = function(args) {
+            console.log("onEventMove", args);
+            if (args.external) {
+                console.log("removing");
+                queue.events.remove(args.e.data.id);
+            }
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.dragOutAllowed = true;
+        dp.init();
+
+        var queue = new DayPilot.Queue("queue");
+        queue.onEventMove = function(args) {
+            if (args.external) {
+                console.log("removing", args);
+                dp.events.remove(args.e.data.id);
+            }
+        };
+        queue.contextMenu = new DayPilot.Menu({
+            items: [
+                {text: "Open", onClick: args => DayPilot.Modal.alert(args.source.text())}
+            ]
+        });
+        queue.onEventClick = args => {
+            DayPilot.Modal.alert(args.e.text());
+        };
+        queue.events.list = [
+            { id: 1, start: "2021-01-01T00:00:00", end: "2021-01-01T04:00:00", text: "Event 1", tags: {myfield: "value"}},
+            { id: 2, duration: DayPilot.Duration.ofHours(3), text: "Event 2"},
+        ];
+        queue.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

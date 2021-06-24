@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Gantt Chart (Minimal Configuration)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="http://javascript.daypilot.org/gantt/">JavaScript
+        Gantt</a>.
+    </div>
+
+    <div id="gantt"></div>
+
+    <script>
+        var gantt = new DayPilot.Gantt("gantt");
+
+        gantt.tasks.add(new DayPilot.Task({
+            id: "task-1",
+            start: "2015-01-01",
+            end: "2015-01-02",
+            text: "Task 1"
+        }));
+
+        gantt.tasks.add(new DayPilot.Task({
+            id: "task-2",
+            start: "2015-01-02",
+            end: "2015-01-03",
+            text: "Task 1"
+        }));
+
+        gantt.links.add(new DayPilot.Link({
+            id: "link-1",
+            from: "task-1",
+            to: "task-2",
+            type: "FinishToStart"
+        }));
+
+        gantt.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

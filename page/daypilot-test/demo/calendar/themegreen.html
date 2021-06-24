@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Green CSS Theme (JavaScript Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+    <link type="text/css" rel="stylesheet" href="../themes/calendar_green.css?v=2021.2.5007"/>
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> You can create a theme using the online <strong>DayPilot Theme Designer</strong>: <a
+        href="http://themes.daypilot.org/">http://themes.daypilot.org/</a></div>
+
+    <div id="dp"></div>
+
+    <div id="print"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Calendar("dp");
+
+        // behavior and appearance
+        dp.theme = "calendar_green";
+
+        // view
+        dp.startDate = "2013-03-25";  // or just dp.startDate = "2013-03-25";
+        dp.days = 1;
+        dp.viewType = "Week";
+
+        // bubble, with async loading
+        dp.bubble = new DayPilot.Bubble({
+            cssClassPrefix: "bubble_default",
+            onLoad: function (args) {
+                var ev = args.source;
+                args.async = true;  // notify manually using .loaded()
+
+                // simulating slow server-side load
+                setTimeout(function () {
+                    args.html = "testing bubble for: <br>" + ev.text();
+                    args.loaded();
+                }, 500);
+            }
+        });
+
+        dp.contextMenu = new DayPilot.Menu({
+            cssClassPrefix: "menu_default",
+            items: [
+                {
+                    text: "Show event ID", onclick: function () {
+                        alert("Event value: " + this.source.value());
+                    }
+                },
+                {
+                    text: "Show event text", onclick: function () {
+                        alert("Event text: " + this.source.text());
+                    }
+                },
+                {
+                    text: "Show event start", onclick: function () {
+                        alert("Event start: " + this.source.start().toStringSortable());
+                    }
+                },
+                {
+                    text: "Delete", onclick: function () {
+                        dp.events.remove(this.source);
+                    }
+                }
+            ]
+        });
+
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: "Event"
+            });
+            dp.events.add(e);
+            dp.clearSelection();
+            dp.message("Created");
+        };
+
+        dp.onTimeRangeDoubleClicked = function (args) {
+            alert("DoubleClick: start: " + args.start + " end: " + args.end + " resource: " + args.resource);
+        };
+
+        dp.onEventClick = function (args) {
+            alert("clicked: " + args.e.id());
+        };
+
+        dp.init();
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2013-03-25T12:00:00"),
+            end: new DayPilot.Date("2013-03-25T12:00:00").addHours(3),
+            id: DayPilot.guid(),
+            text: "Special event"
+        });
+        dp.events.add(e);
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

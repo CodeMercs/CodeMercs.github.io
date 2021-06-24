@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jQuery Monthly Event Calendar</title>
+
+    <script src="../helpers/jquery-1.12.2.min.js" type="text/javascript"></script>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://doc.daypilot.org/month/jquery/">jQuery monthly
+        event calendar</a>.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var dp = $("#dp").daypilotMonth({
+                startDate: "2013-03-01",
+                events: [
+                    {
+                        start: new DayPilot.Date("2013-03-04T00:00:00"),
+                        end: new DayPilot.Date("2013-03-04T12:00:00"),
+                        id: DayPilot.guid(),
+                        text: "Event 1"
+                    }
+                ],
+                onEventMoved: function (args) {
+                    dp.message("Moved: " + args.e.text());
+                },
+                onEventResized: function (args) {
+                    dp.message("Resized: " + args.e.text());
+                },
+                onTimeRangeSelected: function (args) {
+                    var name = prompt("New event name:", "Event");
+                    dp.clearSelection();
+                    if (!name) return;
+                    var e = new DayPilot.Event({
+                        start: args.start,
+                        end: args.end,
+                        id: DayPilot.guid(),
+                        text: name
+                    });
+                    dp.events.add(e);
+                    dp.message("Created");
+                }
+            });
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

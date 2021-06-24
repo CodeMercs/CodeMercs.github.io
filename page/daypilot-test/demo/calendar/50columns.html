@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>50 columns (JavaScript Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/calendar/fixed-column-width/">fixed
+        column width</a> [doc.daypilot.org]. Please note that the Calendar is not optimized to handle large data sets.
+        For showing large data sets, please consider using the <a href="../scheduler/index.html">Scheduler</a> component.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Calendar("dp");
+
+        // view
+        dp.startDate = "2021-03-01";
+        dp.days = 50;
+
+        dp.columnWidthSpec = "Fixed";
+        dp.columnWidth = 100;
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: "Event"
+            });
+            dp.events.add(e);
+            dp.clearSelection();
+            dp.message("Created");
+        };
+
+        for (var i = 0; i < 50; i++) {
+            for (var j = 0; j <10; j++) {
+                var e = {
+                    start: new DayPilot.Date("2021-03-01T09:00:00").addDays(i).addHours(j),
+                    end: new DayPilot.Date("2021-03-01T09:00:00").addDays(i).addHours(j).addHours(1),
+                    id: DayPilot.guid(),
+                    text: "Event " + (i*10+j)
+                };
+                dp.events.list.push(e);
+            }
+        }
+
+        dp.init();
+
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

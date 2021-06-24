@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event End Spec (Monthly Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> You can specify the event end date as date-only using .eventEndSpec = "Date".</div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Month("dp");
+
+        // behavior and appearance
+        dp.cellMarginBottom = 20;
+
+        dp.bubble = new DayPilot.Bubble({
+            cssClassPrefix: "bubble_default",
+            onLoad: function (args) {
+                var ev = args.source;
+                args.html = "testing bubble for: " + ev.text();
+            }
+        });
+
+        // view
+        dp.startDate = "2016-03-01";
+
+        dp.eventEndSpec = "Date";
+
+        // generate and load events
+        dp.events.list = [{
+            start: "2016-03-04",
+            end: "2016-03-04",
+            id: DayPilot.guid(),
+            text: "One-day event"
+        },
+            {
+                start: "2016-03-04",
+                end: "2016-03-05",
+                id: DayPilot.guid(),
+                text: "Two-day event"
+            }];
+
+        // event moving
+        dp.onEventMoved = function (args) {
+            dp.message("Moved: " + args.e.text());
+        };
+
+        // event resizing
+        dp.onEventResized = function (args) {
+            dp.message("Resized: " + args.e.text());
+        };
+
+        dp.onBeforeHeaderRender = function (args) {
+
+        };
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+        dp.onEventClicked = function (args) {
+            alert("clicked: " + args.e.tag("url"));
+        };
+
+        dp.onHeaderClicked = function (args) {
+            alert("day: " + args.header.dayOfWeek);
+        };
+
+        dp.onBeforeCellRender = function (args) {
+        };
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Event Loading (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about <a href="https://doc.daypilot.org/scheduler/dynamic-event-loading/">dynamic
+        event loading</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+        var dp = new DayPilot.Scheduler("dp");
+
+        // view
+        dp.startDate = new DayPilot.Date("2019-01-01");
+        dp.cellGroupBy = "Month";
+        dp.days = 365;
+        dp.scale = "Day";
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {name: "Room A", id: "A"},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"}
+        ];
+
+
+        dp.dynamicLoading = true;
+        dp.onScroll = function (args) {
+            args.async = true;
+
+            // simulating slow server-side load
+            setTimeout(function () {
+
+                var events = [];
+
+                // generate 10 new events
+                for (var i = 0; i < 10; i++) {
+                    var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
+                    var startOffset = Math.floor(Math.random() * 6) + 1; // 1 to 6
+                    var res = Math.floor(Math.random() * 6); // 0 to 5
+
+                    var start = args.viewport.start.addDays(startOffset);
+                    var end = start.addDays(duration);
+
+                    var e = {
+                        start: start,
+                        end: end,
+                        id: DayPilot.guid(),
+                        resource: String.fromCharCode(65 + res),
+                        text: "Event"
+                    };
+
+                    events.push(e);
+                    //dp.multiselect.initList.push(e);
+                    //dp.multiselect.add(new DayPilot.Event(e));
+                }
+
+                args.events = events;
+                args.loaded();
+            }, 100);
+        };
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

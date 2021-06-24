@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Navigator (JavaScript Event Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about integrating the <a
+        href="https://doc.daypilot.org/calendar/navigator/">date navigator</a> [doc.daypilot.org].
+    </div>
+
+    <div style="display: flex;">
+        <div style="margin-right: 10px;">
+            <div id="nav"></div>
+        </div>
+        <div style="flex-grow: 1;">
+            <div id="dp"></div>
+        </div>
+    </div>
+
+    <div id="print"></div>
+
+    <script type="text/javascript">
+        var nav = new DayPilot.Navigator("nav");
+        nav.showMonths = 3;
+        nav.skipMonths = 3;
+        nav.selectMode = "Day";
+        nav.freeHandSelectionEnabled = true;
+        nav.selectionDay = DayPilot.Date.today();
+        nav.onTimeRangeSelected = function (args) {
+            console.log(args);
+            dp.startDate = args.start;
+            dp.update();
+        };
+        nav.onBeforeCellRender = function (args) {
+            if (args.cell.isCurrentMonth) {
+                args.cell.cssClass = "current-month";
+            }
+        };
+        nav.onVisibleRangeChange = function (args) {
+            var start = args.start;
+            var end = args.end;
+
+            if (start <= nav.selectionDay && nav.selectionDay < end) {
+                return;
+            }
+
+            var day = nav.selectionDay.getDay();
+            var target = start.firstDayOfMonth().addDays(day);
+            nav.select(target);
+        };
+        nav.init();
+
+        var dp = new DayPilot.Calendar("dp");
+
+        // view
+        dp.startDate = nav.selectionDay;
+        dp.viewType = "Week";
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: "Event"
+            });
+            dp.events.add(e);
+            dp.clearSelection();
+            dp.message("Created");
+        };
+
+        dp.init();
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2013-03-25T12:00:00"),
+            end: new DayPilot.Date("2013-03-25T12:00:00").addHours(3),
+            id: DayPilot.guid(),
+            text: "Special event"
+        });
+        dp.events.add(e);
+
+    </script>
+
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

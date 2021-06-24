@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Stacking Line Height (JavaScript Scheduler)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+    <link type="text/css" rel="stylesheet" href="../themes/scheduler_transparent.css?v=2021.2.5007"/>
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> dp.eventStackingLineHeight is set to 30. This means each line of concurrent events
+        will take 30% of its height.
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Scheduler("dp");
+
+        dp.eventHeight = 50;
+        dp.eventStackingLineHeight = 30;
+        dp.theme = "scheduler_transparent";
+        dp.heightSpec = "Max";
+        dp.height = 300;
+
+        dp.startDate = "2020-01-01";  // or just dp.startDate = "2013-03-25";
+        dp.days = 365;
+        dp.scale = "Day";
+        dp.timeHeaders = [
+            {groupBy: "Month", format: "MMM yyyy"},
+            {groupBy: "Cell", format: "d"}
+        ];
+
+        dp.treeEnabled = true;
+        dp.resources = [
+            {name: "Room A", id: "A",},
+            {name: "Room B", id: "B"},
+            {name: "Room C", id: "C"},
+            {name: "Room D", id: "D"},
+            {name: "Room E", id: "E"},
+            {name: "Room F", id: "F"},
+            {name: "Room G", id: "G"},
+            {name: "Room H", id: "H"},
+            {name: "Room I", id: "I"},
+            {name: "Room J", id: "J"},
+            {name: "Room K", id: "K"}
+        ];
+        dp.events.add(new DayPilot.Event({
+            start: new DayPilot.Date("2020-03-26T00:00:00"),
+            end: new DayPilot.Date("2020-04-01T00:00:00"),
+            id: DayPilot.guid(),
+            resource: "B",
+            text: "First Event"
+        }));
+
+        dp.events.add(new DayPilot.Event({
+            start: new DayPilot.Date("2020-03-28T00:00:00"),
+            end: new DayPilot.Date("2020-04-02T00:00:00"),
+            id: DayPilot.guid(),
+            resource: "B",
+            text: "Second Event"
+        }));
+
+        dp.events.add(new DayPilot.Event({
+            start: new DayPilot.Date("2020-03-30T00:00:00"),
+            end: new DayPilot.Date("2020-04-03T00:00:00"),
+            id: DayPilot.guid(),
+            resource: "B",
+            text: "Third Event"
+        }));
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            dp.clearSelection();
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: name
+            });
+            dp.events.add(e);
+            dp.message("Created");
+        };
+
+
+        dp.init();
+
+        dp.scrollTo("2020-03-25");
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

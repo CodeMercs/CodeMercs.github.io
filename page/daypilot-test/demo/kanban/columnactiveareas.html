@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kanban Column Active Areas</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <style>
+        .add-button {
+            cursor: pointer;
+            background-color: #666;
+            color: #fff;
+            text-align: center;
+            line-height: 14px;
+        }
+
+        .add-button:hover {
+            background-color: #333;
+        }
+    </style>
+
+    <div class="note"><b>Note:</b> Read more about Kanban <a
+        href="https://doc.daypilot.org/kanban/column-active-areas/">column active areas</a> [doc.daypilot.org].
+    </div>
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Kanban("dp");
+        dp.columns.list = [
+            {
+                name: "New",
+                id: "1",
+                barColor: "#f9ba25",
+                areas: [{
+                    right: 5,
+                    top: 1,
+                    bottom: 1,
+                    width: 18,
+                    html: "+",
+                    cssClass: "add-button",
+                    action: "JavaScript",
+                    js: function (args) {
+                        console.log(args);
+                        add();
+                    }
+                }]
+            },
+            {name: "Draft", id: "2"},
+            {name: "Implementation", id: "3"}
+        ];
+        dp.cards.list = [
+            {id: 1, "name": "Task 1", column: "1", text: "This is a description of task #1."},
+            {id: 2, "name": "Task 2", column: "1", text: "This is a description of task #2."}
+        ];
+        dp.cellMarginBottom = 40;
+
+        dp.init();
+
+        function add() {
+            var name = prompt("New card name:", "Task");
+            if (!name) {
+                return;
+            }
+            dp.cards.add({id: DayPilot.guid(), name: name, column: "1"});
+        }
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

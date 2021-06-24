@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Gantt Chart</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Read more about the <a href="https://doc.daypilot.org/kanban/angularjs/">AngularJS
+        Kanban board</a> plugin.
+    </div>
+
+    <div ng-app="main" ng-controller="KanbanCtrl">
+        <daypilot-kanban id="dp" config="config"></daypilot-kanban>
+
+        <div class="space">
+            <button ng-click="set1()">Use config #1 (default)</button>
+            <button ng-click="set2()">Use config #2</button>
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript">
+
+        var app = angular.module('main', ['daypilot']).controller('KanbanCtrl', function ($scope) {
+
+            var config1 = {
+                columns: [
+                    {name: "Analysis", id: "1", barColor: "#f9ba25"},
+                    {name: "Draft", id: "2"},
+                    {name: "Testing", id: "3"}
+                ],
+                cards: [
+                    {id: 1, "name": "Task 1", column: "1", text: "This is a description of task #1."},
+                    {
+                        id: 2,
+                        "name": "Task 2",
+                        column: "1",
+                        text: "This is a description of task #2.",
+                        barColor: "#1155CC"
+                    },
+                    {id: 3, "name": "Task 3", column: "1", text: "This is a description of task #3.", barColor: "#999"},
+                    {
+                        id: 4,
+                        "name": "Task 4",
+                        column: "1",
+                        text: "This is a description of task #4.",
+                        barColor: "#6AA84F"
+                    },
+                    {
+                        id: 5,
+                        "name": "Task 5",
+                        column: "2",
+                        text: "This is a description of task #5.",
+                        barColor: "#F6B26B"
+                    },
+                ]
+            };
+
+            var config2 = {
+                columns: [
+                    {name: "Analysis", id: "1", barColor: "#f9ba25"},
+                    {name: "Draft", id: "2"},
+                    {name: "Testing", id: "3"}
+                ],
+                cards: [
+                    {id: "1", "name": "Task 1", column: "1", swimlane: "A", text: "This is a description of task #1."},
+                    {
+                        id: "2",
+                        "name": "Task 2",
+                        column: "1",
+                        swimlane: "B",
+                        text: "This is a description of task #2.",
+                        barColor: "#6AA84F"
+                    },
+                    {
+                        id: "3",
+                        "name": "Task 3",
+                        column: "1",
+                        swimlane: "B",
+                        text: "This is a description of task #3.",
+                        barColor: "#F6B26B"
+                    }
+                ],
+                swimlanes: [
+                    {name: "Swimlane A", id: "A"},
+                    {name: "Swimlane B", id: "B"}
+                ]
+            };
+
+            $scope.config = config1;
+
+            $scope.set1 = function () {
+                $scope.config = config1;
+            };
+
+            $scope.set2 = function () {
+                $scope.config = config2;
+            };
+
+        });
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

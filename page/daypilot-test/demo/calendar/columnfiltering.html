@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Column Filtering (JavaScript Resource Calendar)</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b> Columns are filtered by name in real time. The filter is only applied to the bottom
+        level columns. Read more about <a href="https://doc.daypilot.org/calendar/column-filtering/">column
+            filtering</a>.
+    </div>
+
+    <div class="space">
+        Filter: <input id="filter"/> <a href="#" id="clear">Clear</a>
+    </div>
+
+    <div id="dp"></div>
+
+    <script>
+        var elements = {
+            filter: document.querySelector("#filter"),
+            clear: document.querySelector("#clear"),
+        };
+
+        elements.filter.addEventListener("keyup", function() {
+            var query = this.value;
+            dp.columns.filter(query); // see dp.onColumnFilter below
+        });
+
+        elements.clear.addEventListener("click", function(ev) {
+            ev.preventDefault();
+            elements.filter.value = "";
+            dp.columns.filter(null);
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Calendar("dp");
+
+        dp.onColumnFilter = function (args) {
+            if (args.column.name.toUpperCase().indexOf(args.filter.toUpperCase()) === -1) {
+                args.visible = false;
+            }
+        };
+
+        // view
+        dp.startDate = "2013-03-25";  // or just dp.startDate = "2013-03-25";
+        dp.days = 1;
+        dp.allDayEventHeight = 25;
+
+        dp.viewType = "Resources";
+        dp.headerLevels = 2;
+        dp.columns.list = [
+            {
+                name: "Big Cars", children: [
+                    {name: "Big Car #1", id: "big1"},
+                    {name: "Big Car #2", id: "big2"},
+                    {name: "Big Car #3", id: "big3"}
+                ]
+            },
+            {
+                name: "Small Cars", children: [
+                    {name: "Small Car #1", id: "small1"},
+                    {name: "Small Car #2", id: "small2"},
+                    {name: "Small Car #3", id: "small3"}
+                ]
+            }
+        ];
+
+
+        // event creating
+        dp.onTimeRangeSelected = function (args) {
+            var name = prompt("New event name:", "Event");
+            if (!name) return;
+            var e = new DayPilot.Event({
+                start: args.start,
+                end: args.end,
+                id: DayPilot.guid(),
+                resource: args.resource,
+                text: "Event"
+            });
+            dp.events.add(e);
+            dp.clearSelection();
+            dp.message("Created");
+        };
+
+        dp.headerHeightAutoFit = true;
+
+        dp.init();
+
+        var e = new DayPilot.Event({
+            start: new DayPilot.Date("2013-03-25T12:00:00"),
+            end: new DayPilot.Date("2013-03-25T12:00:00").addHours(3),
+            id: DayPilot.guid(),
+            text: "Special event",
+            resource: "J"
+
+        });
+        dp.events.add(e);
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+

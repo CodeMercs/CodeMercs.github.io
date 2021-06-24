@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Gantt Chart</title>
+
+    <!-- head -->
+    <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../helpers/v2/main.css?v=2021.2.5007" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"/>
+    <script src="../js/daypilot-all.min.js?v=2021.2.5007"></script>
+
+    <!-- /head -->
+</head>
+<body>
+
+<!-- top -->
+<template id="content" data-version="2021.2.5007">
+
+    <!-- /top -->
+
+    <div class="note"><b>Note:</b>
+        Read more about the <a href="https://doc.daypilot.org/gantt/task-bubble/">Gantt chart task bubbles</a>.
+    </div>
+
+
+    <div id="dp"></div>
+
+    <script type="text/javascript">
+
+        var dp = new DayPilot.Gantt("dp");
+
+        dp.startDate = DayPilot.Date.today();
+        dp.days = 60;
+
+        // generate and load sample tasks
+        var start = DayPilot.Date.today().addDays(1);
+        var last = null;
+        for (var i = 0; i < 5; i++) {
+            var duration = Math.floor(Math.random() * 3) + 1; // 1 to 3
+            var end = start.addDays(duration);
+
+            var e = new DayPilot.Task({
+                start: start,
+                end: end,
+                id: DayPilot.guid(),
+                text: "Task " + i,
+                tags: {
+                    info: "info text"
+                },
+                children: [
+                    {
+                        start: start,
+                        end: end,
+                        id: DayPilot.guid(),
+                        text: "Subtask 1",
+                        complete: Math.floor(Math.random() * 101), // 0 to 100
+                        box: {
+                            bubbleHtml: "This is a bubble with task details"
+                        },
+                        row: {
+                            bubbleHtml: "Row bubble"
+                        }
+                    },
+                    {
+                        start: start,
+                        end: end,
+                        id: DayPilot.guid(),
+                        text: "Subtask 2",
+                        complete: Math.floor(Math.random() * 101) // 0 to 100
+                    },
+                    {
+                        start: end,
+                        id: DayPilot.guid(),
+                        text: "Milestone 1",
+                        type: "Milestone"
+                    }
+
+                ]
+            });
+
+            dp.tasks.add(e);
+
+            if (last) {
+                dp.links.add(new DayPilot.Link({
+                    id: DayPilot.guid(),  // optional
+                    from: last,
+                    to: e.id(),
+                    type: "FinishToStart"
+                }));
+            }
+            last = e.id();
+            start = end;
+
+        }
+
+        dp.columns = [
+            {
+                title: "Name",
+                width: 50,
+                property: "text"
+            },
+            {
+                title: "Info",
+                width: 50,
+                property: "info"
+            },
+            {
+                title: "Duration",
+                width: 50
+            }
+        ];
+
+        dp.onBeforeRowHeaderRender = function (args) {
+            var duration = args.task.duration();
+            var html = duration.toString("d") + "d " + duration.toString("h") + "h";
+            args.row.columns[2].html = html;
+        };
+
+        dp.onBeforeTaskRender = function (args) {
+            args.data.box = {bubbleHtml: "Task details (box): <br/>" + args.data.text + "<br>Starting on " + args.data.start.toString("MMMM d, yyyy")};
+            args.data.row = {bubbleHtml: "Task details (row): <br/>" + args.data.text + "<br>Starting on " + args.data.start.toString("MMMM d, yyyy")};
+        };
+
+        dp.init();
+
+    </script>
+
+    <!-- bottom -->
+</template>
+
+<script src="../helpers/v2/app.js?v=2021.2.5007"></script>
+<!-- /bottom -->
+
+</body>
+</html>
+
