@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/tailwind.min.css">
+	<script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="js/jquery.t2s.js"></script>
+</head>
+<body class="h-screen overflow-hidden flex items-center justify-center" style="background: #edf2f7;">
+	<div class="h-screen flex justify-center items-center">
+		<div>
+		<h1 class="text-center pb-10 uppercase font-semibold text-gray-600">簡轉繁<h1/>
+			<div class="flex justify-center items-center">
+				<div class="flex">
+					納蘭性德生於臘月，始祖名叫星懇達爾漢（亦勝根打喇漢、打葉），曾祖父叫金台石，是葉赫部貝勒，其妹孟古為努爾哈赤的妃子（即皇太極生母，皇太極是納蘭性德的舅公）。母愛新覺羅氏，為阿濟格之女，父親納蘭明珠歷任內務府總管、吏部尚書、武英殿大學士。納蘭性德十七歲進太學，十八歲中舉，十九歲會試中試，因患寒疾，沒有參加殿試。二十二歲即康熙十五年（1676年）補殿試，中二甲第七名，賜進士出身。康熙帝愛其才，又因他是八旗子弟，上代又與皇室沾親，與康熙長子胤禔生母惠妃也有親戚關係，所以被康熙留在身邊，授予三等侍衛的官職，後晉升為一等侍衛，多次隨康熙出巡，並奉旨出使梭龍（其方位學界尚存分歧），考察沙俄侵邊情況。康熙二十四年五月三十日患急病去世，年僅三十歲（虛齡三十二），死後葬於京西皂甲屯納蘭祖墳（今北京海淀區上莊皂甲屯）。《清史稿》有傳。
+				</div>
+			</div>
+			<div class="text-center mt-20">
+				<h1 class="text-center pb-10 uppercase font-semibold text-gray-600">OwO //</h1>
+				<div>
+					<button id="btn-simplify" type="button" class="w-full bg-blue-500 px-4 py-3 rounded text-gray-200 font-semibold hover:bg-blue-600 transition duration-200 each-in-out">SUBMIT</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	function simplifyTextInPage(simplified) {
+		if (simplified) {
+			$(document.body).t2s();
+			$('#btn-simplify').addClass('simplified');
+		} else {
+			$(document.body).s2t();
+			$('#btn-simplify').removeClass('simplified');
+		}
+	}
+
+	function initializeChineseConversion() {
+		var simplified = +$.cookie('simplified');
+		// ?lang=zh-Hans, ?lang=zh-Hant
+		var scriptCode = /[?&;]lang=[^&;]*(Han[st])/i.exec(window.location.search);
+		if (scriptCode) {
+			simplified = +(scriptCode[1].match(/Hans/i) != null);
+			$.cookie('simplified', simplified, {expires: 365, path: '/'});
+		}
+		simplifyTextInPage(simplified);
+
+		$('#btn-simplify').click(function() {
+			simplified = +!simplified;
+			$.cookie('simplified', simplified, {expires: 365, path: '/'});
+			simplifyTextInPage(simplified);
+			$(this).blur();
+		});
+	}
+	initializeChineseConversion();
+</script>
+</html>
