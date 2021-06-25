@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Test</title>
+	<style type="text/css">
+		main {
+			position: relative;
+			z-index: 1
+		}
+		.author-row {
+			-webkit-margin-before: auto;
+			margin-block-start: auto;
+			display: grid;
+			grid-template-columns: 40px 1fr;
+			gap: .5rem;
+			align-items: center;
+			color: #565656;
+			line-height: 1.3;
+			padding-top: .5rem
+		}
+		.author-row>div>* {
+			white-space: nowrap
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			margin-right: .5rem
+		}
+		.author-name {
+			font-weight: 700;
+			color: #000
+		}
+		.popular-articles {
+			box-sizing: content-box;
+			display: flex;
+			margin: 0 0 var(--gap);
+			position: relative
+		}
+		@media(min-width:1200px) {
+			.popular-articles:after {
+				content: "";
+				position: absolute;
+				right: 0;
+				top: 3rem;
+				bottom: 3.6rem;
+				width: 5px;
+				border-radius: 5px;
+				background: linear-gradient(130deg, #ff7a18, #af002d 41.07%, #319197 76.05%);
+				box-shadow: -10px 0 20px 3px #000
+			}
+		}
+		@media(max-width:1200px) {
+			.popular-articles {
+				scrollbar-color: #666 #201c29;
+				padding-bottom: var(--gap);
+				padding-left: 5px;
+				overflow-x: scroll;
+				-webkit-overflow-scrolling: touch;
+				-ms-scroll-snap-points-x: repeat(250px);
+				scroll-snap-points-x: repeat(250px);
+				-ms-scroll-snap-type: mandatory;
+				scroll-snap-type: mandatory
+			}
+			.popular-articles::-webkit-scrollbar {
+				width: 10px;
+				height: 10px
+			}
+			.popular-articles::-webkit-scrollbar-thumb {
+				background: #434343;
+				border-radius: 10px;
+				box-shadow: inset 2px 2px 2px hsla(0, 0%, 100%, .25), inset -2px -2px 2px rgba(0, 0, 0, .25)
+			}
+			.popular-articles::-webkit-scrollbar-track {
+				background: linear-gradient(90deg, #434343, #434343 1px, #262626 0, #262626)
+			}
+			.popular-articles .mini-card {
+				scroll-snap-align: start
+			}
+		}
+		@media(max-width:800px) {
+			.popular-articles {
+				padding-left: .5rem
+			}
+		}
+		.popular-header {
+			margin-top: 4rem;
+			flex: 0 0 250px;
+			margin-right: 1rem;
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: 1.5rem;
+			transform: translateY(-10px)
+		}
+
+		.popular-header p {
+			margin: 0
+		}
+		.popular-header:before {
+			content: "";
+			background: linear-gradient(130deg, #ff7a18, #af002d 41.07%, #319197 76.05%);
+			position: absolute;
+			top: -5px;
+			left: -5px;
+			width: calc(100% + 10px);
+			height: calc(100% + 10px);
+			z-index: 1;
+			border-radius: 12px
+		}
+		.popular-header:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: #000;
+			z-index: 2;
+			border-radius: 8px
+		}
+		.popular-header>* {
+			position: relative;
+			z-index: 3
+		}
+		@media(max-width:800px) {
+			.popular-header {
+				flex: 0 0 175px
+			}
+		}
+		.mini-card-grid {
+			display: grid;
+			gap: 1rem;
+			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+			margin: 0 0 1.5rem;
+			position: relative
+		}
+		body.home .mini-card-grid {
+			scrollbar-color: #666 #201c29;
+			scrollbar-gutter: always;
+			padding: 3rem 0 3rem 2rem;
+			margin: 0;
+			display: flex;
+			overflow-x: scroll;
+			-webkit-overflow-scrolling: touch
+		}
+		body.home .mini-card-grid::-webkit-scrollbar {
+			width: 10px;
+			height: 10px
+		}
+		body.home .mini-card-grid::-webkit-scrollbar-thumb {
+			background: #434343;
+			border-radius: 10px;
+			box-shadow: inset 2px 2px 2px hsla(0, 0%, 100%, .25), inset -2px -2px 2px rgba(0, 0, 0, .25)
+		}
+		body.home .mini-card-grid::-webkit-scrollbar-track {
+			background: linear-gradient(90deg, #434343, #434343 1px, #262626 0, #262626)
+		}
+		@media(max-width:1200px) {
+			body.home .mini-card-grid {
+				overflow-x: visible
+			}
+		}
+		.mini-card {
+			padding: 1.5rem;
+			border-radius: 16px;
+			background: linear-gradient(85deg, #434343, #262626);
+			color: #fff;
+			display: flex;
+			flex-direction: column;
+			transition: .2s;
+			margin: 0
+		}
+		.mini-card a {
+			text-decoration: none
+		}
+		.mini-card h3 a {
+			color: #fff!important
+		}
+		.mini-card h3 .aal_anchor {
+			display: none
+		}
+		.mini-card .tags {
+			margin: 0 0 .5rem
+		}
+		.mini-card .author-name {
+			color: #fff
+		}
+		.mini-card time {
+			display: block;
+			margin: 0 0 .25rem;
+			color: #777
+		}
+		.mini-card time strong {
+			color: #d4d4d4
+		}
+		body.home .mini-card {
+			min-width: 300px;
+			min-height: 350px;
+			box-shadow: -2rem 0 3rem -2rem #000
+		}
+		body.home .mini-card:focus-within, body.home .mini-card:hover {
+			transform: translateY(-1rem) rotate(3deg)
+		}
+		body.home .mini-card:focus-within~.mini-card, body.home .mini-card:hover~.mini-card {
+			transform: translateX(130px)
+		}
+		body.home .mini-card:first-child:focus-within, body.home .mini-card:first-child:hover {
+			transform: translate(-.5rem, -1rem) rotate(3deg)
+		}
+		body.home .mini-card:not(:first-child) {
+			margin-left: -130px;
+			box-shadow: -3rem 0 3rem -2rem #000
+		}
+		@media(max-width:1200px) {
+			body.home .mini-card {
+				min-width: 220px
+			}
+			body.home .mini-card:not(:first-child) {
+				margin-left: -30px
+			}
+			body.home .mini-card:hover {
+				transform: translateY(-1rem)
+			}
+			body.home .mini-card:hover~.mini-card {
+				transform: translateX(30px)
+			}
+		}
+		@media(max-width:800px) {
+			body.home .mini-card {
+				min-width: 190px
+			}
+			body.home .mini-card:not(:first-child) {
+				margin-left: -10px
+			}
+			body.home .mini-card:hover {
+				transform: translateY(-1rem)
+			}
+			body.home .mini-card:hover~.mini-card {
+				transform: translateX(10px)
+			}
+		}
+		.mini-card-title {
+			font-size: 1.3rem;
+			margin: 0 0 1rem
+		}
+		.tags {
+			line-height: 1;
+			margin: 0 0 .5rem
+		}
+		.tags a {
+			font-family: Gotham Narrow SSm A, Gotham Narrow SSm B, Rubik, Lato, Lucida Grande, Lucida Sans Unicode, Tahoma, Sans-Serif;
+			font-style: normal;
+			font-weight: 800;
+			text-transform: uppercase;
+			color: #ff7a18;
+			font-size: .66rem;
+			-webkit-margin-end: .66rem;
+			margin-inline-end: .66rem
+		}
+		@media all {
+			* {
+				box-sizing: border-box
+			}
+			a {
+				text-decoration: none
+			}
+			article, header, nav {
+				display: block
+			}
+			html {
+				-webkit-text-size-adjust: 100%;
+				-ms-text-size-adjust: 100%;
+				padding: 0
+			}
+			body, html, ul {
+				margin: 0
+			}
+			img {
+				border: 0;
+				-ms-interpolation-mode: bicubic
+			}
+			html {
+				font-family: Sentinel SSm A, Sentinel SSm B, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+				font-size: clamp(12px, calc(.7rem + .25vw), 20px);
+				font-weight: 400;
+				line-height: 1.7
+			}
+			a {
+				color: #0089c7
+			}
+			h1, h2, h3, h4 {
+				font-weight: 800;
+				margin: 0 0 1.5rem;
+				line-height: 1.1
+			}
+			h1 a, h3 a {
+				color: inherit
+			}
+			h1 {
+				font-family: Gotham Narrow SSm A, Gotham Narrow SSm B, Rubik, Lato, Lucida Grande, Lucida Sans Unicode, Tahoma, Sans-Serif;
+				font-style: normal;
+				font-weight: 800;
+				font-size: clamp(2rem, calc(2rem + 1.2vw), 3rem);
+				font-weight: 700
+			}
+			h1 {
+				font-size: 2.5rem
+			}
+			h2 {
+				font-family: Gotham Narrow SSm A, Gotham Narrow SSm B, Rubik, Lato, Lucida Grande, Lucida Sans Unicode, Tahoma, Sans-Serif;
+				font-style: normal;
+				font-size: clamp(1.8rem, calc(1.8rem + .2vw), 3rem);
+				letter-spacing: -.05rem;
+				font-weight: 800
+			}
+			h3 {
+				font-family: Gotham Narrow SSm A, Gotham Narrow SSm B, Rubik, Lato, Lucida Grande, Lucida Sans Unicode, Tahoma, Sans-Serif;
+				font-style: normal;
+				font-size: 2rem;
+				letter-spacing: -.03rem;
+				font-weight: 800
+			}
+			h4 {
+				font-family: Gotham Narrow SSm A, Gotham Narrow SSm B, Rubik, Lato, Lucida Grande, Lucida Sans Unicode, Tahoma, Sans-Serif;
+				font-style: normal;
+				font-weight: 800;
+				font-weight: 700;
+				font-size: 1.5rem;
+				margin: 0 0 .8rem
+			}
+			h4 {
+				line-height: 1.05
+			}
+			strong {
+				font-weight: 700
+			}
+			p {
+				margin: 0 0 1.5rem
+			}
+			html {
+				--maxWidth: 1600px;
+				--gap: 3rem;
+				scrollbar-color: #666 #201c29;
+				background: #262626;
+				color: #fff;
+				overflow-x: hidden
+			}
+			html::-webkit-scrollbar {
+				width: 16px;
+				height: 16px
+			}
+			@media (max-width:1200px) {
+				html {
+					--gap: 2rem
+				}
+			}
+			@media (max-width:800px) {
+				html {
+					--gap: 1rem
+				}
+			}
+			.page-wrap {
+				max-width: var(--maxWidth);
+				margin: 0 auto;
+				padding: 0 var(--gap)
+			}
+			img {
+				max-width: 100%
+			}
+			.author-row {
+				-webkit-margin-before: auto;
+				margin-block-start: auto;
+				display: grid;
+				grid-template-columns: 40px 1fr;
+				gap: .5rem;
+				align-items: center;
+				color: #565656;
+				line-height: 1.3;
+				padding-top: .5rem
+			}
+			.author-row>div>* {
+				white-space: nowrap
+			}
+			.avatar {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				margin-right: .5rem
+			}
+			.author-name {
+				font-weight: 700;
+				color: #000
+			}
+			.popular-articles {
+				box-sizing: content-box;
+				display: flex;
+				margin: 0 0 var(--gap);
+				position: relative
+			}
+			@media (min-width:1200px) {
+				.popular-articles:after {
+					content: "";
+					position: absolute;
+					right: 0;
+					top: 3rem;
+					bottom: 3.6rem;
+					width: 5px;
+					border-radius: 5px;
+					background: linear-gradient(130deg, #ff7a18, #af002d 41.07%, #319197 76.05%);
+					box-shadow: -10px 0 20px 3px #000
+				}
+			}
+			@media (max-width:1200px) {
+				.popular-articles {
+					scrollbar-color: #666 #201c29;
+					padding-bottom: var(--gap);
+					padding-left: 5px;
+					overflow-x: scroll;
+					-webkit-overflow-scrolling: touch;
+					-ms-scroll-snap-points-x: repeat(250px);
+					scroll-snap-points-x: repeat(250px);
+					-ms-scroll-snap-type: mandatory;
+					scroll-snap-type: mandatory
+				}
+				.popular-articles::-webkit-scrollbar {
+					width: 10px;
+					height: 10px
+				}
+				.popular-articles .mini-card {
+					scroll-snap-align: start
+				}
+			}
+			@media (max-width:800px) {
+				.popular-articles {
+					padding-left: .5rem
+				}
+			}
+			.popular-header {
+				margin-top: 4rem;
+				flex: 0 0 250px;
+				margin-right: 1rem;
+				position: relative;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				padding: 1.5rem;
+				transform: translateY(-10px)
+			}
+			.popular-header p {
+				margin: 0
+			}
+			.popular-header:before {
+				content: "";
+				background: linear-gradient(130deg, #ff7a18, #af002d 41.07%, #319197 76.05%);
+				position: absolute;
+				top: -5px;
+				left: -5px;
+				width: calc(100% + 10px);
+				height: calc(100% + 10px);
+				z-index: 1;
+				border-radius: 12px
+			}
+			.popular-header:after {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: #000;
+				z-index: 2;
+				border-radius: 8px
+			}
+			.popular-header>* {
+				position: relative;
+				z-index: 3
+			}
+			@media (max-width:800px) {
+				.popular-header {
+					flex: 0 0 175px
+				}
+			}
+			.mini-card-grid {
+				display: grid;
+				gap: 1rem;
+				grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+				margin: 0 0 1.5rem;
+				position: relative
+			}
+			body.home .mini-card-grid {
+				scrollbar-color: #666 #201c29;
+				scrollbar-gutter: always;
+				padding: 3rem 0 3rem 2rem;
+				margin: 0;
+				display: flex;
+				overflow-x: scroll;
+				-webkit-overflow-scrolling: touch
+			}
+			body.home .mini-card-grid::-webkit-scrollbar {
+				width: 10px;
+				height: 10px
+			}
+			@media (max-width:1200px) {
+				body.home .mini-card-grid {
+					overflow-x: visible
+				}
+			}
+			.mini-card {
+				padding: 1.5rem;
+				border-radius: 16px;
+				background: linear-gradient(85deg, #434343, #262626);
+				color: #fff;
+				display: flex;
+				flex-direction: column;
+				margin: 0
+			}
+			.mini-card a {
+				text-decoration: none
+			}
+			.mini-card h3 a {
+				color: #fff!important
+			}
+			.mini-card .tags {
+				margin: 0 0 .5rem
+			}
+			.mini-card .author-name {
+				color: #fff
+			}
+			.mini-card time {
+				display: block;
+				margin: 0 0 .25rem;
+				color: #777
+			}
+			.mini-card time strong {
+				color: #d4d4d4
+			}
+			body.home .mini-card {
+				min-width: 300px;
+				min-height: 350px;
+				box-shadow: -2rem 0 3rem -2rem #000
+			}
+			body.home .mini-card:not(:first-child) {
+				margin-left: -130px;
+				box-shadow: -3rem 0 3rem -2rem #000
+			}
+			@media (max-width:1200px) {
+				body.home .mini-card {
+					min-width: 220px
+				}
+				body.home .mini-card:not(:first-child) {
+					margin-left: -30px
+				}
+			}
+			@media (max-width:800px) {
+				body.home .mini-card {
+					min-width: 190px
+				}
+				body.home .mini-card:not(:first-child) {
+					margin-left: -10px
+				}
+			}
+			.mini-card-title {
+				font-size: 1.3rem;
+				margin: 0 0 1rem
+			}
+			.tags {
+				line-height: 1;
+				margin: 0 0 .5rem
+			}
+			.tags a {
+				font-family: Gotham Narrow SSm A, Gotham Narrow SSm B, Rubik, Lato, Lucida Grande, Lucida Sans Unicode, Tahoma, Sans-Serif;
+				font-style: normal;
+				font-weight: 800;
+				text-transform: uppercase;
+				color: #ff7a18;
+				font-size: .66rem;
+				-webkit-margin-end: .66rem;
+				margin-inline-end: .66rem
+			}
+		}
+	</style>
+
+<body class="home">
+<header class="site-header"></header>
+<div class="page-wrap">
+	<main>
+		<div class="popular-articles">
+			<div class="popular-header">
+				<h2>OwO //</h2>
+				<p>Test<br>
+				<a>Link</a></p>
+			</div>
+			<div class="mini-card-grid">
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+				<article class="mini-card">
+					<time datetime="2021-09-29" title="XXX"><strong>Article</strong> on May 29, 2021</time>
+					<h3 class="mini-card-title"><a href="">Test</a></h3>
+					<div class="tags">
+						<a href="" rel="tag">Tag 1</a> <a href="" rel="tag">Tag 2</a> <a href="" rel="tag">Tag 3</a>
+					</div>
+					<div class="author-row">
+						<a aria-label="Author XX" href=""><img alt="" class="avatar" height="80" src="img/pic.jpg" width="80"></a> <a class="author-name" href="">Author Name</a>
+					</div>
+				</article>
+			</div>
+		</div>
+		</div>
+	</main>
+</div>
+
+</body>
+</html>
