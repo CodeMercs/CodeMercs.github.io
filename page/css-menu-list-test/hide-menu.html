@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Note CSS</title>
+	<link rel="stylesheet" type="text/css" href="css/font-awesome-4.7.0-local.css">
+	<style type="text/css">
+		html, body {
+			height: 100%;
+		}
+		body {
+			background-color: #546377;
+			box-sizing: border-box;
+			font-family: "Noto Sans TC", sans-serif;
+		}
+		a {
+			text-decoration: none;
+			font-weight: 300;
+		}
+		a:hover {
+			color: rgba(23, 23, 54, 0.6);
+		}
+		a, label {
+			cursor: pointer;
+		}
+		.sideMenu {
+			width: 300px;
+			height: 100%;
+			background-color: #a04a4a;
+			border-right: 3px solid #d1d1d1;
+			display: flex;
+			flex-direction: column;
+			padding: 50px 0;
+			box-shadow: 5px 0 5px rgba(23, 23, 54, 0.6);
+			position: relative;
+			transform: translateX(-100%);
+			transition: 0.5s;
+		}
+		.sideMenu form {
+			display: flex;
+			margin: 0 10px 50px;
+			border-radius: 100px;
+			border: 1px solid #fff;
+		}
+		.sideMenu form input {
+			width: 230px;
+		}
+		.sideMenu form button {
+			width: 50px;
+		}
+		.sideMenu form input, .sideMenu form button {
+			border: none;
+			padding: 5px 10px;
+			background-color: transparent;
+			color: #fff;
+		}
+		.sideMenu form input:focus, .sideMenu form button:focus {
+			outline: none;
+		}
+		.sideMenu label {
+			width: 20px;
+			height: 80px;
+			background-color: #d1d1d1;
+			color: #686666;
+			position: absolute;
+			right: -20px;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			line-height: 80px;
+			text-align: center;
+			border-radius: 0 5px 5px 0;
+			box-shadow: 5px 0 5px rgba(23, 23, 54, 0.6);
+		}
+		#sideMenu-active:checked + .sideMenu {
+			transform: translateX(0);
+		}
+		#sideMenu-active:checked + .sideMenu label .fa {
+			transform: scaleX(-1);
+		}
+		#sideMenu-active {
+			position: absolute;
+			opacity: 0;
+			z-index: -1;
+		}
+		nav a {
+			display: block;
+			color: #fff;
+			padding: 20px 10px;
+			position: relative;
+		}
+		nav a .fa {
+			margin-right: -1.1em;
+			transform: scale(0);
+			transition: 0.3s;
+		}
+		nav a:hover .fa {
+			margin-right: 0em;
+			transform: scale(1);
+		}
+		nav a + a::before {
+			content: "";
+			position: absolute;
+			border-top: 1px dashed #fff;
+			left: 10px;
+			right: 10px;
+			top: 0px;
+		}
+		 
+		/*  // 參考金魚
+		html,
+		body {
+			height: 100%;
+		}
+
+		body {
+			background-color: #546377;
+			box-sizing: border-box;
+			font-family: "Noto Sans TC", sans-serif;
+		}
+
+		a {
+			text-decoration: none;
+			font-weight: 300;
+			&:hover {
+				color: yellow;
+			}
+		}
+		a,
+		label {
+			cursor: pointer;
+		}
+
+		.sideMenu {
+			width: 300px;
+			height: 100%;
+			background-color: #ff7575;
+			border-right: 3px solid #d1d1d1;
+			display: flex;
+			flex-direction: column; //主軸
+			padding: 50px 0;
+			box-shadow: 5px 0 5px rgba(23, 23, 54, 0.6);
+			position: relative; // label 定位在這個上
+			transform: translateX(-100%); // 將 sideMenu 左橫移 100%，使他到螢幕外
+			transition: 0.5s; // 側邊選單收合的時間差
+
+			form {
+				display: flex;
+				margin: 0 10px 50px;
+				border-radius: 100px;
+				border: 1px solid #fff;
+				input {
+					width: 230px;
+				}
+				button {
+					width: 50px;
+				}
+				input,
+				button {
+					border: none;
+					padding: 5px 10px;
+					background-color: transparent;
+					color: #fff;
+					&:focus {
+						outline: none;
+					}
+				}
+			}
+
+			label {
+				width: 20px;
+				height: 80px;
+				background-color: #d1d1d1;
+				color: #686666;
+				// 絕對定位在 sideMenu 上
+				position: absolute;
+				right: -20px;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+				line-height: 80px;
+				text-align: center;
+				border-radius: 0 5px 5px 0;
+				box-shadow: 5px 0 5px rgba(23, 23, 54, 0.6);
+			}
+		}
+
+		#sideMenu-active:checked + .sideMenu {
+			transform: translateX(0);
+
+			// 當我點擊 sideMenu 時，checkbox 會啟動 id，讓側邊選單跑出來
+			label .fas {
+				transform: scaleX(-1); // 使 label 裡的圖案橫向反轉
+			}
+		}
+
+		#sideMenu-active {
+			position: absolute;
+			opacity: 0; //使 checkbox 變透明
+			z-index: -1; // 為了保險不要讓該功能還選得到，可將其排序往後跳
+		}
+
+		nav {
+			a {
+				display: block;
+				color: #fff;
+				padding: 20px 10px;
+				position: relative;
+
+				.fas {
+					margin-right: -1.1em;
+					transform: scale(0);
+					//使圖示消失
+					transition: 0.3s;
+				}
+
+				&:hover .fas {
+					margin-right: 0em; //使文字回到原來的位置
+					transform: scale(1); //使圖示出現
+				}
+
+				& + a::before {
+					content: "";
+					position: absolute;
+					border-top: 1px dashed #ffffff;
+					left: 10px;
+					right: 10px;
+					top: 0px;
+				}
+			}
+		}
+		*/
+	</style>
+</head>
+<body>
+   <!-- 使用 checkbox 來做開關 -->
+   <input type="checkbox" name="" id="sideMenu-active">
+
+   <div class="sideMenu">
+   	<form>
+   		<input type="search" placeholder="Search">
+   		<button><i class="fa fa-search"></i></button>
+   	</form>
+   	<nav>
+   		<a href="#"><i class="fa fa-user-circle"></i> XXX</a>
+   		<a href="#"><i class="fa fa-user-circle"></i> XXX</a>
+   		<a href="#"><i class="fa fa-user-circle"></i> XXX</a>
+   		<a href="#"><i class="fa fa-user-circle"></i> XXX</a>
+   		<a href="#"><i class="fa fa-user-circle"></i> XXX</a>
+   	</nav>
+   	<label for="sideMenu-active">
+   		<i class="fa fa-angle-right"></i>
+   	</label>
+   	<!-- label 寫在 nav 下方是為了比較好看到 -->
+   </div>
+</body>
+</html>

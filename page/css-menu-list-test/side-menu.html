@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Note CSS</title>
+	<link rel="stylesheet" type="text/css" href="css/font-awesome-4.7.0-local.css">
+	<style type="text/css">
+		html, body {
+			height: 100%;
+		}
+		body {
+			background-color: #546377;
+			font-family: "Noto Sans TC", sans-serif;
+		}
+		a {
+			text-decoration: none;
+		}
+		.sideMenu {
+			width: 300px;
+			height: 100%;
+			background-color: #a04a4a;
+			border-right: 3px solid #d1d1d1;
+			display: flex;
+			flex-direction: column;
+			padding: 50px 0;
+			box-shadow: 5px 0 5px rgba(48, 60, 77, 0.6);
+		}
+		.sideMenu form {
+			display: flex;
+			margin: 0 10px 50px;
+			border-radius: 100px;
+			border: 1px solid #fff;
+		}
+		.sideMenu form input {
+			width: 85%;
+		}
+		.sideMenu form button {
+			width: 15%;
+		}
+		.sideMenu form input, .sideMenu form button {
+			border: none;
+			padding: 5px 10px;
+			background-color: transparent;
+			color: #fff;
+		}
+		.sideMenu form input:focus, .sideMenu form button:focus {
+			outline: none;
+		}
+		nav a {
+			display: block;
+			color: #fff;
+			padding: 20px 10px;
+			position: relative;
+			font-weight: 300;
+		}
+		nav a .fa {
+			margin-right: -1.1em;
+			transform: scale(0);
+			transition: 0.3s;
+		}
+		nav a:hover .fa {
+			margin-right: 0em;
+			transform: scale(1);
+		}
+		nav a + a::before {
+			content: "";
+			position: absolute;
+			border-top: 1px solid #fff;
+			left: 10px;
+			right: 10px;
+			top: 0px;
+		}
+
+		/* // 參考金魚
+html,
+body {
+	height: 100%;
+}
+
+body {
+	background-color: #546377;
+	font-family: "Noto Sans TC", sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+.sideMenu {
+	width: 300px;
+	height: 100%;
+	background-color: #ff7575;
+	border-right: 3px solid #d1d1d1;
+	display: flex; //讓 sideMenu 裡面的元素變成橫排
+	flex-direction: column; //讓 flex 的方向變成直排
+	padding: 50px 0; //因為有 boxsizing 的關係，所以不會有 Y 軸 bar
+	box-shadow: 5px 0 5px rgba(#303c4d, 0.6);
+
+	form {
+		display: flex; //讓 form 裡面的元素橫向排列
+		margin: 0 10px 50px;
+		border-radius: 100px;
+		border: 1px solid #fff;
+
+		input {
+			width: 85%;
+		}
+
+		button {
+			width: 15%;
+		}
+
+		input,
+		button {
+			border: none;
+			padding: 5px 10px;
+			background-color: transparent;
+			color: #fff;
+		}
+		input:focus,
+		button:focus {
+			outline: none; //讓表單不要有 focus 效果
+		}
+	}
+}
+
+nav {
+	a {
+		display: block;
+		color: #fff;
+		padding: 20px 10px;
+		position: relative;
+		font-weight: 300;
+
+		.fas {
+			margin-right: -1.1em; // 用 margin 的特性往右拉負值，讓文字靠左對齊
+			transform: scale(0); // 使圖示消失
+			transition: 0.3s;
+		}
+
+		&:hover .fas {
+			margin-right: 0em; // 使文字回到原來的位置
+			transform: scale(1); // 使圖示出現
+		}
+
+		& + a::before {
+			content: ""; // 要寫分隔線在選項中間，這邊使用偽元素呈現，使用偽元素一定要使用 content:''，不然不會有效果
+			position: absolute;
+			border-top: 1px solid #ffffff;
+			left: 10px;
+			right: 10px;
+			top: 0px;
+			// 使用絕對定位方式編寫，因為 padding已設定左右 10px，所以左右邊要推擠 10px
+			// 然後使分隔線定位在 top:0px，固定在中間
+		}
+	}
+}
+
+		 */
+	</style>
+
+</head>
+<body>
+	<div class="sideMenu">
+		<form>
+			<input type="search" placeholder="Search">
+			<button><i class="fa fa-search"></i></button>
+		</form>
+		<nav>
+			<a href="#"><i class="fa fa-user-circle"></i> XX1</a>
+			<a href="#"><i class="fa fa-user-circle"></i> XX2</a>
+			<a href="#"><i class="fa fa-user-circle"></i> XX3</a>
+			<a href="#"><i class="fa fa-user-circle"></i> XX4</a>
+			<a href="#"><i class="fa fa-user-circle"></i> XX5</a>
+		</nav>
+	</div>
+</body>
+</html>
