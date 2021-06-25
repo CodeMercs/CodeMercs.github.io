@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bootstrap Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<style type="text/css">
+		body {
+			position: relative; 
+		}
+		.affix {
+			top:0;
+			width: 100%;
+			z-index: 9999 !important;
+		}
+		.navbar {
+			margin-bottom: 0px;
+		}
+
+		.affix ~ .container-fluid {
+		 position: relative;
+		 top: 50px;
+		}
+		#section1 {padding-top:50px;height:500px;color: #fff; background-color: #1E88E5;}
+		#section2 {padding-top:50px;height:500px;color: #fff; background-color: #673ab7;}
+		#section3 {padding-top:50px;height:500px;color: #fff; background-color: #ff9800;}
+		#section41 {padding-top:50px;height:500px;color: #fff; background-color: #00bcd4;}
+		#section42 {padding-top:50px;height:500px;color: #fff; background-color: #009688;}
+
+		.affix-vertical {
+			top: 80px;
+			z-index: 10 !important;
+		}
+		div.col-sm-9 div {
+			height: 250px;
+			font-size: 28px;
+		}
+		@media screen and (max-width: 810px) {
+			.affix-vertical {
+				display: none;
+			}
+		}
+		.wth-100 {
+			width: 150px !important;
+		}
+		.navbar-inverse {
+			background-color: #101010f5;
+		}
+		.huge-btn {
+			width: 45px;
+			height: 45px;
+			position: fixed;
+			border-radius: 10px;
+		}
+		.topbtn {
+			right: 20px;
+			bottom: 20px;
+			display: none;
+		}
+		.topbtnsize {
+			font-size: 30px;
+		}
+	</style>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<div class="container-fluid" style="background-color:#F44336;color:#fff;height:200px;">
+	<h1>Affix Example</h1>
+	<h3>Fixed navbar on scroll</h3>
+	<p>Scroll this page to see how the navbar behaves with data-spy="affix" and data-spy="scrollspy".</p>
+	<p>The navbar is attached to the top of the page after you have scrolled a specified amount of pixels, and the links in the navbar are automatically updated based on scroll position. OÜO ///</p>
+</div>
+
+<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
+	<div class="container-fluid">
+		<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			<a class="navbar-brand" href="#">WebSiteName</a>
+		</div>
+		<div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li><a href="#section1">Section 1</a></li>
+					<li><a href="#section2">Section 2</a></li>
+					<li><a href="#section3">Section 3</a></li>
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#section41">Section 4-1</a></li>
+							<li><a href="#section42">Section 4-2</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<div class="container">
+	<div class="row">
+		<nav class="col-sm-3">
+			<ul class="nav nav-pills nav-stacked affix-vertical" data-spy="affix" data-offset-top="205">
+				<li class="wth-100"><a href="#section1" >Section 1</a></li>
+				<li class="wth-100"><a href="#section2">Section 2</a></li>
+				<li class="wth-100"><a href="#section3">Section 3</a></li>
+				<li class="dropdown wth-100">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#section41">Section 4-1</a></li>
+						<li><a href="#section42">Section 4-2</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		<div class="col-sm-9">
+			<div id="section1" class="container-fluid">
+				<h1>Section 1</h1>
+				<p>Try to scroll this section and look at the navigation list while scrolling! OÜO</p>
+			</div>
+			<div id="section2" class="container-fluid"> 
+				<h1>Section 2</h1>
+				<p>Try to scroll this section and look at the navigation list while scrolling! OÜO</p>
+			</div>
+			<div id="section3" class="container-fluid">
+				<h1>Section 3</h1>
+				<p>Try to scroll this section and look at the navigation list while scrolling! OÜO</p>
+			</div>
+			<div id="section41" class="container-fluid">
+				<h1>Section 4-1</h1>
+				<p>Try to scroll this section and look at the navigation list while scrolling! OÜO</p>
+			</div>
+			<div id="section42" class="container-fluid">
+				<h1>Section 4-2</h1>
+				<p>Try to scroll this section and look at the navigation list while scrolling! OÜO</p>
+			</div>
+		</div>
+	</div>
+</div>
+<button class="huge-btn totop topbtn"><b class="topbtnsize">^</b></button>
+</body>
+<script type="text/javascript">
+	$(window).scroll(function() {
+		var $window = $(window).scrollTop();
+		if ($window > 300) {
+			$('button.totop').fadeIn(300);
+		} else {
+			$('button.totop').fadeOut(300);
+		}			
+	})
+	$(function() {
+		//To top effect
+		$('button.totop').on('click', function() {
+			$('html, body').animate({
+				scrollTop: 0
+			}, 800);
+			return false;
+		})
+	})
+
+</script>
+</html>
