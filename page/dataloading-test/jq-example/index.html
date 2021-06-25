@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jQuery Ajax Loading Spinner Example</title>
+	<script src="js/jquery-3.4.1.js"></script>  
+	<style type="text/css">
+		body {
+		background: #ececec;
+	}
+	/* Hidden class for adding and removing */
+	.lds-dual-ring.hidden {
+		display: none;
+	}
+
+	/* Add an overlay to the entire page blocking any further presses to buttons or other elements. */
+	.overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		background: rgba(0,0,0,.8);
+		z-index: 999;
+		opacity: 1;
+		transition: all 0.5s;
+	}
+
+	/* Spinner Styles */
+	.lds-dual-ring {
+		display: inline-block;
+		width: 80px;
+		height: 80px;
+	}
+	.lds-dual-ring:after {
+		content: " ";
+		display: block;
+		width: 64px;
+		height: 64px;
+		margin: 5% auto;
+		border-radius: 50%;
+		border: 6px solid #fff;
+		border-color: #fff transparent #fff transparent;
+		animation: lds-dual-ring 1.2s linear infinite;
+	}
+	@keyframes lds-dual-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+	</style>
+</head>
+<body>
+	<button id='getDataBtn'>Get Data</button>
+	<div id="richList"></div>
+	<div id="loader" class="lds-dual-ring hidden overlay"></div>
+</body>
+<script type="text/javascript">
+	// Define our button click listener
+	$('#getDataBtn').click(function () {
+
+		// On click, execute the ajax call.
+		$.ajax({
+			type: "GET",
+			url: "https://forbes400.herokuapp.com/api/forbes400?limit=400",
+			dataType: 'json',
+			beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+				$('#loader').removeClass('hidden')
+			},
+			success: function (data) {
+				// On Success, build our rich list up and append it to the #richList div.
+				if (data.length > 0) {
+					let richList = "<ol>";
+					for (let i = 0; i < data.length; i++) {
+						console.log(data[i].uri);
+						richList += "<li>" + data[i].uri + "</li>";
+					}
+					richList += "</ol>"
+					$('#richList').html(richList);
+				}
+			},
+			complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+				$('#loader').addClass('hidden')
+			},
+		});
+	});
+</script>
+</html>

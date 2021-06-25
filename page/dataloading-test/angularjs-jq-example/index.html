@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<title>Test</title>
+	<link rel="stylesheet" type="text/css" href="css/spinkit.css">
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+	   <style type="text/css">
+		body {
+			background: #ececec;
+		}
+		.table-loading {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: rgba(0, 0, 0, 0.15);
+		}
+		.hidden {
+			display: none;
+		}
+    </style>
+</head>
+<body ng-controller="Ctrl">
+	<div>
+		<div>
+			{{work}} 
+		</div>
+	</div>
+    <div id="richList"></div>
+	<div id="loader" class="text-center table-loading">
+		<div>
+			<div class="sk-three-bounce">
+				<div class="sk-child sk-bounce1"></div>
+				<div class="sk-child sk-bounce2"></div>
+				<div class="sk-child sk-bounce3"></div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">/*
+	var app = angular.module('app', []);
+	angular.module('app').controller('Ctrl', function($scope) {
+		$scope.word = 'Hi';
+	});*/
+
+	/*
+	setTimeout(function(){
+		console.log("I am the third log after 5 seconds");
+	},5000);
+	*/
+
+	var app = angular.module('app', []);
+		angular.module('app').controller('Ctrl', function($scope) {
+			$scope.work = 'Hello world!';
+
+			$scope.loaddata = function () {
+				setTimeout(function(){
+				$.ajax({
+					type: "GET",
+					url: "https://forbes400.herokuapp.com/api/forbes400?limit=400",
+					dataType: 'json',
+					beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+						$('#loader').removeClass('hidden')
+					},
+					success: function (data) {
+						// On Success, build our rich list up and append it to the #richList div.
+						if (data.length > 0) {
+							let richList = "<ul>";
+							for (let i = 0; i < data.length; i++) {
+								console.log(data[i].uri);
+								richList += "<li>" + data[i].uri + "</li>";
+							}
+							richList += "</ul>"
+							$('#richList').html(richList);
+						}
+					},
+					complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+						$('#loader').addClass('hidden')
+					},
+				});
+				},5000);
+			}
+			$scope.loaddata();
+		});
+	</script>
+</body>
+</html>
