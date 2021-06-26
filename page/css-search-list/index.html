@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<style type="text/css">
+		body {
+			line-height: 3;
+		}
+		a {
+			text-decoration:none;
+		}
+		.list-search {
+			position: relative;
+		}
+		.list-search ul {
+			position: absolute;
+			background-color: #f9f9f9;
+			width: 100%;
+			min-width: 160px;
+			box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+			padding: 12px 16px;
+			z-index: 1;
+			border-radius: 0px 0px 10px 10px;
+		}
+		li {
+			list-style:none;
+		}
+		li:hover {
+			background: #d9edf7;
+		}
+		.list-search ul li a {
+			cursor: pointer;
+			text-decoration:none;
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<div class="col-md-3 col-sm-4 col-xs-12">
+		<div class="form-group list-search">
+			<label>Search</label>
+			<input type="text" placeholder="Enter" class="form-control">
+			<ul id="search-list-con" style="display: none;">
+				<li><a>Option 1</a></li>
+				<li><a>Option 2</a></li>
+				<li><a>Option 3</a></li>
+				<li><a>Option 4</a></li>
+				<li><a>Option 5</a></li>
+				<li><a>Option 6</a></li>
+				<li><a>Option 7</a></li>
+				<li><a>Option 8</a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("input").click(function(){
+			$("ul").toggle();
+		});
+		$("ul").click(function(){
+			$("ul").toggle();
+		});
+	});
+</script>
+</html>
