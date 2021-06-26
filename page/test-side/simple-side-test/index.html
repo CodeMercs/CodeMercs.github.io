@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<style type="text/css">
+		.parent{
+			position: relative;
+			width: 800px;
+			height: 500px;
+		}
+		.child{
+			position: fixed;
+			top:0;
+			left: 0;
+			width: 200px;
+			height: 100%;
+			outline: 1px solid #ccc;
+			background: blue;
+		}
+		.main{
+			position: fixed;
+			top:10px;
+			left: 300px;
+			width: 50%;
+			height: 200px;
+			z-index: 10;
+			border:1px solid black;
+			background: yellow;
+		}
+		#elementResizable {
+			position: fixed;
+			left: 600px;
+			bottom: 100px;
+			border: 1px solid #000000;
+			width: 300px;
+			height: 300px;
+			overflow: hidden;
+			background: red;
+		}
+		#nwgrip, #negrip, #swgrip, #segrip, #ngrip, #egrip, #sgrip, #wgrip {
+			width: 10px;
+			height: 10px;
+			background-color: #ffffff;
+			border: 1px solid #000000;
+		}
+		#segrip {
+			right: -5px;
+			bottom: -5px;
+		}
+	</style>
+<body>
+	<div class="main">
+		<div class="header">Hi!</div>
+		<div class="innerMain">
+			<div class="content">
+				You can resize me!
+			</div>
+		</div>
+	</div> 
+	<div class="parent">
+		<div class="child"></div>
+	</div>
+	<div id='elementResizable'>
+		<div class="ui-resizable-handle ui-resizable-nw" id="nwgrip"></div>
+		<div class="ui-resizable-handle ui-resizable-ne" id="negrip"></div>
+		<div class="ui-resizable-handle ui-resizable-sw" id="swgrip"></div>
+		<div class="ui-resizable-handle ui-resizable-se" id="segrip"></div> 
+	</div>
+</body>
+<script type="text/javascript">
+	$(function() {
+		$(".main").resizable({handles: 'n, e, s, w'});
+		$('.child').resizable({handles: 'e'});		
+		$('#elementResizable').resizable({ 
+			handles: {
+				'ne': '#negrip',
+				'se': '#segrip',
+				'sw': '#swgrip',
+				'nw': '#nwgrip'
+			}
+		});
+	});
+</script>
+</html>
