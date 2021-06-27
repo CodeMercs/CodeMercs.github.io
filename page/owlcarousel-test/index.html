@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Test</title>
+	<link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="js/owl.carousel.2.2.1.min.js"></script>
+	<style type="text/css">
+	.item {
+		width: 1275px;
+		height: 700px;
+	}
+
+	
+	</style>
+</head>
+<body>
+
+<div id="banner" class="owl-carousel">
+	<div class="item" style="background-image: url(img/1.jpg);"> 1</div>
+	<div class="item" style="background-image: url(img/2.jpg);"> 2</div>
+	<div class="item" style="background-image: url(img/3.jpg);"> 3</div>
+	<div class="item" style="background-image: url(img/4.jpg);"> 4</div>
+	<div class="item" style="background-image: url(img/5.jpg);"> 5</div>
+	<div class="item" style="background-image: url(img/6.jpg);"> 6</div>
+	<div class="item" style="background-image: url(img/7.jpg);"> 7</div>
+	<div class="item" style="background-image: url(img/8.jpg);"> 8</div>
+	<div class="item" style="background-image: url(img/9.jpg);"> 9</div>
+	<div class="item" style="background-image: url(img/10.jpg);"> 10</div>
+	<div class="item" style="background-image: url(img/11.jpg);"> 11</div>
+	<div class="item" style="background-image: url(img/12.jpg);"> 12</div>
+	<div class="item" style="background-image: url(img/13.jpg);"> 13</div>
+</div>
+
+
+       <script type="text/javascript">
+       	        $('#banner').owlCarousel({
+            lazyLoad: true,
+            loop: true,
+            items: 1,
+            autoplay: true,
+            dots: false,
+            navText: ['<i class="icons icon-arrow-left"></i>', '<i class="icons icon-arrow-right"></i>'],
+            animateIn: 'fadeIn',
+            animateOut: 'fadeOut',
+            responsive: {
+                0: {
+                    nav: false
+                }
+            }
+        });
+       </script>
+</body>
+</html>
