@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="neTest">
+<head>
+<title>Angular JS | Hello</title>
+<link rel="stylesheet" type="text/css" href="css/nicedit-table.css">
+<script type="text/javascript" src="js/angular.min.js"></script>
+<style type="text/css">
+	.tta {
+		width: 100%;
+		height: 50%;
+	}
+</style>
+</head>
+<body ng-controller="neController">
+<br />
+<div>
+	<h1>AngularJS & nicEdit Test</h1>
+	<br />
+	<input type="text" ng-model="your.name" placeholder="Enter a Name Here">
+	<br />
+	<h1>Hello {{your.name}}! \(O_O)/</h1>
+	<br />
+	<br />
+	<div>
+		<textarea id = "txtarea" class="tta" ng-model="txt" rows="30"></textarea>
+	</div>
+	<br />
+	<br />
+	<br />
+	<div>{{txt}}</div>
+</div>
+<script type="text/javascript" src="js/nicEdit.js"></script>
+<script type="text/javascript" src="js/nicEdit-table.js"></script>
+<script type="text/javascript">
+	var neTest = angular.module('neTest', []);
+	neTest.controller('neController', function neController($scope) {
+		bkLib.onDomLoaded(function () {
+			var objne = new nicEditor({
+				iconsPath: 'img/nicEditorIcons.gif',
+				buttonList: ['table','fontSize', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript',
+					'superscript', 'bold', 'italic', 'underline', 'left', 'center', 'right',
+					'justify', 'ol', 'ul', 'subscript', 'superscript', 'strikethrough', 'removeformat',
+					'indent', 'outdent', 'hr', 'forecolor', 'bgcolor', 'fontSize', 'fontFamily', 'fontFormat']
+			}).panelInstance('txtarea');
+			document.addEventListener("keyup", function () {
+				nicEditors.findEditor('txtarea').saveContent();
+				var event = new CustomEvent('input', {});
+				document.getElementById('txtarea').dispatchEvent(event);
+			});
+			document.addEventListener("mouseup", function () {
+				nicEditors.findEditor('txtarea').saveContent();
+				var event = new CustomEvent('input', {});
+				document.getElementById('txtarea').dispatchEvent(event);
+			});
+		});
+	});
+</script>
+</body>
+</html>

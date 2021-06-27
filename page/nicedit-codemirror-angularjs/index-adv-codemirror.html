@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="neTest">
+<head>
+<title>Angular JS | Hello</title>
+<link rel="stylesheet" type="text/css" href="css/codemirror.css">
+<link rel="stylesheet" type="text/css" href="css/theme/ambiance.css">
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/ui-codemirror.js"></script>
+</head>
+<body ng-controller="neController">
+<br />
+<div>
+	<h1>AngularJS & Codemirror Test</h1>
+	<br />
+	<input type="text" ng-model="your.name" placeholder="Enter a Name Here">
+	<br />
+	<h1>Hello {{your.name}}! \(O_O)/</h1>
+	<br />
+	<div>
+		<div class="txtareacode">
+			<ui-codemirror ui-codemirror-opts="editorOptions" ng-model="txt"></ui-codemirror>
+		</div>
+	</div>
+	<br />
+	<div>{{txt}}</div><br />
+	<br />
+	<br />
+
+<script type="text/javascript" src="js/codemirror.js"></script>
+<script type="text/javascript">
+	var neTest = angular.module('neTest', ['ui.codemirror']);
+	neTest.controller('neController', function neController($scope) {
+		$scope.txt="OwO";
+		$scope.editorOptions = {
+			lineNumbers: true,
+			tabSize: 2,
+			mode: 'javascript',
+			theme: 'ambiance'
+		};
+		var editor, objne;
+
+		function CodeEditor() {
+				editor = CodeMirror.fromTextArea(document.getElementById("txtareacode"), {
+				lineNumbers: true,
+				tabSize: 2,
+				value: 'console.log("Hello, World");',
+				mode: 'javascript',
+				theme: 'ambiance'
+				});
+		}
+		
+		function CodeEditorEnd() {
+			editor.toTextArea(); // is making the magic happen
+		}
+	});
+
+
+</script>
+</body>
+</html>
