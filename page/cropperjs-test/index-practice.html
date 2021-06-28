@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Photo Editor</title>
+		<link rel="stylesheet" type="text/css" href="css/cropper-233/cropper.css">
+		<style type="text/css">
+			img {
+				max-width: 100%; 
+			}
+
+			#canvas {
+				height: 600px;
+				width: 600px;
+				background-color: #ffffff;
+				cursor: default;
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+<body>
+	<p>
+	<input type="file" id="fileInput" accept="image/*" />
+	<input type="button" id="btnCrop" value="Crop" />
+	<input type="button" id="btnRestore" value="Restore" />
+	</p>
+	<div>
+		<canvas id="canvas"></canvas>
+	</div>		
+	<div id="result"></div>
+	<br />
+	<br />
+</body>
+<script type="text/javascript" src="js/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="js/cropper-233/cropper.js"></script>
+	<script type="text/javascript">
+		var canvas	= $("#canvas"),
+		context = canvas.get(0).getContext("2d"),
+		$result = $('#result');
+
+		$('#fileInput').on( 'change', function(){
+			if (this.files && this.files[0]) {
+				if ( this.files[0].type.match(/^image\//) ) {
+					var reader = new FileReader();
+					reader.onload = function(evt) {
+						 var img = new Image();
+						 img.onload = function() {
+							 context.canvas.height = img.height;
+							 context.canvas.width	= img.width;
+							 context.drawImage(img, 0, 0);
+							 var cropper = canvas.cropper({
+								 aspectRatio: 16 / 9
+							 });
+							 $('#btnCrop').click(function() {
+									// Get a string base 64 data url
+									var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png"); 
+									$result.append( $('<img>').attr('src', croppedImageDataURL) );
+							 });
+							 $('#btnRestore').click(function() {
+								 canvas.cropper('reset');
+								 $result.empty();
+							 });
+						 };
+						 img.src = evt.target.result;
+					};
+					reader.readAsDataURL(this.files[0]);
+				} else {
+					alert("Invalid file type! Please select an image file.");
+				}
+			} else {
+				alert('No file(s) selected.');
+			}
+		});
+	</script>
+</html>
